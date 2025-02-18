@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<br>
         <div class="container mt-4">
             <h3 class="fw-bold text-center">Studio dan Alat Musik</h3>
             <br>

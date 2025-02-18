@@ -1,4 +1,4 @@
-<div class="sidebar sidebar-hidden" id="sidebar">
+<div class="sidebar" id="sidebar">
     <div class="text-center mb-3">
         <img src="profile.jpg" class="rounded-circle" width="80" height="80" alt="Profile">
         <h5 class="mt-2">John Doe</h5>
