@@ -23,7 +23,10 @@
 @include('layouts.navbar')
 
         <!-- Konten halaman -->
-@yield('content')
+        <div class="main-content-wrapper">
+            <!-- Konten halaman -->
+            @yield('content')
+        </div>
 
         <!-- Footer -->
 @include('layouts.footer')

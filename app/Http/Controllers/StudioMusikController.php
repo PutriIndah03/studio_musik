@@ -14,6 +14,11 @@ class StudioMusikController extends Controller
         return view('pages.studio_musik.index', compact('studios'));
     }
 
+    public function index2()
+    {
+        $studios = studio_musik::all(); // Mengambil semua data dari database
+        return view('pages.dashboard_mahasiswa', compact('studios'));
+    }
     // Menampilkan form tambah studio musik
     public function create()
     {

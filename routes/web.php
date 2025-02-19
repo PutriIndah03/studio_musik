@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard_mahasiswa');
-});
+Route::get('/dashboard', [StudioMusikController::class, 'index2']);
 Route::resource('studio_musik', StudioMusikController::class);
 Route::get('/studio_musik/create', [StudioMusikController::class, 'create'])->name('studio_musik.create');
 Route::get('/studio_musik', [StudioMusikController::class, 'index'])->name('studio_musik.index');

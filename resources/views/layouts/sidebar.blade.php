@@ -22,6 +22,14 @@
             let menuItems = document.querySelectorAll(".nav-link");
             let currentPath = window.location.pathname;
     
+            // Ambil path terakhir yang disimpan di localStorage
+            let savedPath = localStorage.getItem("activeMenu");
+    
+            // Jika ada path tersimpan, gunakan itu sebagai active menu
+            if (savedPath) {
+                currentPath = savedPath;
+            }
+    
             menuItems.forEach(item => {
                 if (item.getAttribute("href") === currentPath) {
                     item.classList.add("active", "bg-primary");
@@ -30,8 +38,12 @@
                 item.addEventListener("click", function () {
                     menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
                     this.classList.add("active", "bg-primary");
+    
+                    // Simpan path ke localStorage
+                    localStorage.setItem("activeMenu", this.getAttribute("href"));
                 });
             });
         });
     </script>
+    
 </div>

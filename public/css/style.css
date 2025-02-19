@@ -41,8 +41,16 @@ html, body {
     flex-direction: column;
 }
 .content-expanded {
-    margin-left: 0;
-    width: 100%;
+    min-height: 100vh; /* Set tinggi minimal ke 100% tinggi viewport */
+    display: flex;
+    flex-direction: column;
+
+}
+.main-content-wrapper {
+    flex: 1; /* Mengisi ruang kosong sehingga footer tetap di bawah */
+    background-color: #d0e4ff; /* Warna biru muda */
+    padding: 20px; /* Padding agar tidak terlalu mepet */
+     /* Opsional: membuat sudut membulat */
 }
 
 /* Navbar */
