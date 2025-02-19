@@ -1,17 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudioMusikController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard_mahasiswa');
 });
-Route::get('/studio_musik', function () {
-    return view('pages.studio_musik.index');
-});
-Route::get('/studio-musik/create', [StudioMusikController::class, 'create'])->name('studio_musik.create');
-Route::get('/studio-musik', [StudioMusikController::class, 'index'])->name('studio_musik.index');
-Route::post('/studio-musik', [StudioMusikController::class, 'store'])->name('studio_musik.store');
+Route::resource('studio_musik', StudioMusikController::class);
+Route::get('/studio_musik/create', [StudioMusikController::class, 'create'])->name('studio_musik.create');
+Route::get('/studio_musik', [StudioMusikController::class, 'index'])->name('studio_musik.index');
+Route::post('/studio_musik', [StudioMusikController::class, 'store'])->name('studio_musik.store');

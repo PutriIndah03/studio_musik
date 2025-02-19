@@ -10,8 +10,8 @@ class StudioMusikController extends Controller
     // Menampilkan daftar studio musik
     public function index()
     {
-        // $studios = studio_musik::all(); // Mengambil semua data dari database
-        return view('pages.studio_musik.index');
+        $studios = studio_musik::all(); // Mengambil semua data dari database
+        return view('pages.studio_musik.index', compact('studios'));
     }
 
     // Menampilkan form tambah studio musik
@@ -26,20 +26,23 @@ class StudioMusikController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            'status' => 'required|in:Tersedia,Tidak Tersedia', // Validasi status
         ]);
-
+    
         $gambarPath = null;
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('studio-musik', 'public'); // Simpan gambar di storage
+        if ($request->hasFile('foto')) {
+            $gambarPath = $request->file('foto')->store('studio-musik', 'public'); // Simpan gambar di storage
         }
-
-        StudioMusik::create([
+    
+        studio_musik::create([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
-            'gambar' => $gambarPath,
+            'foto' => $gambarPath,
+            'status' => $request->status, // Menyimpan status
         ]);
-
-        return redirect()->route('studio-musik.index')->with('success', 'Studio Musik berhasil ditambahkan.');
+    
+        return redirect()->route('studio_musik.index')->with('success', 'Studio Musik berhasil ditambahkan.');
     }
+    
 }

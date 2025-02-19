@@ -18,19 +18,18 @@
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="laporan"><i class="bi bi-clipboard-data me-2"></i> Laporan</a></li>
     </ul>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let menuItems = document.querySelectorAll(".nav-link");
-            let currentPage = localStorage.getItem("activePage");
-            
+            let currentPath = window.location.pathname;
+    
             menuItems.forEach(item => {
-                if (item.getAttribute("data-page") === currentPage) {
+                if (item.getAttribute("href") === currentPath) {
                     item.classList.add("active", "bg-primary");
                 }
-                
-                item.addEventListener("click", function() {
+    
+                item.addEventListener("click", function () {
                     menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
                     this.classList.add("active", "bg-primary");
-                    localStorage.setItem("activePage", this.getAttribute("data-page"));
                 });
             });
         });

@@ -6,12 +6,12 @@
     <h2 class="mb-4 text-center fw-bold">Tambah Studio Musik</h2>
 
     <div class="card shadow p-4">
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('studio_musik.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <!-- Nama -->
             <div class="mb-3">
-                <label for="nama" class="form-label fw-bold">Nama Studio</label>
+                <label for="nama" class="form-label fw-bold">Nama</label>
                 <input type="text" class="form-control" id="nama" name="nama" required>
             </div>
 

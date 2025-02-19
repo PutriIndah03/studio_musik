@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class studio_musik extends Model
 {
     use HasFactory;
+    protected $table = 'studio_musik';
     protected $fillable = ['nama', 'deskripsi', 'foto', 'status'];
 }
