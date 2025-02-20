@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('studio_musik', function (Blueprint $table) {
-            $table->id(); // Kolom ID (Auto Increment)
-            $table->string('nama'); // Nama Studio Musik
-            $table->string('foto')->nullable(); // Foto Studio Musik (path file)
+        Schema::create('alat_musik', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode')->unique();
+            $table->string('nama');
+            $table->string('tipe');
+            $table->string('foto')->nullable();
+            $table->integer('jumlah');
+            $table->enum('kondisi', ['Baik', 'Rusak']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia'); // Status
-            $table->timestamps(); // created_at & updated_at
+            $table->timestamps();
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('studio_musik');
+        Schema::dropIfExists('alat_musiks');
     }
 };

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlatMusikController;
 use App\Http\Controllers\StudioMusikController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,6 +8,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', [StudioMusikController::class, 'index2']);
 Route::resource('studio_musik', StudioMusikController::class);
-Route::get('/studio_musik/create', [StudioMusikController::class, 'create'])->name('studio_musik.create');
-Route::get('/studio_musik', [StudioMusikController::class, 'index'])->name('studio_musik.index');
-Route::post('/studio_musik', [StudioMusikController::class, 'store'])->name('studio_musik.store');
+Route::resource('alat_musik', AlatMusikController::class);

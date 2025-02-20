@@ -11,7 +11,7 @@
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="jadwal"><i class="bi bi-calendar-check me-2"></i> Jadwal Peminjaman</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="riwayat"><i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman</a></li>
         <li class="nav-item"><a href="/studio_musik" class="nav-link text-white" data-page="studio"><i class="bi bi-music-note-beamed me-2"></i> Studio Musik</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-white" data-page="alat"><i class="bi bi-music-player me-2"></i> Alat Musik</a></li>
+        <li class="nav-item"><a href="/alat_musik" class="nav-link text-white" data-page="alat"><i class="bi bi-music-player me-2"></i> Alat Musik</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="validasi_peminjaman"><i class="bi bi-check-circle me-2"></i> Validasi Peminjaman</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="validasi_pengembalian"><i class="bi bi-x-circle me-2"></i> Validasi Pengembalian</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="akun_staf"><i class="bi bi-people me-2"></i> Akun Staf</a></li>
