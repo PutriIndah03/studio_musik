@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->unsignedBigInteger('mahasiswa_id')->nullable(); // Mahasiswa ID (nullable jika user bukan mahasiswa)
+            $table->unsignedBigInteger('staf_id')->nullable(); // Staf ID (nullable jika user bukan staf)
+            $table->string('username')->unique(); // Username unik (bisa pakai NIM)
+            $table->string('password'); // Password user
+            $table->enum('role', ['pembina', 'staf', 'mahasiswa'])->default('mahasiswa'); // Role dengan default 'mahasiswa'
+            $table->timestamps(); // Perbaikan penulisan
+        
+            // Foreign key constraints
+            $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('cascade');
+            $table->foreign('staf_id')->references('id')->on('staf')->onDelete('cascade');
         });
+        
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

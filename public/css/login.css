@@ -1,0 +1,100 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #d3e3fc;
+    font-family: Arial, sans-serif;
+}
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 450px;
+}
+.container img {
+    width: 80px;
+    margin-bottom: 10px;
+}
+h2 {
+    margin: 0;
+    font-size: 18px;
+}
+.subtext {
+    color: gray;
+    font-size: 14px;
+}
+.input-group {
+    text-align: left;
+    margin-top: 15px;
+}
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+}
+.input-group input:focus {
+    border-color: blue;
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
+}
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.password-wrapper input {
+    padding-right: 40px;
+}
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: gray;
+}
+.forgot-password {
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    margin-top: 5px;
+    color: blue;
+    font-style: italic;
+    cursor: pointer;
+    text-decoration: none;
+}
+.forgot-password, .register-link {
+    text-decoration: none; /* Menghilangkan garis bawah */
+    color: blue;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.forgot-password:hover, .register-link:hover {
+    text-decoration: underline; /* Efek garis bawah saat hover */
+}
+
+.login-button {
+    width: 100%;
+    background: blue;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.login-button:hover {
+    background: darkblue;
+}

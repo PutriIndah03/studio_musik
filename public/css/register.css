@@ -1,0 +1,54 @@
+
+body {
+    background-color: #dbeafe; /* Warna latar belakang biru muda */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Memastikan card tidak terlalu ke atas */
+    min-height: 100vh;
+    padding-top: 150px; /* Tambah lebih banyak ruang di atas */
+    padding-bottom: 50px; /* Sekat di bawah */
+}
+
+.container {
+    padding-bottom: 50px; /* Sekat di bawah */
+}
+
+.card {
+    border-radius: 15px; /* Membuat sudut card lebih membulat */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    padding: 25px; /* Ruang dalam card */
+    margin-top: 10px; /* Jangan terlalu besar supaya tetap proporsional */
+    background: white;
+    width: 100%;
+    height: 730px;
+}
+
+.btn-register {
+    background-color: #0044cc; /* Warna biru gelap */
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+}
+
+.btn-register:hover {
+    background-color: #0033a0; /* Biru lebih gelap saat hover */
+}
+
+.login-link {
+    color: #0044cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+.container img {
+    width: 80px;
+    display: block;
+    margin: 0 auto 15px; /* Gambar lebih tengah dan ada jarak bawah */
+}

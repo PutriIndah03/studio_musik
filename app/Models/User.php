@@ -18,8 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
     ];
 
@@ -44,5 +43,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi ke tabel Mahasiswa (jika user adalah mahasiswa).
+     */
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class);
+    }
+
+    /**
+     * Relasi ke tabel Staf (jika user adalah staf).
+     */
+    public function staf()
+    {
+        return $this->belongsTo(Staf::class);
     }
 }

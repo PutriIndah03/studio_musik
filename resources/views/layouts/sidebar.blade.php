@@ -1,11 +1,16 @@
 <div class="sidebar" id="sidebar">
     <div class="text-center mb-3">
         <img src="profile.jpg" class="rounded-circle" width="80" height="80" alt="Profile">
-        <h5 class="mt-2">John Doe</h5>
-        <small>Mahasiswa</small>
+        <h5 class="mt-2">{{ auth()->user()->name }}</h5>
+        <small>{{ ucfirst(auth()->user()->role) }}</small>
     </div>
+    
     <ul class="nav flex-column">
-        <li class="nav-item"><a href="/dashboard" class="nav-link text-white" data-page="dashboard"><i class="bi bi-house-door-fill me-2"></i> Dashboard</a></li>
+        <li class="nav-item">
+            <a href="/dashboard" class="nav-link text-white" data-page="dashboard">
+                <i class="bi bi-house-door-fill me-2"></i> Dashboard
+            </a>
+        </li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="peminjaman"><i class="bi bi-file-earmark-text me-2"></i> Peminjaman</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="pengembalian"><i class="bi bi-arrow-left-right me-2"></i> Pengembalian</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="jadwal"><i class="bi bi-calendar-check me-2"></i> Jadwal Peminjaman</a></li>
@@ -17,33 +22,35 @@
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="akun_staf"><i class="bi bi-people me-2"></i> Akun Staf</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="laporan"><i class="bi bi-clipboard-data me-2"></i> Laporan</a></li>
     </ul>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let menuItems = document.querySelectorAll(".nav-link");
-            let currentPath = window.location.pathname;
-    
-            // Ambil path terakhir yang disimpan di localStorage
-            let savedPath = localStorage.getItem("activeMenu");
-    
-            // Jika ada path tersimpan, gunakan itu sebagai active menu
-            if (savedPath) {
-                currentPath = savedPath;
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let menuItems = document.querySelectorAll(".nav-link");
+        let currentPath = window.location.pathname;
+
+        // Ambil path terakhir yang disimpan di localStorage
+        let savedPath = localStorage.getItem("activeMenu");
+
+        // Jika pertama kali login atau tidak ada menu tersimpan, default ke Dashboard
+        if (!savedPath) {
+            savedPath = "/dashboard";
+            localStorage.setItem("activeMenu", savedPath);
+        }
+
+        // Set warna biru untuk menu yang aktif
+        menuItems.forEach(item => {
+            if (item.getAttribute("href") === savedPath) {
+                item.classList.add("active", "bg-primary");
             }
-    
-            menuItems.forEach(item => {
-                if (item.getAttribute("href") === currentPath) {
-                    item.classList.add("active", "bg-primary");
-                }
-    
-                item.addEventListener("click", function () {
-                    menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
-                    this.classList.add("active", "bg-primary");
-    
-                    // Simpan path ke localStorage
-                    localStorage.setItem("activeMenu", this.getAttribute("href"));
-                });
+
+            item.addEventListener("click", function () {
+                menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
+                this.classList.add("active", "bg-primary");
+
+                // Simpan path ke localStorage
+                localStorage.setItem("activeMenu", this.getAttribute("href"));
             });
         });
-    </script>
-    
-</div>
+    });
+</script>
