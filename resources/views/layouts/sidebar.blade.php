@@ -1,8 +1,34 @@
 <div class="sidebar" id="sidebar">
     <div class="text-center mb-3">
-        <img src="profile.jpg" class="rounded-circle" width="80" height="80" alt="Profile">
-        <h5 class="mt-2">{{ auth()->user()->name }}</h5>
-        <small>{{ ucfirst(auth()->user()->role) }}</small>
+        @php
+        $user = auth()->user();
+        $role = $user->role;
+        $foto = null;
+
+        if ($role === 'mahasiswa') {
+            $mahasiswa = \App\Models\Mahasiswa::where('nim', $user->username)->first();
+            $foto = $mahasiswa && $mahasiswa->foto ? asset('path/to/mahasiswa/images/' . $mahasiswa->foto) : null;
+        } elseif ($role === 'staf') {
+            $staf = \App\Models\Staf::where('nim', $user->username)->first();
+            $foto = $staf && $staf->foto ? asset('path/to/staf/images/' . $staf->foto) : null;
+        } else {
+            // Role 'pembina' menggunakan tabel users
+            $foto = $user->image ? asset('path/to/user/images/' . $user->image) : null;
+        }
+
+        $initials = strtoupper(substr($user->nama, 0, 1)); // Inisial Nama
+    @endphp
+    
+    <div class="profile-container">
+        @if($foto)
+            <img src="{{ $foto }}" class="profile-img" alt="Profile">
+        @else
+            <div class="profile-placeholder">{{ $initials }}</div>
+        @endif
+    </div>
+    
+
+        <h5>{{ ucfirst(auth()->user()->role) }}</h5>
     </div>
     
     <ul class="nav flex-column">
@@ -19,7 +45,7 @@
         <li class="nav-item"><a href="/alat_musik" class="nav-link text-white" data-page="alat"><i class="bi bi-music-player me-2"></i> Alat Musik</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="validasi_peminjaman"><i class="bi bi-check-circle me-2"></i> Validasi Peminjaman</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="validasi_pengembalian"><i class="bi bi-x-circle me-2"></i> Validasi Pengembalian</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-white" data-page="akun_staf"><i class="bi bi-people me-2"></i> Akun Staf</a></li>
+        <li class="nav-item"><a href="/akun_staf" class="nav-link text-white" data-page="akun_staf"><i class="bi bi-people me-2"></i> Akun Staf</a></li>
         <li class="nav-item"><a href="#" class="nav-link text-white" data-page="laporan"><i class="bi bi-clipboard-data me-2"></i> Laporan</a></li>
     </ul>
 </div>
@@ -29,16 +55,14 @@
         let menuItems = document.querySelectorAll(".nav-link");
         let currentPath = window.location.pathname;
 
-        // Ambil path terakhir yang disimpan di localStorage
-        let savedPath = localStorage.getItem("activeMenu");
-
-        // Jika pertama kali login atau tidak ada menu tersimpan, default ke Dashboard
-        if (!savedPath) {
-            savedPath = "/dashboard";
-            localStorage.setItem("activeMenu", savedPath);
+        // RESET MENU SAAT LOGIN BERHASIL
+        if (sessionStorage.getItem("newLogin")) {
+            localStorage.setItem("activeMenu", "/dashboard");
+            sessionStorage.removeItem("newLogin"); // Hapus indikator login
         }
 
-        // Set warna biru untuk menu yang aktif
+        let savedPath = localStorage.getItem("activeMenu") || "/dashboard";
+
         menuItems.forEach(item => {
             if (item.getAttribute("href") === savedPath) {
                 item.classList.add("active", "bg-primary");
@@ -48,7 +72,7 @@
                 menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
                 this.classList.add("active", "bg-primary");
 
-                // Simpan path ke localStorage
+                // Simpan menu yang diklik
                 localStorage.setItem("activeMenu", this.getAttribute("href"));
             });
         });

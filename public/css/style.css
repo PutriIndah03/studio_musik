@@ -100,3 +100,37 @@ thead {
     object-fit: cover;
     border-radius: 5px;
 }
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Pusatkan horizontal */
+    justify-content: center; /* Pusatkan vertikal */
+    text-align: center; /* Pastikan teks di tengah */
+    margin-top: 20px; /* Sesuaikan jika perlu */
+}
+
+.profile-placeholder {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: #93a4b6; /* Warna latar belakang */
+    border-radius: 50%;
+    text-transform: uppercase;
+    border: 3px solid #343a40; /* Warna bingkai */
+}
+
+/* Jika ada foto profil, pastikan posisinya juga pas */
+.profile-img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #343a40;
+}
+

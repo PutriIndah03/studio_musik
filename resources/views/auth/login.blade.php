@@ -19,7 +19,15 @@
 
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="NIM" required>
+                <input type="text" id="username" name="username" placeholder="NIM" required onblur="checkMultipleAccounts()">
+            </div>
+
+            <!-- Pilihan Role (Tampil jika username memiliki lebih dari satu akun) -->
+            <div class="input-group" id="roleSelection" style="display: none;">
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                    <!-- Options akan diisi oleh JavaScript -->
+                </select>
             </div>
 
             <div class="input-group">
@@ -31,33 +39,63 @@
             </div>
 
             @if ($errors->any())
-            <div class="alert alert-danger" style="color: red">
-                <p>{{ $errors->first() }}</p>
-            </div>
-        @endif        
-        
-        <a class="forgot-password" href="#">Lupa Kata Sandi?</a>
-        <p class="mt-2">Belum punya akun? <a href="{{ route('register') }}" class="register-link">Daftar</a></p>
-        
+                <div class="alert alert-danger" style="color: red">
+                    <p>{{ $errors->first() }}</p>
+                </div>
+            @endif        
+
+            <a class="forgot-password" href="#">Lupa Kata Sandi?</a>
+            <p class="mt-2">Belum punya akun? <a href="{{ route('register') }}" class="register-link">Daftar</a></p>
 
             <button type="submit" class="login-button">Login</button>
         </form>
     </div>
-
     <script>
+          sessionStorage.setItem("newLogin", "true");
+        let debounceTimer;
+    
+        document.getElementById("username").addEventListener("input", function () {
+            clearTimeout(debounceTimer);
+            let username = this.value.trim();
+            let roleSelection = document.getElementById("roleSelection");
+    
+            if (username === "") {
+                roleSelection.style.display = "none";
+                return;
+            }
+    
+            // Menggunakan debounce untuk menunda fetch
+            debounceTimer = setTimeout(() => {
+                fetch(`{{ route('check.accounts') }}?username=${username}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let roleDropdown = document.getElementById("role");
+    
+                        if (data.length > 1) {
+                            roleDropdown.innerHTML = "";
+                            data.forEach(role => {
+                                let option = document.createElement("option");
+                                option.value = role;
+                                option.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                                roleDropdown.appendChild(option);
+                            });
+                            roleSelection.style.display = "block";
+                        } else {
+                            roleSelection.style.display = "none";
+                        }
+                    })
+                    .catch(error => console.error("Error fetching roles:", error));
+            }, 300); // Menunggu 300ms setelah pengguna berhenti mengetik
+        });
+    
         function togglePassword() {
             let password = document.getElementById("password");
             let icon = document.querySelector(".toggle-password");
-            if (password.type === "password") {
-                password.type = "text";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            } else {
-                password.type = "password";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            }
+            password.type = password.type === "password" ? "text" : "password";
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
         }
     </script>
+    
 </body>
 </html>

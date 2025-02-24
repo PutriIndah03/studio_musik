@@ -13,14 +13,25 @@
                 
                 <div class="dropdown">
                     <button class="btn d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="profile.jpg" class="rounded-circle" width="40" height="40" alt="Profile">
-                        <span class="ms-2">John Doe</span>
+
+                        <span class="ms-2">{{ ucfirst(auth()->user()->nama) }}</span>
                         <i class="bi bi-chevron-down ms-1"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" href="#"> <i class="fa fa-user me-2"></i> Profile</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li> <!-- Divider untuk pemisah -->
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa fa-sign-out-alt me-2"></i> Logout
+                                </button>
+                            </form>
+                        </li>
                     </ul>
+                    
                 </div>
             </div>
         </nav>

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('mahasiswa_id')->nullable(); // Mahasiswa ID (nullable jika user bukan mahasiswa)
             $table->unsignedBigInteger('staf_id')->nullable(); // Staf ID (nullable jika user bukan staf)
-            $table->string('username')->unique(); // Username unik (bisa pakai NIM)
+            $table->string('nama');
+            $table->string('username'); // Username unik (bisa pakai NIM)
             $table->string('password'); // Password user
             $table->enum('role', ['pembina', 'staf', 'mahasiswa'])->default('mahasiswa'); // Role dengan default 'mahasiswa'
             $table->timestamps(); // Perbaikan penulisan
