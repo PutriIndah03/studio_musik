@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Staf::class);
     }
+    public function peminjaman()
+    {
+        return $this->hasMany(peminjaman::class);
+    }
 }

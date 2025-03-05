@@ -11,4 +11,9 @@ class studio_musik extends Model
     protected $table = 'studio_musik';
     protected $fillable = ['nama', 'foto', 'status'];
 
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class);
+    }
+
 }

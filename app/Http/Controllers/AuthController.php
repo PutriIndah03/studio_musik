@@ -106,7 +106,7 @@ class AuthController extends Controller
             return match ($user->role) {
                 'mahasiswa' => redirect()->route('dashboard.mahasiswa'),
                 'staf'      => redirect()->route('dashboard.staf'),
-                'pembina'   => redirect()->route('dashboard.pembina'),
+                'pembina'   => redirect()->route('dashboard.staf'),
                 default     => $this->logoutInvalidRole(),
             };
         }

@@ -32,7 +32,7 @@
 
             <!-- Tombol Submit -->
             <div class="d-flex justify-content-between">
-                <a href="{{ route('studio_musik.index') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ route('studio_musik.index') }}" class="btn btn-danger">Batal</a>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             
             </div>

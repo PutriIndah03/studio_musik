@@ -11,5 +11,8 @@ class alat_musik extends Model
     protected $table = 'alat_musik';
     protected $fillable = ['kode', 'nama','tipe', 'foto', 'jumlah', 'kondisi', 'status'];
 
-
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class);
+    }
 }

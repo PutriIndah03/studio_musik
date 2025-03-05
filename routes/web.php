@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunStafController;
 use App\Http\Controllers\AlatMusikController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\StudioMusikController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -16,12 +17,21 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/dashboard', [StudioMusikController::class, 'index2'])->name('dashboard.mahasiswa');
+Route::get('/dashboard/mahasiswa', [StudioMusikController::class, 'index2'])->name('dashboard.mahasiswa');
 Route::resource('studio_musik', StudioMusikController::class);
 Route::resource('alat_musik', AlatMusikController::class);
 Route::resource('akun_staf', AkunStafController::class);
 Route::post('/akun_staf/{id}/reset_password', [AkunStafController::class, 'resetPassword'])->name('akun_staf.reset_password');
 
+Route::get('/dashboard', function () {
+    return  view ('pages.dashboard_staf');
+})->name('dashboard.staf');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('peminjaman', PeminjamanController::class);
+    // Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::get('/peminjaman/create/{id}', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+});
 
 Route::get('/check-accounts', function (Request $request) {
     $username = $request->query('username');

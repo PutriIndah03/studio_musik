@@ -59,7 +59,10 @@
                         @endif
                     </p>
                     <div class="mt-auto">
-                        <button class="btn btn-primary w-100">Ajukan Peminjaman</button>
+                        <a href="{{ route('peminjaman.create', $alat->id) }}" class="btn btn-primary w-100">
+                            Ajukan Peminjaman
+                        </a>                        
+                        
                     </div>
                 </div>
             </div>
