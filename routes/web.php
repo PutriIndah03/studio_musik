@@ -30,7 +30,8 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('peminjaman', PeminjamanController::class);
     // Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
-    Route::get('/peminjaman/create/{id}', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::get('/peminjaman/createStudio', [PeminjamanController::class, 'createStudio'])->name('peminjaman.createStudio');
 });
 
 Route::get('/check-accounts', function (Request $request) {

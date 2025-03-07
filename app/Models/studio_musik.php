@@ -13,7 +13,7 @@ class studio_musik extends Model
 
     public function peminjaman()
     {
-        return $this->hasMany(Peminjaman::class);
+        return $this->hasMany(peminjaman::class);
     }
 
 }

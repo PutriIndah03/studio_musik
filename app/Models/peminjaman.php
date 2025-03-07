@@ -28,13 +28,13 @@ class peminjaman extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function studio()
+    public function studio_musik()
     {
-        return $this->belongsTo(studio_musik::class);
+        return $this->belongsTo(studio_musik::class, 'studio_id'); 
     }
 
-    public function alat()
+    public function alat_musik()
     {
-        return $this->belongsTo(alat_musik::class);
+        return $this->belongsTo(alat_musik::class,'alat_id');
     }
 }

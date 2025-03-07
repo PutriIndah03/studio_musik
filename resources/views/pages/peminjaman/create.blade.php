@@ -8,17 +8,33 @@
         <form action="{{ route('peminjaman.store') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Nama</label>
-                <input type="text" class="form-control bg-light" value="{{ $alats->nama }}" readonly>
+                <label class="form-label">Pilih Alat Musik</label>
+                <div class="col-md-4 col-sm-6">
+                    @foreach ($alats as $alat)
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                name="alat_id[]" 
+                                value="{{ $alat->id }}" 
+                                id="alat{{ $alat->id }}" 
+                                @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia') disabled @endif
+                            >
+                            <label class="form-check-label" for="alat{{ $alat->id }}">
+                                {{ $alat->kode }} - {{ $alat->nama }} - {{ $alat->kondisi }}
+                                @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia')
+                                    <span class="text-danger">(Tidak Tersedia)</span>
+                                @endif
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Jumlah</label>
-                <input type="number" class="form-control" name="jumlah" min="1" max="{{ $alats->jumlah }}" value="1" required>
-            </div>
-            <div class="mb-3">
+            
+            {{-- <div class="mb-3">
                 <label class="form-label">Kondisi</label>
                 <input type="text" class="form-control bg-light" value="{{ $alats->kondisi }}" readonly>
-            </div>
+            </div> --}}
             <div class="mb-3">
                 <label class="form-label">Tanggal dan Waktu Pemakaian</label>
                 <input type="datetime-local" class="form-control" name="tanggal_pinjam" required>
@@ -36,12 +52,9 @@
                 <input type="text" class="form-control bg-light" name="jaminan" value="KTP" readonly>
             </div>
             <div class="d-flex justify-content-between">
-                <a href="" class="btn btn-danger">Kembali</a>
+                <a href="{{ route('dashboard.mahasiswa') }}" class="btn btn-danger">Kembali</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-
-            <!-- Input hidden untuk ID alat -->
-            <input type="hidden" name="alat_id" value="{{ $alats->id }}">
         </form>
     </div>
 </div>

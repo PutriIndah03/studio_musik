@@ -13,7 +13,7 @@
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
                 <th style="background-color: #0d6efd; color: white;">Tipe</th>
                 <th style="background-color: #0d6efd; color: white;">Gambar</th>
-                <th style="background-color: #0d6efd; color: white;">Jumlah</th>
+                {{-- <th style="background-color: #0d6efd; color: white;">Jumlah</th> --}}
                 <th style="background-color: #0d6efd; color: white;">Kondisi</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>
@@ -33,7 +33,7 @@
                         <img src="" alt="No Image">
                     @endif
                 </td>
-                <td>{{ $alat->jumlah }}</td>
+                {{-- <td>{{ $alat->jumlah }}</td> --}}
                 <td>{{ $alat->kondisi }}</td>
                 <td>
                     <span class="badge {{ $alat->status == 'Tersedia' ? 'bg-success' : 'bg-danger'}}">

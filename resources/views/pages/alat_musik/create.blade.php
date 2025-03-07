@@ -37,16 +37,17 @@
             </div>
 
             <!-- Jumlah -->
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="jumlah" class="form-label fw-bold">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" required>
-            </div>
+            </div> --}}
 
             <!-- Kondisi -->
             <div class="mb-3">
                 <label for="kondisi" class="form-label fw-bold">Kondisi</label>
                 <select class="form-select" id="kondisi" name="kondisi" required>
                     <option value="Baik">Baik</option>
+                    <option value="Rusak">Rusak Ringan</option>
                     <option value="Rusak">Rusak</option>
                 </select>
             </div>

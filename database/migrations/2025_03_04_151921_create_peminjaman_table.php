@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('alat_id')->nullable()->constrained('alat_musik')->onDelete('cascade');
             $table->datetime('tanggal_pinjam');
             $table->datetime('tanggal_kembali');
-            $table->integer('jumlah');
+            $table->integer('jumlah')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'dikembalikan'])->default('menunggu');
             $table->text('alasan')->nullable();
             $table->enum('jaminan', ['KTP', 'KTM']);

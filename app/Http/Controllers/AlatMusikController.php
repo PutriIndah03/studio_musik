@@ -25,8 +25,8 @@ class AlatMusikController extends Controller
             'nama' => 'required|string|max:255',
             'tipe' => 'required|string|max:255',
             'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-            'jumlah' => 'required|integer|min:1',
-            'kondisi' => 'required|in:Baik,Rusak', // Validasi kondisi
+            // 'jumlah' => 'required|integer|min:1',
+            'kondisi' => 'required|in:Baik,Rusak Ringan,Rusak', // Validasi kondisi
             'status' => 'required|in:Tersedia,Tidak Tersedia',
         ], [
             'kode.unique' => 'Kode alat musik sudah terdaftar.',
@@ -43,7 +43,7 @@ class AlatMusikController extends Controller
             'nama' => $request->nama,
             'tipe' => $request->tipe,
             'foto' => $gambarPath,
-            'jumlah' => $request->jumlah,
+            // 'jumlah' => $request->jumlah,
             'kondisi' => $request->kondisi,
             'status' => $request->status,
         ]);
@@ -65,8 +65,8 @@ class AlatMusikController extends Controller
             'nama' => 'required|string|max:255',
             'tipe' => 'required|string|max:255',
             'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-            'jumlah' => 'required|integer|min:1',
-            'kondisi' => 'required|in:Baik,Rusak',
+            // 'jumlah' => 'required|integer|min:1',
+            'kondisi' => 'required|in:Baik,Rusak Ringan,Rusak',
             'status' => 'required|in:Tersedia,Tidak Tersedia',
         ], [
             'kode.unique' => 'Kode alat musik sudah terdaftar.',
@@ -76,7 +76,7 @@ class AlatMusikController extends Controller
         $alat->kode = $request->kode;
         $alat->nama = $request->nama;
         $alat->tipe = $request->tipe;
-        $alat->jumlah = $request->jumlah;
+        // $alat->jumlah = $request->jumlah;
         $alat->kondisi = $request->kondisi;
         $alat->status = $request->status;
     

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('tipe');
             $table->string('foto')->nullable();
-            $table->integer('jumlah');
-            $table->enum('kondisi', ['Baik', 'Rusak']);
+            $table->integer('jumlah')->nullable();
+            $table->enum('kondisi', ['Baik', 'Rusak Ringan', 'Rusak']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia'); // Status
             $table->timestamps();
         });

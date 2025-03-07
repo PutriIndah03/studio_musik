@@ -43,16 +43,17 @@
             </div>
 
             <!-- Jumlah -->
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="jumlah" class="form-label fw-bold">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ old('jumlah', $alat->jumlah) }}" required>
-            </div>
+            </div> --}}
 
             <!-- Kondisi -->
             <div class="mb-3">
                 <label for="kondisi" class="form-label fw-bold">Kondisi</label>
                 <select class="form-select" id="kondisi" name="kondisi" required>
                     <option value="Baik" {{ old('kondisi', $alat->kondisi) == 'Baik' ? 'selected' : '' }}>Baik</option>
+                    <option value="Rusak Ringan" {{ old('kondisi', $alat->kondisi) == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
                     <option value="Rusak" {{ old('kondisi', $alat->kondisi) == 'Rusak' ? 'selected' : '' }}>Rusak</option>
                 </select>
             </div>
