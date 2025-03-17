@@ -22,6 +22,8 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
+        'mahasiswa_id',
+        'staf_id'
     ];
 
     /**
@@ -52,8 +54,9 @@ class User extends Authenticatable
      */
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class);
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id', 'id');
     }
+    
 
     /**
      * Relasi ke tabel Staf (jika user adalah staf).

@@ -12,8 +12,10 @@ class Mahasiswa extends Model
     protected $fillable = ['nim','nama', 'prodi', 'alamat', 'jenis_kelamin', 'email',
                             'no_hp', 'foto'];
 
-    public function user()
-    {
-        return $this->hasOne(User::class);
+ public function users(){
+    
+    return $this->hasMany(User::class, 'mahasiswa_id', 'id');
     }
+                            
+                            
 }

@@ -14,8 +14,17 @@ class PeminjamanController extends Controller
     public function index()
     {
         // Ambil semua data peminjaman dengan studio
-        $peminjaman = Peminjaman::with('studio_musik')->get();
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
     
+        // Ambil ID user yang sedang login
+        $userId = Auth::id();
+    
+        // Ambil hanya data peminjaman milik user yang login
+        $peminjaman = Peminjaman::with('studio_musik')
+            ->where('user_id', $userId) 
+            ->get();
         foreach ($peminjaman as $item) {
             // Ubah JSON 'alat_id' menjadi array
             $alat_ids = json_decode($item->alat_id, true) ?? [];

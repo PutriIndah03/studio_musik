@@ -34,7 +34,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
     Route::get('/peminjaman/createStudio/{studio_musik}', [PeminjamanController::class, 'createStudio'])->name('peminjaman.createStudio');
 
-    Route::resource('validasipeminjaman', ValidasiPeminjamanController::class);
+    Route::get('validasipeminjaman', [ValidasiPeminjamanController::class,'index']);
+    Route::post('/peminjaman/{id}/approve', [ValidasiPeminjamanController::class, 'approve'])->name('peminjaman.approve');
+Route::post('/peminjaman/{id}/reject', [ValidasiPeminjamanController::class, 'reject'])->name('peminjaman.reject');
+
 });
 
 Route::get('/check-accounts', function (Request $request) {
