@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('studio_id')->nullable()->constrained('studio_musik')->onDelete('cascade');
-            $table->foreignId('alat_id')->nullable()->constrained('alat_musik')->onDelete('cascade');
+            $table->text('alat_id'); 
             $table->datetime('tanggal_pinjam');
             $table->datetime('tanggal_kembali');
             $table->integer('jumlah')->nullable();

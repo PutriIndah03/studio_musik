@@ -4,6 +4,7 @@ use App\Http\Controllers\AkunStafController;
 use App\Http\Controllers\AlatMusikController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\ValidasiPeminjamanController;
 use App\Http\Controllers\StudioMusikController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -29,9 +30,11 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('peminjaman', PeminjamanController::class);
-    // Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::post('/peminjaman/store2', [PeminjamanController::class, 'store2'])->name('peminjaman.store2');
     Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
-    Route::get('/peminjaman/createStudio', [PeminjamanController::class, 'createStudio'])->name('peminjaman.createStudio');
+    Route::get('/peminjaman/createStudio/{studio_musik}', [PeminjamanController::class, 'createStudio'])->name('peminjaman.createStudio');
+
+    Route::resource('validasipeminjaman', ValidasiPeminjamanController::class);
 });
 
 Route::get('/check-accounts', function (Request $request) {

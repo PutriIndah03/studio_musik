@@ -29,28 +29,40 @@
                         </div>
                     @endforeach
                 </div>
+                @error('alat_id')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
-            
-            {{-- <div class="mb-3">
-                <label class="form-label">Kondisi</label>
-                <input type="text" class="form-control bg-light" value="{{ $alats->kondisi }}" readonly>
-            </div> --}}
+
             <div class="mb-3">
                 <label class="form-label">Tanggal dan Waktu Pemakaian</label>
-                <input type="datetime-local" class="form-control" name="tanggal_pinjam" required>
+                <input type="datetime-local" name="tanggal_pinjam" class="form-control" required>
+                @error('tanggal_pinjam')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label class="form-label">Tanggal dan Waktu Kembali</label>
-                <input type="datetime-local" class="form-control" name="tanggal_kembali" required>
+                <input type="datetime-local" name="tanggal_kembali" class="form-control" required>
+                @error('tanggal_kembali')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label class="form-label">Alasan</label>
-                <textarea class="form-control" name="alasan" rows="3" required></textarea>
+                <textarea class="form-control" name="alasan" rows="3" placeholder="Tuliskan alasan peminjaman..." required></textarea>
+                @error('alasan')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label class="form-label">Jaminan</label>
                 <input type="text" class="form-control bg-light" name="jaminan" value="KTP" readonly>
             </div>
+
             <div class="d-flex justify-content-between">
                 <a href="{{ route('dashboard.mahasiswa') }}" class="btn btn-danger">Kembali</a>
                 <button type="submit" class="btn btn-primary">Submit</button>

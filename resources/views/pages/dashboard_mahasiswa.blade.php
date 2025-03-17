@@ -28,7 +28,11 @@
             Ajukan Peminjaman
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="peminjamanDropdown">
-            <li><a class="dropdown-item" href="{{ route('peminjaman.createStudio') }}">Studio Musik</a></li>
+            @if ($studios->isNotEmpty())
+    <a class="dropdown-item" href="{{ route('peminjaman.createStudio', ['studio_musik' => $studios->first()->id]) }}">
+        Studio Musik
+    </a>
+@endif
             <li><a class="dropdown-item" href="{{ route('peminjaman.create') }}">Alat Musik</a></li>
         </ul>
     </div>

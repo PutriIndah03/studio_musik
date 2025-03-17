@@ -17,22 +17,10 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'nama' => 'Pembina',
-                'username' => '198603052024211014',
-                'password' => Hash::make('198603052024211014'),
+                'username' => '12345678',
+                'password' => Hash::make('12345678'),
                 'role' => 'pembina'
             ],
-            [
-                'nama' => 'Mahasiswa',
-                'username' => '362155401001',
-                'password' => Hash::make('362155401001'),
-                'role' => 'mahasiswa'
-            ],
-            [
-                'nama' => 'Staf',
-                'username' => '362155401002',
-                'password' => Hash::make('362155401002'),
-                'role' => 'staf'
-            ]
         ]);
     }
 }

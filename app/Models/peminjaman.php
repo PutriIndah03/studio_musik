@@ -35,6 +35,6 @@ class peminjaman extends Model
 
     public function alat_musik()
     {
-        return $this->belongsTo(alat_musik::class,'alat_id');
+        return $this->hasMany(alat_musik::class, 'id', 'alat_id'); // Perbaikan relasi
     }
 }

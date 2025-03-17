@@ -4,46 +4,69 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Formulir Ajukan Peminjaman Studio Musik</h2>
     <div class="card p-4">
-        <form action="{{ route('peminjaman.store') }}" method="POST">
+        <form action="{{ route('peminjaman.store2') }}" method="POST">
             @csrf
             <!-- Nama -->
             <div class="mb-3">
-                <label class="form-label">Nama</label>
-                <input type="text" class="form-control bg-light" value="{{ $studios->nama }}" readonly>
+                <label class="form-label">Nama Studio</label>
+                <select name="studio_id" class="form-select" required>
+                    {{-- <option value="">Pilih Studio</option> --}}
+                    @if (!empty($studios) && $studios->count() > 0)
+                        @foreach ($studios as $studio)
+                            <option value="{{ $studio->id }}">{{ $studio->nama }}</option>
+                        @endforeach
+                    @else
+                        <option value="">Studio tidak tersedia</option>
+                    @endif
+                </select>
             </div>
+            
+            
 
             <!-- Alat Musik (diambil dari tabel) -->
             <div class="mb-3">
-                <label class="form-label fw-bold">Alat Musik</label>
-                @if ($alats->isNotEmpty())
-                    <div class="row">
-                        @foreach ($alats as $alat)
-                            <div class="col-md-4 col-sm-6"> <!-- Menyesuaikan ukuran grid -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="alat_musik[]" value="{{ $alat->id }}" id="alat{{ $alat->id }}">
-                                    <label class="form-check-label" for="alat{{ $alat->id }}">
-                                        {{ $alat->nama }}
-                                    </label>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <p>Tidak ada alat musik tersedia.</p>
-                @endif
+                <label class="form-label">Pilih Alat Musik</label>
+                <div class="col-md-4 col-sm-6">
+                    @foreach ($alats as $alat)
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                name="alat_id[]" 
+                                value="{{ $alat->id }}" 
+                                id="alat{{ $alat->id }}" 
+                                @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia') disabled @endif
+                            >
+                            <label class="form-check-label" for="alat{{ $alat->id }}">
+                                {{ $alat->kode }} - {{ $alat->nama }} - {{ $alat->kondisi }}
+                                @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia')
+                                    <span class="text-danger">(Tidak Tersedia)</span>
+                                @endif
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                @error('alat_id')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
             </div>
                         
 
             <!-- Tanggal & Waktu Pemakaian -->
             <div class="mb-3">
-                <label class="form-label fw-bold">Tanggal dan Waktu Pemakaian</label>
-                <input type="datetime-local" class="form-control" name="tanggal_pinjam" required>
+                <label class="form-label">Tanggal dan Waktu Pemakaian</label>
+                <input type="datetime-local" name="tanggal_pinjam" class="form-control" required ">
+                @error('tanggal_pinjam')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-
-            <!-- Tanggal & Waktu Kembali -->
+            
             <div class="mb-3">
-                <label class="form-label fw-bold">Tanggal dan Waktu Kembali</label>
-                <input type="datetime-local" class="form-control" name="tanggal_kembali" required>
+                <label class="form-label">Tanggal dan Waktu Kembali</label>
+                <input type="datetime-local" name="tanggal_kembali" class="form-control" required ">
+                @error('tanggal_kembali')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <!-- Alasan -->
