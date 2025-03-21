@@ -4,7 +4,9 @@ use App\Http\Controllers\AkunStafController;
 use App\Http\Controllers\AlatMusikController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\ValidasiPeminjamanController;
+use App\Http\Controllers\ValidasiPengembalianController;
 use App\Http\Controllers\StudioMusikController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -36,7 +38,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('validasipeminjaman', [ValidasiPeminjamanController::class,'index']);
     Route::post('/peminjaman/{id}/approve', [ValidasiPeminjamanController::class, 'approve'])->name('peminjaman.approve');
-Route::post('/peminjaman/{id}/reject', [ValidasiPeminjamanController::class, 'reject'])->name('peminjaman.reject');
+    Route::post('/peminjaman/{id}/reject', [ValidasiPeminjamanController::class, 'reject'])->name('peminjaman.reject');
+
+    Route::get('/peminjaman/{id}/pengembalian', [PengembalianController::class, 'formPengembalian'])->name('peminjaman.formPengembalian');
+    Route::post('/pengembalian/store', [PengembalianController::class, 'store'])->name('peminjaman.prosesPengembalian');
+    Route::get('pengembalian', [pengembalianController::class,'index']);
+
+    Route::get('validasipengembalian', [ValidasiPengembalianController::class,'index']);
 
 });
 

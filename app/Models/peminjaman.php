@@ -37,4 +37,13 @@ class peminjaman extends Model
     {
         return $this->hasMany(alat_musik::class, 'id', 'alat_id'); // Perbaikan relasi
     }
+
+    public function alat_musiks()
+    {
+        return alat_musik::whereIn('id', json_decode($this->alat_id, true))->get();
+    }
+    public function pengembalian()
+    {
+        return $this->hasOne(Pengembalian::class);
+    }
 }

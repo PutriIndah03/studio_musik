@@ -20,8 +20,6 @@
                     @endif
                 </select>
             </div>
-            
-            
 
             <!-- Alat Musik (diambil dari tabel) -->
             <div class="mb-3">
@@ -51,7 +49,6 @@
             @enderror
             </div>
                         
-
             <!-- Tanggal & Waktu Pemakaian -->
             <div class="mb-3">
                 <label class="form-label">Tanggal dan Waktu Pemakaian</label>

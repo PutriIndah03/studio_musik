@@ -13,7 +13,7 @@ class PeminjamanController extends Controller
 {
     public function index()
     {
-        // Ambil semua data peminjaman dengan studio
+        // Cek apakah user sudah login
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
@@ -21,10 +21,14 @@ class PeminjamanController extends Controller
         // Ambil ID user yang sedang login
         $userId = Auth::id();
     
-        // Ambil hanya data peminjaman milik user yang login
-        $peminjaman = Peminjaman::with('studio_musik')
-            ->where('user_id', $userId) 
+        // Ambil hanya data peminjaman milik user yang login dan belum diajukan pengembalian
+        $peminjaman = Peminjaman::with('studio_musik', 'pengembalian')
+            ->where('user_id', $userId)
+            ->whereDoesntHave('pengembalian', function ($query) {
+                $query->where('status', 'menunggu');
+            })
             ->get();
+    
         foreach ($peminjaman as $item) {
             // Ubah JSON 'alat_id' menjadi array
             $alat_ids = json_decode($item->alat_id, true) ?? [];
@@ -36,7 +40,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.index', compact('peminjaman'));
     }
     
-
     public function create()
     {
         $alats = alat_musik::all();
