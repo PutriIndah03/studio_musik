@@ -45,6 +45,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pengembalian', [pengembalianController::class,'index']);
 
     Route::get('validasipengembalian', [ValidasiPengembalianController::class,'index']);
+    Route::post('/pengembalian/{id}/approve', [ValidasiPengembalianController::class, 'approve'])->name('pengembalian.approve');
+    Route::post('/pengembalian/{id}/reject', [ValidasiPengembalianController::class, 'reject'])->name('pengembalian.reject');
+
 
 });
 

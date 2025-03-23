@@ -12,7 +12,7 @@ class ValidasiPengembalianController extends Controller
     public function index()
     {
         // Ambil semua peminjaman dengan relasi user dan studio musik
-        $peminjaman = Peminjaman::with(['user.mahasiswa', 'studio_musik'])->get();
+        $peminjaman = Peminjaman::with(['user.mahasiswa', 'studio_musik', 'alat_musik'])->get();
     
         // Ambil semua pengembalian dengan relasi ke peminjaman
         $pengembalian = Pengembalian::with('peminjaman')->get();
@@ -44,4 +44,31 @@ class ValidasiPengembalianController extends Controller
         return view('pages.validasi_pengembalian', compact('peminjaman', 'pengembalian'));
     }
     
+    public function approve($id)
+    {
+        $pengembalian = Pengembalian::findOrFail($id);
+    
+        // Ubah status pengembalian menjadi 'diterima'
+        $pengembalian->update(['status' => 'diterima']);
+    
+        // Ubah status peminjaman menjadi 'dikembalikan'
+        if ($pengembalian->peminjaman) {
+            $pengembalian->peminjaman->update(['status' => 'dikembalikan']);
+        }
+    
+        return redirect()->back()->with('success', 'Pengembalian telah disetujui dan status peminjaman diperbarui.');
+    }
+    
+
+    public function reject(Request $request, $id)
+    {
+        $pengembalian = Pengembalian::findOrFail($id);
+        $pengembalian->update([
+            'status' => 'ditolak',
+            'alasan' => $request->input('alasan'),
+        ]);
+
+        return redirect()->back()->with('success', 'Peminjaman telah ditolak.');
+    }
+
 }
