@@ -94,7 +94,7 @@ public function store(Request $request)
         'alat_id' => 'required|array',
         'alat_id.*' => 'exists:alat_musik,id',
         'kondisi' => 'required|array',
-        'kondisi.*' => 'in:baik,rusak ringan,rusak',
+        'kondisi.*' => 'in:Baik,Rusak Ringan,Rusak',
         'alasan' => 'nullable|string',
     ]);
 
@@ -120,10 +120,10 @@ public function store(Request $request)
         'alat_id' => json_encode($request->alat_id), // Simpan ID alat sebagai array JSON
         'kondisi' => $kondisiAlatJson, // Simpan kondisi dalam JSON
         'alasan' => $request->alasan,
-        'status' => 'menunggu'
+        'status' => 'Menunggu'
     ]);
 
-    return redirect()->route('peminjaman.index')->with('success', 'Pengembalian berhasil diajukan.');
+    return redirect()->route('pengembalian.index')->with('success', 'Pengembalian berhasil diajukan.');
 }
 
 }

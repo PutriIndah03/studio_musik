@@ -28,9 +28,9 @@
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
-                <th style="background-color: #0d6efd; color: white;">Tanggal & Waktu Kembali</th>
-                <th style="background-color: #0d6efd; color: white;">Tanggal & Waktu Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Keterangan Pengembalian</th>
+                <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
+                <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
+                <th style="background-color: #0d6efd; color: white;">Ket.Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Kondisi</th>
                 <th style="background-color: #0d6efd; color: white;">Alasan</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
@@ -47,16 +47,20 @@
                 <!-- Alat Musik -->
                 <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        @foreach($data->alat_musik as $alat)
-                            {{ $alat->kode }} - {{ $alat->nama }} <br>
-                        @endforeach
+                        @if($data->alat_musik->count() > 1)
+                            @foreach($data->alat_musik as $loopIndex => $alat)
+                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kode }} - {{ $alat->nama }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }} <br>
+                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
                 </td>
-                
                 
                 
                 <!-- Tanggal & Waktu Kembali -->
@@ -84,13 +88,20 @@
                             $kondisiAlat = json_decode($data->pengembalian->kondisi, true);
                         @endphp
                 
-                        @if(is_array($kondisiAlat))
+                        @if(is_array($kondisiAlat) && count($kondisiAlat) > 1)
+                            @php $nomor = 1; @endphp
                             @foreach($kondisiAlat as $alat_id => $kondisi)
                                 @php
-                                    $alat = \App\Models\alat_musik::find($alat_id);
+                                    $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
                                 @endphp
-                                {{ $alat ? $alat->kode .' - '. $alat->nama : 'Alat Tidak Ditemukan' }} : {{ $kondisi ?? '-' }}<br>
+                                {{ $nomor++ }}. {{ $kondisi ?? '-' }}<br>
                             @endforeach
+                        @elseif(is_array($kondisiAlat) && count($kondisiAlat) == 1)
+                            @php
+                                $alat_id = array_key_first($kondisiAlat);
+                                $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
+                            @endphp
+                            {{ reset($kondisiAlat) ?? '-' }}
                         @else
                             {{ $data->pengembalian->kondisi ?? '-' }}
                         @endif
@@ -99,8 +110,6 @@
                     @endif
                 </td>
                 
-                
-
                 <!-- Alasan -->
                 <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>
 

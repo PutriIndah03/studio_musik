@@ -67,36 +67,38 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let menuItems = document.querySelectorAll(".nav-link");
-    let currentPath = window.location.pathname;
-    let userRole = localStorage.getItem("userRole"); // Simpan role pengguna saat login
-
-    // RESET MENU SAAT LOGIN BERHASIL
-    if (sessionStorage.getItem("newLogin")) {
-        if (userRole === "mahasiswa") {
-            localStorage.setItem("activeMenu", "/dashboard/mahasiswa");
-        } else {
-            localStorage.setItem("activeMenu", "/dashboard");
-        }
-        sessionStorage.removeItem("newLogin"); // Hapus indikator login
-    }
-
-    let savedPath = localStorage.getItem("activeMenu") || "/dashboard";
-
-    menuItems.forEach(item => {
-        if (item.getAttribute("href") === savedPath) {
-            item.classList.add("active", "bg-primary");
-        }
-
-        item.addEventListener("click", function () {
-            menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
-            this.classList.add("active", "bg-primary");
-
-            // Simpan menu yang diklik
-            localStorage.setItem("activeMenu", this.getAttribute("href"));
+    document.addEventListener("DOMContentLoaded", function () {
+        let menuItems = document.querySelectorAll(".nav-link");
+        let currentPath = window.location.pathname;
+        
+        // Simpan route terakhir yang dikunjungi agar tetap aktif setelah reload
+        localStorage.setItem("activeMenu", currentPath);
+    
+        menuItems.forEach(item => {
+            if (item.getAttribute("href") === currentPath) {
+                item.classList.add("active", "bg-primary");
+            }
+    
+            item.addEventListener("click", function () {
+                menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
+                this.classList.add("active", "bg-primary");
+    
+                // Simpan menu yang diklik ke localStorage
+                localStorage.setItem("activeMenu", this.getAttribute("href"));
+            });
+        });
+    
+        // Pastikan menu berubah ketika halaman berubah tanpa perlu refresh
+        window.addEventListener("popstate", function () {
+            let updatedPath = window.location.pathname;
+            localStorage.setItem("activeMenu", updatedPath);
+            menuItems.forEach(item => {
+                item.classList.remove("active", "bg-primary");
+                if (item.getAttribute("href") === updatedPath) {
+                    item.classList.add("active", "bg-primary");
+                }
+            });
         });
     });
-});
-
-</script>
+    </script>
+    

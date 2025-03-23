@@ -34,39 +34,60 @@
                 <td>{{ optional($data->peminjaman->studio_musik)->nama ?? '-' }}</td>
                 <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        @foreach($data->alat_musik as $alat)
-                            {{ $alat->kode }} - {{ $alat->nama }} <br>
-                        @endforeach
+                        @if($data->alat_musik->count() > 1)
+                            @foreach($data->alat_musik as $loopIndex => $alat)
+                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kode }} - {{ $alat->nama }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }} <br>
+                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
                 </td>
+
                 <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        @foreach($data->alat_musik as $alat)
-                            {{ $alat->nama }}: {{ $alat->kondisi ?? '-' }}<br>
-                        @endforeach
+                        @if($data->alat_musik->count() > 1)
+                            @php $nomor = 1; @endphp
+                            @foreach($data->alat_musik as $alat)
+                                {{ $nomor++ }}. {{ $alat->kondisi ?? '-' }}<br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kondisi ?? '-' }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ optional($data->alat_musik)->kondisi ?? '-' }}
+                        {{ $data->alat_musik->kondisi ?? '-' }}
                     @else
                         -
                     @endif
                 </td>
+
+                {{-- kondisi dikembalikan --}}
                 <td style="text-align: left">
                     @if($data->kondisi)
                         @php
                             $kondisiAlat = json_decode($data->kondisi, true);
                         @endphp
                 
-                        @if(is_array($kondisiAlat) && count($kondisiAlat) > 0)
+                        @if(is_array($kondisiAlat) && count($kondisiAlat) > 1)
+                            @php $nomor = 1; @endphp
                             @foreach($kondisiAlat as $alat_id => $kondisi)
                                 @php
-                                    $alat = \App\Models\alat_musik::find($alat_id);
+                                    $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
                                 @endphp
-                                {{ $alat ? $alat->kode .' - '. $alat->nama : 'Alat Tidak Ditemukan' }} : {{ $kondisi ?? '-' }}<br>
+                                {{ $nomor++ }}. {{ $kondisi ?? '-' }}<br>
                             @endforeach
+                        @elseif(is_array($kondisiAlat) && count($kondisiAlat) == 1)
+                            @php
+                                $alat_id = array_key_first($kondisiAlat);
+                                $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
+                            @endphp
+                            {{ reset($kondisiAlat) ?? '-' }}
                         @else
                             {{ $data->kondisi ?? '-' }}
                         @endif
@@ -74,6 +95,7 @@
                         -
                     @endif
                 </td>
+                
                 
                 <td>{{ \Carbon\Carbon::parse($data->peminjaman->tanggal_kembali)->format('d-m-Y H:i') }}</td>
                 <td>{{ \Carbon\Carbon::parse($data->tanggal_pengembalian)->format('d-m-Y H:i') }}</td>

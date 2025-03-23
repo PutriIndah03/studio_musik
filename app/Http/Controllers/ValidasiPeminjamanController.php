@@ -25,7 +25,7 @@ class ValidasiPeminjamanController extends Controller
     public function approve($id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->update(['status' => 'disetujui']);
+        $peminjaman->update(['status' => 'Disetujui']);
 
         return redirect()->back()->with('success', 'Peminjaman telah disetujui.');
     }
@@ -34,7 +34,7 @@ class ValidasiPeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::findOrFail($id);
         $peminjaman->update([
-            'status' => 'ditolak',
+            'status' => 'Ditolak',
             'alasan' => $request->input('alasan'),
         ]);
 

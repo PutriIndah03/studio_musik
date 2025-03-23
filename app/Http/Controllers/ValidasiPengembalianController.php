@@ -49,11 +49,11 @@ class ValidasiPengembalianController extends Controller
         $pengembalian = Pengembalian::findOrFail($id);
     
         // Ubah status pengembalian menjadi 'diterima'
-        $pengembalian->update(['status' => 'diterima']);
+        $pengembalian->update(['status' => 'Diterima']);
     
         // Ubah status peminjaman menjadi 'dikembalikan'
         if ($pengembalian->peminjaman) {
-            $pengembalian->peminjaman->update(['status' => 'dikembalikan']);
+            $pengembalian->peminjaman->update(['status' => 'Dikembalikan']);
         }
     
         return redirect()->back()->with('success', 'Pengembalian telah disetujui dan status peminjaman diperbarui.');
@@ -63,12 +63,22 @@ class ValidasiPengembalianController extends Controller
     public function reject(Request $request, $id)
     {
         $pengembalian = Pengembalian::findOrFail($id);
+    
+        // Ubah status pengembalian menjadi 'ditolak'
         $pengembalian->update([
-            'status' => 'ditolak',
+            'status' => 'Ditolak',
             'alasan' => $request->input('alasan'),
         ]);
-
-        return redirect()->back()->with('success', 'Peminjaman telah ditolak.');
+    
+        // Kembalikan status peminjaman menjadi 'disetujui'
+        if ($pengembalian->peminjaman) {
+            $pengembalian->peminjaman->update([
+                'status' => 'Disetujui',
+            ]);
+        }
+    
+        return redirect()->back()->with('success', 'Pengembalian ditolak, status peminjaman dikembalikan menjadi disetujui.');
     }
+    
 
 }

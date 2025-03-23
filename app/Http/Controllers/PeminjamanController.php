@@ -25,7 +25,7 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::with('studio_musik', 'pengembalian')
             ->where('user_id', $userId)
             ->whereDoesntHave('pengembalian', function ($query) {
-                $query->where('status', 'menunggu');
+                $query->where('status', 'Menunggu');
             })
             ->get();
     
@@ -83,10 +83,10 @@ class PeminjamanController extends Controller
             'tanggal_kembali' => $request->tanggal_kembali,
             'alasan' => $request->alasan,
             'jaminan' => 'KTP',
-            'status' => 'menunggu',
+            'status' => 'Menunggu',
         ]);
 
-        return redirect()->route('dashboard.mahasiswa')->with('success', 'Peminjaman berhasil diajukan.');
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
     }
 
     public function store2(Request $request)
@@ -121,9 +121,9 @@ class PeminjamanController extends Controller
             'tanggal_kembali' => $request->tanggal_kembali,
             'alasan' => $request->alasan,
             'jaminan' => 'KTM',
-            'status' => 'menunggu',
+            'status' => 'Menunggu',
         ]);
 
-        return redirect()->route('dashboard.mahasiswa')->with('success', 'Peminjaman berhasil diajukan.');
+        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
     }
 }

@@ -29,8 +29,8 @@
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Kondisi</th>
-                <th style="background-color: #0d6efd; color: white;">Tanggal & Waktu Pemakaian</th>
-                <th style="background-color: #0d6efd; color: white;">Tanggal & Waktu Kembali</th>
+                <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pemakaian</th>
+                <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Alasan</th>
                 <th style="background-color: #0d6efd; color: white;">Jaminan</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
@@ -46,24 +46,37 @@
                 <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>
                 
                 <!-- Alat Musik -->
-                <td>
+                <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        {{ $data->alat_musik->pluck('nama')->implode(', ') }}
+                        @if($data->alat_musik->count() > 1)
+                            @foreach($data->alat_musik as $loopIndex => $alat)
+                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kode }} - {{ $alat->nama }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ optional($data->alat_musik)->nama }}
+                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
-                </td>
+                </td
                 
                 <!-- Kondisi Alat Musik -->
-                <td>
+                <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        @foreach($data->alat_musik as $alat)
-                            {{ $alat->nama }} : {{ $alat->kondisi ?? '-' }}<br>
-                        @endforeach
+                        @if($data->alat_musik->count() > 1)
+                            @php $nomor = 1; @endphp
+                            @foreach($data->alat_musik as $alat)
+                                {{ $nomor++ }}. {{ $alat->kondisi ?? '-' }}<br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kondisi ?? '-' }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ optional($data->alat_musik)->kondisi ?? '-' }}
+                        {{ $data->alat_musik->kondisi ?? '-' }}
                     @else
                         -
                     @endif
@@ -74,6 +87,8 @@
                 
                 <!-- Tanggal & Waktu Kembali -->
                 <td>{{ \Carbon\Carbon::parse($data->tanggal_kembali)->format('d-m-Y H:i') }}</td>
+
+                {{-- locale('id')->translatedFormat('d F Y') --}}
                 
                 <!-- Alasan -->
                 <td>{{ $data->alasan ?? '-' }}</td>

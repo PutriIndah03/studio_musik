@@ -22,21 +22,30 @@
         }, 5000); // Hilang dalam 5 detik
     </script>
 @endif
+@php
+    $isDisabled = $studios->isEmpty() && $alats->isEmpty();
+@endphp
+
 <div class="d-flex justify-content-center mb-3">
     <div class="dropdown">
-        <button class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" type="button" id="peminjamanDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-primary d-flex align-items-center gap-2 px-3 py-2" type="button" id="peminjamanDropdown" data-bs-toggle="dropdown" aria-expanded="false" {{ $isDisabled ? 'disabled' : '' }}>
             Ajukan Peminjaman
         </button>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="peminjamanDropdown">
-            @if ($studios->isNotEmpty())
-    <a class="dropdown-item" href="{{ route('peminjaman.createStudio', ['studio_musik' => $studios->first()->id]) }}">
-        Studio Musik
-    </a>
-@endif
-            <li><a class="dropdown-item" href="{{ route('peminjaman.create') }}">Alat Musik</a></li>
-        </ul>
+        @if (!$isDisabled)
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="peminjamanDropdown">
+                @if ($studios->isNotEmpty())
+                    <a class="dropdown-item" href="{{ route('peminjaman.createStudio', ['studio_musik' => $studios->first()->id]) }}">
+                        Studio Musik
+                    </a>
+                @endif
+                @if ($alatMusik->isNotEmpty())
+                    <li><a class="dropdown-item" href="{{ route('peminjaman.create') }}">Alat Musik</a></li>
+                @endif
+            </ul>
+        @endif
     </div>
 </div>
+
 
     <!-- Alat Musik Section -->
     <div class="row mt-3">

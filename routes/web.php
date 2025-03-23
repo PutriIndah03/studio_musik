@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/peminjaman/{id}/pengembalian', [PengembalianController::class, 'formPengembalian'])->name('peminjaman.formPengembalian');
     Route::post('/pengembalian/store', [PengembalianController::class, 'store'])->name('peminjaman.prosesPengembalian');
-    Route::get('pengembalian', [pengembalianController::class,'index']);
+    Route::get('pengembalian', [pengembalianController::class,'index'])->name('pengembalian.index');
 
     Route::get('validasipengembalian', [ValidasiPengembalianController::class,'index']);
     Route::post('/pengembalian/{id}/approve', [ValidasiPengembalianController::class, 'approve'])->name('pengembalian.approve');

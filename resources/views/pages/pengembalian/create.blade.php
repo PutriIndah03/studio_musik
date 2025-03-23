@@ -82,9 +82,9 @@
 
                 <!-- Dropdown Kondisi -->
                 <select class="form-select" name="kondisi[{{ $alat->id }}]" required>
-                    <option value="baik">Baik</option>
-                    <option value="rusak ringan">Rusak ringan</option>
-                    <option value="rusak">Rusak</option>
+                    <option value="Baik">Baik</option>
+                    <option value="Rusak Ringan">Rusak ringan</option>
+                    <option value="Rusak">Rusak</option>
                 </select>
             </div>
         @endforeach

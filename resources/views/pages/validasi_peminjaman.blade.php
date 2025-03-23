@@ -32,22 +32,35 @@
                 <td>{{ optional($data->user->mahasiswa)->no_hp ?? '-' }}</td>
                                                              
                 <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>
-                <td>
+                <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        {{ $data->alat_musik->pluck('nama')->implode(', ') }}
+                        @if($data->alat_musik->count() > 1)
+                            @foreach($data->alat_musik as $loopIndex => $alat)
+                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kode }} - {{ $alat->nama }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ optional($data->alat_musik)->nama }}
+                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
                 </td>
-                <td>
+                <td style="text-align: left">
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
-                        @foreach($data->alat_musik as $alat)
-                            {{ $alat->nama }}: {{ $alat->kondisi ?? '-' }}<br>
-                        @endforeach
+                        @if($data->alat_musik->count() > 1)
+                            @php $nomor = 1; @endphp
+                            @foreach($data->alat_musik as $alat)
+                                {{ $nomor++ }}. {{ $alat->kondisi ?? '-' }}<br>
+                            @endforeach
+                        @elseif($data->alat_musik->count() == 1)
+                            @php $alat = $data->alat_musik->first(); @endphp
+                            {{ $alat->kondisi ?? '-' }}
+                        @endif
                     @elseif($data->alat_musik)
-                        {{ optional($data->alat_musik)->kondisi ?? '-' }}
+                        {{ $data->alat_musik->kondisi ?? '-' }}
                     @else
                         -
                     @endif
