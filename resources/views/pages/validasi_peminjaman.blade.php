@@ -70,11 +70,11 @@
                 <td>{{ $data->alasan ?? '-' }}</td>
                 <td>{{ $data->jaminan ?? '-' }}</td>
                 <td>
-                    @if($data->status == 'menunggu')
+                    @if($data->status == 'Menunggu')
                         <span class="badge bg-warning">Menunggu</span>
-                    @elseif($data->status == 'disetujui')
+                    @elseif($data->status == 'Disetujui')
                         <span class="badge bg-success">Disetujui</span>
-                    @elseif($data->status == 'ditolak')
+                    @elseif($data->status == 'Ditolak')
                         <span class="badge bg-danger">Ditolak</span>
                     @else
                         <span class="badge bg-secondary">Dikembalikan</span>

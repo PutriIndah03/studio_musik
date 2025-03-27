@@ -110,14 +110,12 @@
                 </td>
                 <td>{{ $data->alasan ?? '-' }}</td>
                 <td>
-                    @if($data->status == 'menunggu')
+                    @if($data->status == 'Menunggu')
                         <span class="badge bg-warning">Menunggu</span>
-                    @elseif($data->status == 'diterima')
+                    @elseif($data->status == 'Diterima')
                         <span class="badge bg-success">Diterima</span>
-                    @elseif($data->status == 'ditolak')
-                        <span class="badge bg-danger">Ditolak</span>
                     @else
-                        <span class="badge bg-secondary">Selesai</span>
+                        <span class="badge bg-danger">Ditolak</span>
                     @endif
                 </td>
                 <td>

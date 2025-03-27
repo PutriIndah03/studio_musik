@@ -10,8 +10,14 @@ class ValidasiPeminjamanController extends Controller
 {
     public function index()
     {
-        $peminjaman = Peminjaman::with(['user.mahasiswa', 'studio_musik', 'alat_musik'])->get();        
-        
+        $peminjaman = Peminjaman::with(['user.mahasiswa', 'studio_musik', 'alat_musik'])
+            ->where('status', '!=', 'Dikembalikan') // Menghindari data dengan status "Dikembalikan"
+            ->where(function ($query) {
+                $query->where('status', '!=', 'Ditolak')
+                      ->orWhereRaw("TIMESTAMPDIFF(SECOND, updated_at, NOW()) <= 60");
+            })
+            ->get();        
+    
         foreach ($peminjaman as $item) {
             // Ubah JSON 'alat_id' menjadi array
             $alat_ids = json_decode($item->alat_id, true) ?? [];
@@ -19,9 +25,11 @@ class ValidasiPeminjamanController extends Controller
             // Ambil data alat musik berdasarkan ID dalam array
             $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
         }
-
+    
         return view('pages.validasi_peminjaman', compact('peminjaman'));
     }
+    
+    
     public function approve($id)
     {
         $peminjaman = Peminjaman::findOrFail($id);

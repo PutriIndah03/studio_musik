@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="text-center">Formulir Ajukan Peminjaman Alat Musik</h2>
+    <h2 class="text-center fw-bold">Formulir Ajukan Peminjaman Alat Musik</h2>
     <br>
     <div class="card shadow p-4">
         <form action="{{ route('peminjaman.store') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Pilih Alat Musik</label>
+                <label class="form-label fw-bold">Pilih Alat Musik</label>
                 <div class="col-md-4 col-sm-6">
                     @foreach ($alats as $alat)
                         <div class="form-check">
@@ -35,7 +35,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Tanggal dan Waktu Pemakaian</label>
+                <label class="form-label fw-bold">Tanggal dan Waktu Pemakaian</label>
                 <input type="datetime-local" name="tanggal_pinjam" class="form-control" required>
                 @error('tanggal_pinjam')
                     <small class="text-danger">{{ $message }}</small>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Tanggal dan Waktu Kembali</label>
+                <label class="form-label fw-bold">Tanggal dan Waktu Kembali</label>
                 <input type="datetime-local" name="tanggal_kembali" class="form-control" required>
                 @error('tanggal_kembali')
                     <small class="text-danger">{{ $message }}</small>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Alasan</label>
+                <label class="form-label fw-bold">Alasan</label>
                 <textarea class="form-control" name="alasan" rows="3" placeholder="Tuliskan alasan peminjaman..." required></textarea>
                 @error('alasan')
                     <small class="text-danger">{{ $message }}</small>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Jaminan</label>
+                <label class="form-label fw-bold">Jaminan</label>
                 <input type="text" class="form-control bg-light" name="jaminan" value="KTP" readonly>
             </div>
 

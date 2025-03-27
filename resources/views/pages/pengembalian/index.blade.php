@@ -115,14 +115,12 @@
 
                 <!-- Status Pengembalian -->
                 <td>
-                    @if(optional($data->pengembalian)->status == 'menunggu')
+                    @if(optional($data->pengembalian)->status == 'Menunggu')
                         <span class="badge bg-warning">Menunggu</span>
-                    @elseif(optional($data->pengembalian)->status == 'disetujui')
-                        <span class="badge bg-success">Disetujui</span>
-                    @elseif(optional($data->pengembalian)->status == 'ditolak')
-                        <span class="badge bg-danger">Ditolak</span>
+                    @elseif(optional($data->pengembalian)->status == 'Diterima')
+                        <span class="badge bg-success">Diterima</span>
                     @else
-                        <span class="badge bg-secondary">Dikembalikan</span>
+                        <span class="badge bg-danger">Ditolak</span>
                     @endif
                 </td>
                 

@@ -14,25 +14,30 @@ use App\Models\alat_musik;
 class PengembalianController extends Controller
 {
     public function index()
-{
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+    
+        $userId = Auth::id();
+    
+        $pengembalian = Peminjaman::with('studio_musik', 'pengembalian')
+            ->where('user_id', $userId)
+            ->whereHas('pengembalian', function ($query) {
+                $query->where('status', '!=', 'Diterima')
+                      ->orWhereRaw("TIMESTAMPDIFF(HOUR, updated_at, NOW()) <= 24");
+                    // ->orWhereRaw("TIMESTAMPDIFF(MINUTE, updated_at, NOW()) <= 1");
+            }) // Menampilkan hanya peminjaman yang masih dalam proses atau yang diterima dalam 24 jam terakhir
+            ->get();
+    
+        foreach ($pengembalian as $item) {
+            $alat_ids = json_decode($item->alat_id, true) ?? [];
+            $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
+        }
+    
+        return view('pages.pengembalian.index', compact('pengembalian'));
     }
-
-    $userId = Auth::id();
-
-    $pengembalian = Peminjaman::with('studio_musik', 'pengembalian')
-        ->where('user_id', $userId)
-        ->whereHas('pengembalian') // Menampilkan hanya peminjaman yang sudah diajukan pengembalian
-        ->get();
-
-    foreach ($pengembalian as $item) {
-        $alat_ids = json_decode($item->alat_id, true) ?? [];
-        $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
-    }
-
-    return view('pages.pengembalian.index', compact('pengembalian'));
-}
+    
 
     public function formPengembalian($id)
     {

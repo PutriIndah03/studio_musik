@@ -8,7 +8,7 @@
             @csrf
             <!-- Nama -->
             <div class="mb-3">
-                <label class="form-label">Nama Studio</label>
+                <label class="form-label fw-bold">Nama Studio</label>
                 <select name="studio_id" class="form-select" required>
                     {{-- <option value="">Pilih Studio</option> --}}
                     @if (!empty($studios) && $studios->count() > 0)
@@ -23,7 +23,7 @@
 
             <!-- Alat Musik (diambil dari tabel) -->
             <div class="mb-3">
-                <label class="form-label">Pilih Alat Musik</label>
+                <label class="form-label fw-bold">Pilih Alat Musik</label>
                 <div class="col-md-4 col-sm-6">
                     @foreach ($alats as $alat)
                         <div class="form-check">
@@ -51,7 +51,7 @@
                         
             <!-- Tanggal & Waktu Pemakaian -->
             <div class="mb-3">
-                <label class="form-label">Tanggal dan Waktu Pemakaian</label>
+                <label class="form-label fw-bold">Tanggal dan Waktu Pemakaian</label>
                 <input type="datetime-local" name="tanggal_pinjam" class="form-control" required ">
                 @error('tanggal_pinjam')
                     <small class="text-danger">{{ $message }}</small>
@@ -59,7 +59,7 @@
             </div>
             
             <div class="mb-3">
-                <label class="form-label">Tanggal dan Waktu Kembali</label>
+                <label class="form-label fw-bold">Tanggal dan Waktu Kembali</label>
                 <input type="datetime-local" name="tanggal_kembali" class="form-control" required ">
                 @error('tanggal_kembali')
                     <small class="text-danger">{{ $message }}</small>

@@ -98,11 +98,11 @@
                 
                 <!-- Status -->
                 <td>
-                    @if($data->status == 'menunggu')
+                    @if($data->status == 'Menunggu')
                         <span class="badge bg-warning">Menunggu</span>
-                    @elseif($data->status == 'disetujui')
+                    @elseif($data->status == 'Disetujui')
                         <span class="badge bg-success">Disetujui</span>
-                    @elseif($data->status == 'ditolak')
+                    @elseif($data->status == 'Ditolak')
                         <span class="badge bg-danger">Ditolak</span>
                     @else
                         <span class="badge bg-secondary">Dikembalikan</span>
@@ -111,7 +111,7 @@
 
                 <!-- Aksi -->
                 <td>
-                    @if($data->status == 'disetujui')
+                    @if($data->status == 'Disetujui')
                         <a href="{{ route('peminjaman.formPengembalian', $data->id) }}" class="btn btn-secondary btn-sm text-white"
                            onclick="return confirm('Ajukan pengembalian peminjaman ini?');">
                             </i> Ajukan pengembalian

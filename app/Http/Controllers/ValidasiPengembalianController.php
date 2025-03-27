@@ -14,15 +14,19 @@ class ValidasiPengembalianController extends Controller
         // Ambil semua peminjaman dengan relasi user dan studio musik
         $peminjaman = Peminjaman::with(['user.mahasiswa', 'studio_musik', 'alat_musik'])->get();
     
-        // Ambil semua pengembalian dengan relasi ke peminjaman
-        $pengembalian = Pengembalian::with('peminjaman')->get();
+        // Ambil semua pengembalian dengan relasi ke peminjaman, kecuali yang sudah diterima lebih dari 24 jam
+        $pengembalian = Pengembalian::with('peminjaman')
+            ->where(function ($query) {
+                $query->where('status', '!=', 'Diterima')
+                      ->orWhereRaw("TIMESTAMPDIFF(HOUR, updated_at, NOW()) <= 24");
+                    //   ->orWhereRaw("TIMESTAMPDIFF(MINUTE, updated_at, NOW()) <= 1");
+            })
+            ->get();
     
         // Proses alat musik untuk setiap peminjaman
         foreach ($peminjaman as $item) {
-            // Pastikan alat_id adalah JSON yang valid sebelum decode
             $alat_ids = !empty($item->alat_id) ? json_decode($item->alat_id, true) : [];
     
-            // Pastikan hasil decode adalah array sebelum dipakai dalam whereIn()
             $item->alat_musik = is_array($alat_ids) && !empty($alat_ids)
                 ? alat_musik::whereIn('id', $alat_ids)->get()
                 : collect();
@@ -30,19 +34,20 @@ class ValidasiPengembalianController extends Controller
     
         // Proses alat musik untuk setiap pengembalian berdasarkan peminjaman
         foreach ($pengembalian as $item) {
-            if ($item->peminjaman) { // Pastikan peminjaman tidak null
+            if ($item->peminjaman) {
                 $alat_ids = !empty($item->peminjaman->alat_id) ? json_decode($item->peminjaman->alat_id, true) : [];
     
                 $item->alat_musik = is_array($alat_ids) && !empty($alat_ids)
                     ? alat_musik::whereIn('id', $alat_ids)->get()
                     : collect();
             } else {
-                $item->alat_musik = collect(); // Jika tidak ada peminjaman, buat koleksi kosong
+                $item->alat_musik = collect();
             }
         }
     
         return view('pages.validasi_pengembalian', compact('peminjaman', 'pengembalian'));
     }
+    
     
     public function approve($id)
     {
@@ -71,11 +76,11 @@ class ValidasiPengembalianController extends Controller
         ]);
     
         // Kembalikan status peminjaman menjadi 'disetujui'
-        if ($pengembalian->peminjaman) {
-            $pengembalian->peminjaman->update([
-                'status' => 'Disetujui',
-            ]);
-        }
+        // if ($pengembalian->peminjaman) {
+        //     $pengembalian->peminjaman->update([
+        //         'status' => 'Disetujui',
+        //     ]);
+        // }
     
         return redirect()->back()->with('success', 'Pengembalian ditolak, status peminjaman dikembalikan menjadi disetujui.');
     }

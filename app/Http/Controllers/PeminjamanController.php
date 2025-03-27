@@ -21,9 +21,11 @@ class PeminjamanController extends Controller
         // Ambil ID user yang sedang login
         $userId = Auth::id();
     
-        // Ambil hanya data peminjaman milik user yang login dan belum diajukan pengembalian
+        // Ambil hanya data peminjaman milik user yang login dan belum diajukan pengembalian,
+        // serta tidak memiliki status "Dikembalikan"
         $peminjaman = Peminjaman::with('studio_musik', 'pengembalian')
             ->where('user_id', $userId)
+            ->where('status', '!=', 'Dikembalikan') // Tambahkan pengecualian untuk status "Dikembalikan"
             ->whereDoesntHave('pengembalian', function ($query) {
                 $query->where('status', 'Menunggu');
             })
@@ -39,6 +41,7 @@ class PeminjamanController extends Controller
     
         return view('pages.peminjaman.index', compact('peminjaman'));
     }
+    
     
     public function create()
     {

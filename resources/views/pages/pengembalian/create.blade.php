@@ -39,7 +39,7 @@
 
             <!-- Tanggal & Waktu Pengembalian -->
             <div class="mb-3">
-                <label class="form-label">Tanggal dan Waktu Pengembalian</label>
+                <label class="form-label fw-bold">Tanggal dan Waktu Pengembalian</label>
                 <input type="hidden" name="tanggal_pengembalian" value="{{ now()->format('Y-m-d H:i:s') }}">
                 <input type="datetime-local" class="form-control bg-light" 
                     value="{{ now()->format('Y-m-d\TH:i') }}" readonly>
@@ -96,7 +96,7 @@
 
             <!-- Catatan Tambahan -->
             <div class="mb-3">
-                <label class="form-label">Catatan Tambahan</label>
+                <label class="form-label fw-bold">Catatan Tambahan</label>
                 <textarea class="form-control" name="alasan" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
             </div>
 

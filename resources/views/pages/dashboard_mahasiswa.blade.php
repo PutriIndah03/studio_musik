@@ -38,7 +38,7 @@
                         Studio Musik
                     </a>
                 @endif
-                @if ($alatMusik->isNotEmpty())
+                @if ($alats->isNotEmpty())
                     <li><a class="dropdown-item" href="{{ route('peminjaman.create') }}">Alat Musik</a></li>
                 @endif
             </ul>
