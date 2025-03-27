@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunStafController;
 use App\Http\Controllers\AlatMusikController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JadwalPeminjamanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\ValidasiPeminjamanController;
@@ -48,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pengembalian/{id}/approve', [ValidasiPengembalianController::class, 'approve'])->name('pengembalian.approve');
     Route::post('/pengembalian/{id}/reject', [ValidasiPengembalianController::class, 'reject'])->name('pengembalian.reject');
 
-
+    Route::get('jadwalPeminjaman', [JadwalPeminjamanController::class,'index']);
 });
 
 Route::get('/check-accounts', function (Request $request) {
