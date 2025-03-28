@@ -22,7 +22,7 @@
     </script>
 @endif
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm small">
         <thead>
             <tr class="bg-primary text-white">
                 <th style="background-color: #0d6efd; color: white;">No</th>

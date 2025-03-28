@@ -25,7 +25,7 @@
 
 
     <a href="{{ route('akun_staf.create') }}" class="btn btn-success mb-3">Tambah Data</a>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm small">
         <thead>
             <tr>
                 <th style="background-color: #0d6efd; color: white;">No</th>

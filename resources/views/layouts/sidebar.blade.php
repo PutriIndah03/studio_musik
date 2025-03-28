@@ -1,4 +1,4 @@
-<div class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar" style="max-height: 100vh; overflow-y: auto;">
     <div class="text-center mb-3">
         @php
         $user = auth()->user();
@@ -56,7 +56,8 @@
         <li class="nav-item"><a href="/peminjaman" class="nav-link text-white" data-page="peminjaman"><i class="bi bi-file-earmark-text me-2"></i> Peminjaman</a></li>
         <li class="nav-item"><a href="/pengembalian" class="nav-link text-white" data-page="pengembalian"><i class="bi bi-box-arrow-right me-2"></i> Pengembalian</a></li>
         <li class="nav-item"><a href="/jadwalPeminjaman" class="nav-link text-white" data-page="jadwal"><i class="bi bi-calendar-check me-2"></i> Jadwal Peminjaman</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-white" data-page="riwayat"><i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman</a></li>
+        <li class="nav-item"><a href="/riwayatPeminjamanMhs" class="nav-link text-white" data-page="riwayat"><i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman</a></li>
+        <li class="nav-item"><a href="/riwayatPeminjaman" class="nav-link text-white" data-page="riwayat"><i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman</a></li>
         <li class="nav-item"><a href="/studio_musik" class="nav-link text-white" data-page="studio"><i class="bi bi-music-note-beamed me-2"></i> Studio Musik</a></li>
         <li class="nav-item"><a href="/alat_musik" class="nav-link text-white" data-page="alat"><i class="bi bi-music-player me-2"></i> Alat Musik</a></li>
         <li class="nav-item"><a href="/validasipeminjaman" class="nav-link text-white" data-page="validasi_peminjaman"><i class="bi bi-check-circle me-2"></i> Validasi Peminjaman</a></li>

@@ -17,7 +17,7 @@
                 <th style="background-color: #0d6efd; color: white;">Kondisi Saat Dikembalikan</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Keterangan Pengembalian</th>
+                <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Alasan</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>

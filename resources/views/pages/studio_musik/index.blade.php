@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Studio Musik</h2>
     <a href="{{ route('studio_musik.create') }}" class="btn btn-success mb-3">Tambah Data</a>
-    <table class="table table-bordered">
+    <table class="table table-bordered small">
         <thead>
             <tr>
                 <th style="background-color: #0d6efd; color: white;">No</th>
