@@ -53,6 +53,7 @@ class AkunStafController extends Controller
             'username' => $request->nim,
             'password' => Hash::make($request->nim),
             'role' => 'staf', // Role hanya disimpan di tabel users
+            'staf_id' => $staf->id,
         ]);
     
         return redirect()->route('akun_staf.index')->with('success', 'Akun staf berhasil dibuat.');

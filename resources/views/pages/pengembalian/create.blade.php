@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4 text-center fw-bold">Formulir Pengembalian Alat Musik & Studio</h2>
+    <h2 class="mb-4 text-center fw-bold">Formulir Pengembalian</h2>
     <div class="card p-4">
         <form action="{{ route('peminjaman.prosesPengembalian') }}" method="POST">
             @csrf

@@ -44,7 +44,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li>
-                            <a class="dropdown-item" href="#"> <i class="fa fa-user me-2"></i> Profile</a>
+                            <a class="dropdown-item" href="/profile"> <i class="fa fa-user me-2"></i> Profile</a>
                         </li>
                         <li><hr class="dropdown-divider"></li> <!-- Divider untuk pemisah -->
                         <li>

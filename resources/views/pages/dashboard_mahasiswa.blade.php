@@ -3,7 +3,7 @@
 @section('content')
 <br>
 <div class="container mt-4">
-    <h3 class="fw-bold text-center">Studio dan Alat Musik</h3>
+    <h2 class="fw-bold text-center">Studio dan Alat Musik</h3>
     <br>
     @if (session('success'))
     <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">

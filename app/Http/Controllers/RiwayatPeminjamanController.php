@@ -54,5 +54,22 @@ public function index2()
     return view('pages.riwayat_peminjaman', compact('peminjaman'));
 }
 
+public function laporan()
+{
+    $peminjaman = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
+      
+        // ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
+        ->get();
+
+    foreach ($peminjaman as $item) {
+        // Ubah JSON 'alat_id' menjadi array
+        $alat_ids = json_decode($item->alat_id, true) ?? [];
+
+        // Ambil data alat musik berdasarkan ID dalam array
+        $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
+    }
+
+    return view('pages.laporan', compact('peminjaman'));
+}
 
 }

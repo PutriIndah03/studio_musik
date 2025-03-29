@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JadwalPeminjamanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatPeminjamanController;
 use App\Http\Controllers\ValidasiPeminjamanController;
 use App\Http\Controllers\ValidasiPengembalianController;
@@ -53,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('jadwalPeminjaman', [JadwalPeminjamanController::class,'index']);
     Route::get('riwayatPeminjamanMhs', [RiwayatPeminjamanController::class,'index'])->name('riwayatPeminjamanMhs');
     Route::get('riwayatPeminjaman', [RiwayatPeminjamanController::class,'index2'])->name('riwayatPeminjaman');
+    Route::get('laporan', [RiwayatPeminjamanController::class,'laporan'])->name('laporan');
+
+    Route::get('profile', [ProfileController::class,'index'])->name('profile');
+
 });
 
 Route::get('/check-accounts', function (Request $request) {
