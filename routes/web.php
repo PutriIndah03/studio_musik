@@ -11,6 +11,7 @@ use App\Http\Controllers\RiwayatPeminjamanController;
 use App\Http\Controllers\ValidasiPeminjamanController;
 use App\Http\Controllers\ValidasiPengembalianController;
 use App\Http\Controllers\StudioMusikController;
+use App\Http\Controllers\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,16 +23,21 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/dashboard/mahasiswa', [StudioMusikController::class, 'index2'])->name('dashboard.mahasiswa');
+Route::get('/dashboard/mahasiswa', [StudioMusikController::class, 'dMhs'])->name('dashboard.mahasiswa');
+Route::get('/dashboard', [StudioMusikController::class, 'dStaf'])->name('dashboard.staf');
 Route::resource('studio_musik', StudioMusikController::class);
 Route::resource('alat_musik', AlatMusikController::class);
 Route::resource('akun_staf', AkunStafController::class);
 Route::post('/akun_staf/{id}/reset_password', [AkunStafController::class, 'resetPassword'])->name('akun_staf.reset_password');
 
-Route::get('/dashboard', function () {
-    return  view ('pages.dashboard_staf');
-})->name('dashboard.staf');
+// Route::get('/dashboard', function () {
+//     return  view ('pages.dashboard_staf');
+// })->name('dashboard.staf');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('peminjaman', PeminjamanController::class);
@@ -57,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('laporan', [RiwayatPeminjamanController::class,'laporan'])->name('laporan');
 
     Route::get('profile', [ProfileController::class,'index'])->name('profile');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
 
 });
 

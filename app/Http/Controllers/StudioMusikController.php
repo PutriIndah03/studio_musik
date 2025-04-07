@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\alat_musik;
+use App\Models\peminjaman;
 use Illuminate\Http\Request;
 use App\Models\studio_musik;
 
@@ -15,13 +16,23 @@ class StudioMusikController extends Controller
         return view('pages.studio_musik.index', compact('studios'));
     }
 
-    public function index2()
+    public function dMhs()
     {
         $studios = studio_musik::all();
         $alats = alat_musik::all(); // Mengambil semua data dari database
         return view('pages.dashboard_mahasiswa', compact('studios','alats'));
     }
     // Menampilkan form tambah studio musik
+
+    public function dStaf()
+{
+    $totalAlat = alat_musik::count();
+    $alatDipinjam = peminjaman::where('status', 'Disetujui')->count();
+
+    $alatRusak = alat_musik::where('kondisi', 'Rusak')->count();
+
+    return view('pages.dashboard_staf', compact('totalAlat', 'alatDipinjam', 'alatRusak'));
+}
     public function create()
     {
         return view('pages.studio_musik.create');

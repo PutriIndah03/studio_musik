@@ -44,7 +44,7 @@
                 </div>
             @endif        
 
-            <a class="forgot-password" href="#">Lupa Kata Sandi?</a>
+            <a class="forgot-password" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
             <p class="mt-2">Belum punya akun? <a href="{{ route('register') }}" class="register-link">Daftar</a></p>
 
             <button type="submit" class="login-button">Login</button>

@@ -20,12 +20,12 @@
                 
                         if ($user->role === 'mahasiswa') {
                             $mahasiswa = \App\Models\Mahasiswa::where('nim', $user->username)->first();
-                            $foto = $mahasiswa && $mahasiswa->foto ? asset('path/to/mahasiswa/images/' . $mahasiswa->foto) : null;
+                            $foto = $mahasiswa && $mahasiswa->foto ? asset('storage/' . $mahasiswa->foto) : null;
                         } elseif ($user->role === 'staf') {
                             $staf = \App\Models\Staf::where('nim', $user->username)->first();
-                            $foto = $staf && $staf->foto ? asset('path/to/staf/images/' . $staf->foto) : null;
+                            $foto = $staf && $staf->foto ? asset('storage/' . $staf->foto) : null;
                         } else {
-                            $foto = $user->image ? asset('path/to/user/images/' . $user->image) : null;
+                            $foto = $user->image ? asset('storage/' . $user->image) : null;
                         }
                 
                         $initials = strtoupper(substr($user->nama, 0, 1)); // Inisial Nama
