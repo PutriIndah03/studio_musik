@@ -35,10 +35,6 @@ Route::resource('alat_musik', AlatMusikController::class);
 Route::resource('akun_staf', AkunStafController::class);
 Route::post('/akun_staf/{id}/reset_password', [AkunStafController::class, 'resetPassword'])->name('akun_staf.reset_password');
 
-// Route::get('/dashboard', function () {
-//     return  view ('pages.dashboard_staf');
-// })->name('dashboard.staf');
-
 Route::middleware(['auth'])->group(function () {
     Route::resource('peminjaman', PeminjamanController::class);
     Route::post('/peminjaman/store2', [PeminjamanController::class, 'store2'])->name('peminjaman.store2');
@@ -61,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('riwayatPeminjamanMhs', [RiwayatPeminjamanController::class,'index'])->name('riwayatPeminjamanMhs');
     Route::get('riwayatPeminjaman', [RiwayatPeminjamanController::class,'index2'])->name('riwayatPeminjaman');
     Route::get('laporan', [RiwayatPeminjamanController::class,'laporan'])->name('laporan');
+    Route::get('/riwayat-peminjamanmhs/download', [RiwayatPeminjamanController::class, 'download'])->name('riwayatPeminjamanMhs.download');
+    Route::get('/riwayat-peminjaman/download', [RiwayatPeminjamanController::class, 'downloadRiwayatAdmin'])->name('riwayatPeminjaman.download');
+    Route::get('/laporan/download', [RiwayatPeminjamanController::class, 'downloadLaporan'])->name('laporan.download');
 
     Route::get('profile', [ProfileController::class,'index'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

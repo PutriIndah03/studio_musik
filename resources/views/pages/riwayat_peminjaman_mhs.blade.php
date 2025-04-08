@@ -8,14 +8,21 @@
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label for="date" class="form-label">Filter Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ request('date') }}">
+                <input type="date" class="form-control" id="date" name="date"
+                    value="{{ request('date') }}"
+                    onchange="this.form.submit()">
             </div>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Filter</button>
+            <div class="col-md-4 d-flex align-items-end">
+                <!-- Optional: you can remove this button since it's auto-submit -->
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{{ route('riwayatPeminjamanMhs.download', ['date' => request('date')]) }}" class="btn btn-success">
+                    <i class="bi bi-download"></i> Download
+                </a>
             </div>
         </div>
     </form>
-
+      
     <div class="table-responsive"> <!-- Tambahkan class ini -->
         <table class="table table-bordered table-sm small">
             <thead>

@@ -4,14 +4,21 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Riwayat Peminjaman</h2>
 
-    <form method="GET" action="{{ route('riwayatPeminjamanMhs') }}" class="mb-3">
+    <form method="GET" action="{{ route('riwayatPeminjaman') }}" class="mb-3">
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label for="date" class="form-label">Filter Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ request('date') }}">
+                <input type="date" class="form-control" id="date" name="date"
+                    value="{{ request('date') }}"
+                    onchange="this.form.submit()">
             </div>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Filter</button>
+            <div class="col-md-4 d-flex align-items-end">
+                <!-- Optional: you can remove this button since it's auto-submit -->
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{{ route('riwayatPeminjaman.download', ['date' => request('date')]) }}" class="btn btn-success">
+                    <i class="bi bi-download"></i> Download
+                </a>
             </div>
         </div>
     </form>
@@ -141,7 +148,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="9" class="text-center">Tidak ada riwayat peminjaman</td>
+                <td colspan="16" class="text-center">Tidak ada riwayat peminjaman</td>
             </tr>
             @endforelse
         </tbody>

@@ -4,14 +4,21 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Laporan Peminjaman</h2>
 
-    <form method="GET" action="{{ route('riwayatPeminjamanMhs') }}" class="mb-3">
+    <form method="GET" action="{{ route('laporan') }}" class="mb-3">
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label for="date" class="form-label">Filter Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ request('date') }}">
+                <input type="date" class="form-control" id="date" name="date"
+                    value="{{ request('date') }}"
+                    onchange="this.form.submit()">
             </div>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Filter</button>
+            <div class="col-md-4 d-flex align-items-end">
+                <!-- Optional: you can remove this button since it's auto-submit -->
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{{ route('laporan.download', ['date' => request('date')]) }}" class="btn btn-success">
+                    <i class="bi bi-download"></i> Download
+                </a>
             </div>
         </div>
     </form>
@@ -20,7 +27,7 @@
         <table class="table table-bordered table-sm small">
             <thead>
                 <tr class="bg-primary text-white text-center">
-                    <th style="background-color: #0d6efd; color: white;">>No</th>
+                    <th style="background-color: #0d6efd; color: white;">No</th>
                     <th style="background-color: #0d6efd; color: white;">Nama</th>
                     <th style="background-color: #0d6efd; color: white;">NIM</th>
                     <th style="background-color: #0d6efd; color: white;">Prodi</th>
