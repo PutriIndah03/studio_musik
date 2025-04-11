@@ -39,7 +39,7 @@
         <tbody>
             @forelse ($pengembalian as $index => $data)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($pengembalian->currentPage() - 1) * $pengembalian->perPage() }}</td>
                 
                 <!-- Studio Musik -->
                 <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>
@@ -132,5 +132,8 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $pengembalian->links() }}
+    </div>
 </div>
 @endsection

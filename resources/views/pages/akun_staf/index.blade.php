@@ -39,7 +39,7 @@
         <tbody>
             @foreach ($akuns as $index => $akun)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($akuns->currentPage() - 1) * $akuns->perPage() }}</td>
                 <td>{{ $akun->nim }}</td>
                 <td>{{ $akun->nama }}</td>
                 <td>{{ $akun->prodi }}</td>
@@ -68,5 +68,8 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $akuns->links() }}
+    </div>
 </div>
 @endsection

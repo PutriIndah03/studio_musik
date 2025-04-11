@@ -25,7 +25,7 @@ class RiwayatPeminjamanController extends Controller
     $peminjaman = peminjaman::with('studio_musik', 'pengembalian')
         ->where('user_id', $userId)
         ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->get();
+        ->paginate(5);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -43,7 +43,7 @@ public function index2()
     $peminjaman = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
       
         ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->get();
+        ->paginate(5);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -61,7 +61,7 @@ public function laporan()
     $peminjaman = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
       
         // ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->get();
+        ->paginate(5);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array

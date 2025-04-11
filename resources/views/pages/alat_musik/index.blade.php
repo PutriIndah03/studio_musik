@@ -22,7 +22,7 @@
         <tbody>
             @foreach ($alats as $index => $alat)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($alats->currentPage() - 1) * $alats->perPage() }}</td>
                 <td>{{ $alat->kode }}</td>
                 <td>{{ $alat->nama }}</td>
                 <td>{{ $alat->tipe }}</td>
@@ -58,5 +58,8 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $alats->links() }}
+    </div>
 </div>
 @endsection

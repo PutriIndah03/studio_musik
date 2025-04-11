@@ -40,7 +40,7 @@
         <tbody>
             @forelse ($peminjaman as $index => $data)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($peminjaman->currentPage() - 1) * $peminjaman->perPage() }}</td>
                 
                 <!-- Studio Musik -->
                 <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>
@@ -129,5 +129,8 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $peminjaman->links() }}
+    </div>
 </div>
 @endsection

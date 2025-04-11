@@ -29,6 +29,7 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/mahasiswa', [StudioMusikController::class, 'dMhs'])->name('dashboard.mahasiswa');
+Route::get('/search', [StudioMusikController::class, 'search'])->name('search');
 Route::get('/dashboard', [StudioMusikController::class, 'dStaf'])->name('dashboard.staf');
 Route::resource('studio_musik', StudioMusikController::class);
 Route::resource('alat_musik', AlatMusikController::class);

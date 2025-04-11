@@ -57,7 +57,7 @@
             
             @forelse ($filteredPeminjaman as $index => $data)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($peminjaman->currentPage() - 1) * $peminjaman->perPage() }}</td>
                 <td>{{ optional($data->user)->mahasiswa->nama ?? '-' }}</td>
                 <td>{{ optional($data->user)->mahasiswa->nim ?? '-' }}</td>
                 <td>{{ optional($data->user)->mahasiswa->prodi ?? '-' }}</td>
@@ -153,6 +153,9 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $peminjaman->links() }}
+    </div>
 </div>
 </div>
 @endsection

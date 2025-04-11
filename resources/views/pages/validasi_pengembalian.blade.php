@@ -26,7 +26,7 @@
         <tbody>
             @forelse ($pengembalian as $index => $data)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $loop->iteration + ($pengembalian->currentPage() - 1) * $pengembalian->perPage() }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->nama ?? '-' }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->nim ?? '-' }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->prodi ?? '-' }}</td>
@@ -162,5 +162,8 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        {{ $pengembalian->links() }}
+    </div>
 </div>
 @endsection

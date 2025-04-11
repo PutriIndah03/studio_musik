@@ -4,12 +4,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 
-                <form class="d-flex mx-auto">
+                @if(auth()->user()->role === 'mahasiswa')
+                <form class="d-flex mx-auto" action="{{ route('search') }}" method="GET">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control" type="search" name="query" placeholder="Search studio atau alat musik..." aria-label="Search">
                     </div>
                 </form>
+                @endif
                 
                 <div class="dropdown">
                     <button class="btn d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,10 +45,12 @@
                         <i class="bi bi-chevron-down ms-1"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
+                        @if(auth()->user()->role === 'mahasiswa' || auth()->user()->role === 'staf')
                         <li>
                             <a class="dropdown-item" href="/profile"> <i class="fa fa-user me-2"></i> Profile</a>
                         </li>
                         <li><hr class="dropdown-divider"></li> <!-- Divider untuk pemisah -->
+                        @endif
                         <li>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf

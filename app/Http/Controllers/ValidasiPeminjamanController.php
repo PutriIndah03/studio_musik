@@ -16,7 +16,7 @@ class ValidasiPeminjamanController extends Controller
                 $query->where('status', '!=', 'Ditolak')
                       ->orWhereRaw("TIMESTAMPDIFF(SECOND, updated_at, NOW()) <= 60");
             })
-            ->get();        
+            ->paginate(5);        
     
         foreach ($peminjaman as $item) {
             // Ubah JSON 'alat_id' menjadi array

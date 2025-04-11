@@ -28,7 +28,7 @@ class PengembalianController extends Controller
                       ->orWhereRaw("TIMESTAMPDIFF(HOUR, updated_at, NOW()) <= 24");
                     // ->orWhereRaw("TIMESTAMPDIFF(MINUTE, updated_at, NOW()) <= 1");
             }) // Menampilkan hanya peminjaman yang masih dalam proses atau yang diterima dalam 24 jam terakhir
-            ->get();
+            ->paginate(5);
     
         foreach ($pengembalian as $item) {
             $alat_ids = json_decode($item->alat_id, true) ?? [];
