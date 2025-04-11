@@ -28,7 +28,17 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Prodi</label>
-                    <input type="text" name="prodi" class="form-control" value="{{ $staf->prodi }}" required>
+                    <select name="prodi" class="form-select" required>
+                        <option value="" disabled {{ old('prodi', $user->prodi) == '' ? 'selected' : '' }}>Pilih Program Studi</option>
+                        <option value="Teknologi Rekayasa Perangkat Lunak" {{ old('prodi', $user->prodi) == 'Teknologi Rekayasa Perangkat Lunak' ? 'selected' : '' }}>Teknologi Rekayasa Perangkat Lunak</option>
+                        <option value="Manajemen Bisnis Pariwisata" {{ old('prodi', $user->prodi) == 'Manajemen Bisnis Pariwisata' ? 'selected' : '' }}>Manajemen Bisnis Pariwisata</option>
+                        <option value="Teknik Mesin" {{ old('prodi', $user->prodi) == 'Teknik Mesin' ? 'selected' : '' }}>Teknik Mesin</option>
+                        <option value="Teknologi Rekayasa Komputer" {{ old('prodi', $user->prodi) == 'Teknologi Rekayasa Komputer' ? 'selected' : '' }}>Teknologi Rekayasa Komputer</option>
+                        <option value="Teknik Sipil" {{ old('prodi', $user->prodi) == 'Teknik Sipil' ? 'selected' : '' }}>Teknik Sipil</option>
+                        <option value="Agribisnis" {{ old('prodi', $user->prodi) == 'Agribisnis' ? 'selected' : '' }}>Agribisnis</option>
+                        <option value="Bisnis Digital" {{ old('prodi', $user->prodi) == 'Bisnis Digital' ? 'selected' : '' }}>Bisnis Digital</option>
+                        <option value="Teknologi Pengolahan Hasil Ternak" {{ old('prodi', $user->prodi) == 'Teknologi Pengolahan Hasil Ternak' ? 'selected' : '' }}>Teknologi Pengolahan Hasil Ternak</option>
+                    </select>
                 </div>
 
                 <div class="col-md-6">

@@ -6,6 +6,7 @@
     <title>Studio Musik Poliwangi</title>
 
     <!-- Bootstrap CSS -->
+    <link rel="icon" href="{{ asset('img/logo.png') }}"" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">

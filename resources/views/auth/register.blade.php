@@ -6,6 +6,7 @@
     <title>Register Mahasiswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <link rel="icon" href="{{ asset('img/logo.png') }}"" type="image/png">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="container">
@@ -32,8 +33,19 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Prodi</label>
-                                <input type="text" name="prodi" class="form-control" required>
+                                <select name="prodi" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Program Studi</option>
+                                    <option value="Teknologi Rekayasa Perangkat Lunak">Teknologi Rekayasa Perangkat Lunak</option>
+                                    <option value="Manajemen Bisnis Pariwisata">Manajemen Bisnis Pariwisata</option>
+                                    <option value="Bahasa Inggris Mesin">Teknik Mesin</option>
+                                    <option value="Teknologi Rekayasa Komputer">Teknologi Rekayasa Komputer</option>
+                                    <option value="Teknik Sipil">Teknik Sipil</option>
+                                    <option value="Agribisnis">Agribisnis</option>
+                                    <option value="Bisnis Digital">Bisnis Digital</option>
+                                    <option value="Teknologi Pengolahan Hasil Ternak">Teknologi Pengolahan Hasil Ternak</option>
+                                </select>
                             </div>
+                            
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
