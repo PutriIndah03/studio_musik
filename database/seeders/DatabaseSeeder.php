@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
                 'nama' => 'Pembina',
                 'username' => '12345678',
                 'password' => Hash::make('12345678'),
+                'email' => 'pembina@gmail.com',
                 'role' => 'pembina'
             ],
         ]);

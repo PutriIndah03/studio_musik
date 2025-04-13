@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('nama');
             $table->string('username'); // Username unik (bisa pakai NIM)
             $table->string('password'); // Password user
+            $table->string('email');
             $table->enum('role', ['pembina', 'staf', 'mahasiswa'])->default('mahasiswa'); // Role dengan default 'mahasiswa'
+            $table->rememberToken(); // Menambahkan kolom remember_token
             $table->timestamps(); // Perbaikan penulisan
         
             // Foreign key constraints

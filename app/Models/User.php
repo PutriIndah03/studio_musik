@@ -24,7 +24,8 @@ class User extends Authenticatable
         'password',
         'role',
         'mahasiswa_id',
-        'staf_id'
+        'staf_id',
+        'email'
     ];
 
     /**

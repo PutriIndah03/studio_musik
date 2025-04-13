@@ -18,6 +18,12 @@
         <form action="{{ route('login') }}" method="POST">
             @csrf
 
+            @if (session('status'))
+            <div class="alert alert-success" style="color: green">
+                <p>{{ session('status') }}</p>
+            </div>
+        @endif
+
             <div class="input-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="NIM" required onblur="checkMultipleAccounts()">

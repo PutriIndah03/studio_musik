@@ -25,6 +25,9 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+
+Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -79,3 +82,4 @@ Route::get('/check-accounts', function (Request $request) {
 
     return response()->json($roles);
 })->name('check.accounts');
+

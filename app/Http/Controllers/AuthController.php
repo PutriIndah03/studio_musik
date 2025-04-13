@@ -53,8 +53,10 @@ class AuthController extends Controller
             'nama' => $request->nama,
             'username' => $request->nim,
             'password' => Hash::make($request->password),
+            'email' => $request->email,
             'role' => 'mahasiswa',
             'mahasiswa_id' => $mahasiswa->id,
+
         ]);
 
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
