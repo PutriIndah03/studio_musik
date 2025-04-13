@@ -20,7 +20,7 @@ class ForgotPasswordController extends Controller
     public function sendResetLink(Request $request)
     {
         $request->validate([
-            'nim' => 'required|string',
+            'nim' => 'required|exists:users,username',
             'role' => 'sometimes|nullable|string|in:mahasiswa,staf,pembina',
         ]);
     

@@ -18,7 +18,7 @@
             @csrf
 
             <div class="input-group">
-                <label for="nim">NIM</label>
+                <label for="nim">Username</label>
                 <input type="text" id="nim" name="nim" placeholder="Masukkan NIM" required oninput="checkMultipleAccounts()">
             </div>
 
