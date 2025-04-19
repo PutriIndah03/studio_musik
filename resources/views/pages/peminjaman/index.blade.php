@@ -31,7 +31,7 @@
                 <th style="background-color: #0d6efd; color: white;">Kondisi</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pemakaian</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
-                <th style="background-color: #0d6efd; color: white;">Alasan</th>
+                <th style="background-color: #0d6efd; color: white;">Catatan Penggunaan</th>
                 <th style="background-color: #0d6efd; color: white;">Jaminan</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>
@@ -50,14 +50,14 @@
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
                         @if($data->alat_musik->count() > 1)
                             @foreach($data->alat_musik as $loopIndex => $alat)
-                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                                {{ $loop->iteration }}. {{ $alat->nama }} <br>
                             @endforeach
                         @elseif($data->alat_musik->count() == 1)
                             @php $alat = $data->alat_musik->first(); @endphp
-                            {{ $alat->kode }} - {{ $alat->nama }}
+                            {{ $alat->nama }}
                         @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
+                        {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif

@@ -88,8 +88,12 @@ class PeminjamanController extends Controller
             'jaminan' => 'KTP',
             'status' => 'Menunggu',
         ]);
+        return redirect()->route('peminjaman.index')
+        ->with('setActiveMenu', '/peminjaman')
+        ->with('success', 'Peminjaman berhasil diajukan.');
 
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
+
+        // return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
     }
 
     public function store2(Request $request)
@@ -103,8 +107,8 @@ class PeminjamanController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
                     $tanggalKembali = Carbon::parse($value);
-                    if ($tanggalKembali->gt($tanggalPinjam->copy()->addDays(2))) {
-                        $fail("Tanggal kembali maksimal hanya boleh 2 hari setelah tanggal pinjam.");
+                    if ($tanggalKembali->gt($tanggalPinjam->copy()->addDays())) {
+                        $fail("Tanggal kembali maksimal hanya boleh 1 (24 jam) hari setelah tanggal pinjam.");
                     }
                 }
             ],
@@ -126,7 +130,12 @@ class PeminjamanController extends Controller
             'jaminan' => 'KTM',
             'status' => 'Menunggu',
         ]);
+        return redirect()->route('peminjaman.index')
+    ->with('setActiveMenu', '/peminjaman')
+    ->with('success', 'Peminjaman berhasil diajukan.');
 
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
+
+
+        // return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
     }
 }

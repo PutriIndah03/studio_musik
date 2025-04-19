@@ -25,10 +25,10 @@
             </div>
 
             <!-- Tipe -->
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="tipe" class="form-label fw-bold">Tipe</label>
                 <input type="text" class="form-control" id="tipe" name="tipe" required>
-            </div>
+            </div> --}}
 
             <!-- Gambar -->
             <div class="mb-3">

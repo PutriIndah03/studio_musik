@@ -30,9 +30,9 @@
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Ket.Pengembalian</th>
+                <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Kondisi</th>
-                <th style="background-color: #0d6efd; color: white;">Alasan</th>
+                <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
             </tr>
         </thead>

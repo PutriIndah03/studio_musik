@@ -27,7 +27,7 @@
                             <div class="form-check">
                                 <input type="hidden" name="alat_id[]" value="{{ $alat->id }}">
                                 <label class="form-check-label">
-                                    {{ $alat->kode }} - {{ $alat->nama }} - {{ $alat->kondisi }}
+                                    {{ $alat->nama }} - {{ $alat->kondisi }}
                                 </label>
                             </div>
                         @endforeach
@@ -47,7 +47,7 @@
 
             <!-- Status Keterlambatan -->
             <div class="mb-3">
-                <label class="form-label fw-bold">Keterangan Pengembalian</label>
+                <label class="form-label fw-bold">Ket. Pengembalian</label>
                 @php
                     $tanggalJatuhTempo = \Carbon\Carbon::parse($peminjaman->tanggal_kembali);
                     $tanggalSekarang = \Carbon\Carbon::now();
@@ -78,7 +78,7 @@
                 <input type="hidden" name="alat_id[]" value="{{ $alat->id }}">
 
                 <!-- Nama Alat Musik -->
-                <p class="fw-bold mb-1">{{ $alat->kode }} - {{ $alat->nama }}</p>
+                <p class="fw-bold mb-1">{{ $alat->nama }}</p>
 
                 <!-- Dropdown Kondisi -->
                 <select class="form-select" name="kondisi[{{ $alat->id }}]" required>
@@ -96,7 +96,7 @@
 
             <!-- Catatan Tambahan -->
             <div class="mb-3">
-                <label class="form-label fw-bold">Catatan Tambahan</label>
+                <label class="form-label fw-bold">Catatan Pengembalian</label>
                 <textarea class="form-control" name="alasan" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
             </div>
 

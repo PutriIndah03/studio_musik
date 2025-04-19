@@ -30,7 +30,7 @@
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
                 <th style="background-color: #0d6efd; color: white;">NIM</th>
-                <th style="background-color: #0d6efd; color: white;">Prodi</th>
+                <th style="background-color: #0d6efd; color: white;">Program Studi</th>
                 <th style="background-color: #0d6efd; color: white;">No HP</th>
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
@@ -39,8 +39,8 @@
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pemakaian</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Alasan Peminjaman</th>
-                <th style="background-color: #0d6efd; color: white;">Alasan Pengembalian</th>
+                <th style="background-color: #0d6efd; color: white;">Catatan Peminjaman</th>
+                <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Jaminan</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
             </tr>
@@ -67,14 +67,14 @@
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
                         @if($data->alat_musik->count() > 1)
                             @foreach($data->alat_musik as $loopIndex => $alat)
-                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                                {{ $loop->iteration }}. {{ $alat->nama }} <br>
                             @endforeach
                         @elseif($data->alat_musik->count() == 1)
                             @php $alat = $data->alat_musik->first(); @endphp
-                            {{ $alat->kode }} - {{ $alat->nama }}
+                            {{ $alat->nama }}
                         @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
+                        {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif

@@ -25,11 +25,11 @@
                 <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $alat->nama) }}" required>
             </div>
 
-            <!-- Tipe -->
+            {{-- <!-- Tipe -->
             <div class="mb-3">
                 <label for="tipe" class="form-label fw-bold">Tipe</label>
                 <input type="text" class="form-control" id="tipe" name="tipe" value="{{ old('tipe', $alat->tipe) }}" required>
-            </div>
+            </div> --}}
 
             <!-- Gambar -->
             <div class="mb-3">

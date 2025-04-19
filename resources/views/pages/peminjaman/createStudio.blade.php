@@ -36,7 +36,7 @@
                                 @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia') disabled @endif
                             >
                             <label class="form-check-label" for="alat{{ $alat->id }}">
-                                {{ $alat->kode }} - {{ $alat->nama }} - {{ $alat->kondisi }}
+                                {{ $alat->nama }} - {{ $alat->kondisi }}
                                 @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia')
                                     <span class="text-danger">(Tidak Tersedia)</span>
                                 @endif
@@ -68,7 +68,7 @@
 
             <!-- Alasan -->
             <div class="mb-3">
-                <label class="form-label fw-bold">Alasan</label>
+                <label class="form-label fw-bold">Catatan Penggunaan</label>
                 <textarea class="form-control" name="alasan" rows="3" required></textarea>
             </div>
 

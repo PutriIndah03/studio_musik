@@ -2,23 +2,31 @@
 
 @section('content')
 <div class="container mt-4">
+    <style>
+        /* .table-sm th, .table-sm td {
+            padding: 0.3rem 0.4rem;
+            font-size: 0.65rem;
+            vertical-align: middle;
+        } */
+    </style>
     <h2 class="mb-4 text-center fw-bold">Validasi Pengembalian</h2>
+    <div class="table-responsive"> 
     <table class="table table-bordered table-sm small">
         <thead>
             <tr class="bg-primary text-white">
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
                 <th style="background-color: #0d6efd; color: white;">NIM</th>
-                <th style="background-color: #0d6efd; color: white;">Prodi</th>
+                <th style="background-color: #0d6efd; color: white;">Program Studi</th>
                 <th style="background-color: #0d6efd; color: white;">No HP</th>
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
-                <th style="background-color: #0d6efd; color: white;">Kondisi</th>
-                <th style="background-color: #0d6efd; color: white;">Kondisi Saat Dikembalikan</th>
+                <th style="background-color: #0d6efd; color: white;">Kondisi Dipinjam</th>
+                <th style="background-color: #0d6efd; color: white;">Kondisi Dikembalikan</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Alasan</th>
+                <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>
             </tr>
@@ -36,14 +44,14 @@
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
                         @if($data->alat_musik->count() > 1)
                             @foreach($data->alat_musik as $loopIndex => $alat)
-                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                                {{ $loop->iteration }}. {{ $alat->nama }} <br>
                             @endforeach
                         @elseif($data->alat_musik->count() == 1)
                             @php $alat = $data->alat_musik->first(); @endphp
-                            {{ $alat->kode }} - {{ $alat->nama }}
+                            {{ $alat->nama }}
                         @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
+                        {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
@@ -162,6 +170,7 @@
             @endforelse
         </tbody>
     </table>
+</div>
     <div class="d-flex justify-content-center">
         {{ $pengembalian->links() }}
     </div>
