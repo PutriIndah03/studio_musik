@@ -187,7 +187,7 @@
     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Password Lama</label>
+                            <label class="form-label">Kata Sandi Lama</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control" id="current_password" name="current_password" required>
                                 <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('current_password')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>
@@ -197,14 +197,14 @@
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Password Baru</label>
+                            <label class="form-label">Kata Sandi Baru</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control" id="new_password" name="new_password" required>
                                 <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('new_password')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Konfirmasi Password Baru</label>
+                            <label class="form-label">Konfirmasi kata Sandi</label>
                             <div class="position-relative">
                                 <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
                                 <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('new_password_confirmation')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>

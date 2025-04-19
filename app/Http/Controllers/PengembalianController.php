@@ -127,8 +127,11 @@ public function store(Request $request)
         'alasan' => $request->alasan,
         'status' => 'Menunggu'
     ]);
+    return redirect()->route('pengembalian.index')
+    ->with('setActiveMenu', '/pengembalian')
+    ->with('success', 'Pengembalian berhasil diajukan.');
 
-    return redirect()->route('pengembalian.index')->with('success', 'Pengembalian berhasil diajukan.');
+
 }
 
 }

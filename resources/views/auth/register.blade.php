@@ -63,7 +63,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Password</label>
+                                    <label class="form-label">Kata Sandi</label>
                                     <div class="position-relative">
                                         <input type="password" name="password" class="form-control" id="password" required>
                                         <i class="fa fa-eye-slash toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 10px; cursor: pointer; font-weight: normal;"></i>
@@ -73,7 +73,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Confirm Password</label>
+                                    <label class="form-label">Konfirmasi Kata Sandi</label>
                                     <div class="position-relative">
                                         <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
                                         <i class="fa fa-eye-slash toggle-password" onclick="togglePassword('password_confirmation')" style="position: absolute; right: 10px; top: 10px; cursor: pointer; font-weight: normal;"></i>

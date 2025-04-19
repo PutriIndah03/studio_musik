@@ -25,12 +25,12 @@
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">Prodi</label>
+                    <label class="form-label">Program Studi</label>
                     <select name="prodi" class="form-select" required>
                         <option value="" disabled selected>Pilih Program Studi</option>
                         <option value="Teknologi Rekayasa Perangkat Lunak">Teknologi Rekayasa Perangkat Lunak</option>
                         <option value="Manajemen Bisnis Pariwisata">Manajemen Bisnis Pariwisata</option>
-                        <option value="Bahasa Inggris Mesin">Teknik Mesin</option>
+                        <option value="Teknik Mesin">Teknik Mesin</option>
                         <option value="Teknologi Rekayasa Komputer">Teknologi Rekayasa Komputer</option>
                         <option value="Teknik Sipil">Teknik Sipil</option>
                         <option value="Agribisnis">Agribisnis</option>

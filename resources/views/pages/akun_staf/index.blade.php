@@ -31,7 +31,7 @@
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">NIM</th>
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
-                <th style="background-color: #0d6efd; color: white;">Prodi</th>
+                <th style="background-color: #0d6efd; color: white;">Program Studi</th>
                 <th style="background-color: #0d6efd; color: white;">Email</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>
             </tr>
