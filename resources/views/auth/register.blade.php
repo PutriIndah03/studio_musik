@@ -6,7 +6,8 @@
     <title>Register Mahasiswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
-    <link rel="icon" href="{{ asset('img/logo.png') }}"" type="image/png">
+    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
     <div class="container">
@@ -45,7 +46,6 @@
                                     <option value="Teknologi Pengolahan Hasil Ternak">Teknologi Pengolahan Hasil Ternak</option>
                                 </select>
                             </div>
-                            
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -64,19 +64,25 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Password</label>
-                                    <input type="password" name="password" class="form-control" required>
+                                    <div class="position-relative">
+                                        <input type="password" name="password" class="form-control" id="password" required>
+                                        <i class="fa fa-eye-slash toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 10px; cursor: pointer; font-weight: normal;"></i>
+                                    </div>
                                     @error('password')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Confirm Password</label>
-                                    <input type="password" name="password_confirmation" class="form-control" required>
+                                    <div class="position-relative">
+                                        <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
+                                        <i class="fa fa-eye-slash toggle-password" onclick="togglePassword('password_confirmation')" style="position: absolute; right: 10px; top: 10px; cursor: pointer; font-weight: normal;"></i>
+                                    </div>
                                 </div>
                             </div>
 
                             <p class="text-muted text-center">
-                                Sudah punya akun? <a href="{{ route('login') }}" class="login-link">Login</a>
+                                Sudah punya akun? <a href="{{ route('login') }}" class="login-link"><i>Login</i></a>
                             </p>
 
                             <button type="submit" class="btn btn-register w-100 py-2">Register</button>
@@ -88,5 +94,22 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword(id) {
+            var passwordField = document.getElementById(id);
+            var icon = passwordField.nextElementSibling;
+
+            // Toggle the password field type
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
 </body>
 </html>

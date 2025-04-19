@@ -52,12 +52,12 @@
                         <li><hr class="dropdown-divider"></li> <!-- Divider untuk pemisah -->
                         @endif
                         <li>
-                            <form action="{{ route('logout') }}" method="POST">
+                            <form action="{{ route('logout') }}" method="POST" onsubmit="localStorage.removeItem('activeMenu')">
                                 @csrf
                                 <button type="submit" class="dropdown-item text-danger">
                                     <i class="fa fa-sign-out-alt me-2"></i> Logout
                                 </button>
-                            </form>
+                            </form>                            
                         </li>
                     </ul>
                     

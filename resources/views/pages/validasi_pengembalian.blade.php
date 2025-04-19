@@ -126,7 +126,7 @@
                         </button>
                     </form>
 
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $data->id }}">
+                    {{-- <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $data->id }}">
                         <i class="bi bi-x-circle"></i>
                     </button>
 
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </td>
             </tr>
             @empty

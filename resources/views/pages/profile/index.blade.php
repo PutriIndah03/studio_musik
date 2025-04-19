@@ -22,6 +22,27 @@
         }, 5000); // Hilang dalam 5 detik
     </script>
 @endif
+@if ($errors->any())
+    <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            let alert = document.getElementById('error-alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 5000); // Hilang dalam 5 detik
+    </script>
+@endif
 
     <div class="row">
         <!-- Profile Card -->
@@ -105,36 +126,36 @@
                 
                 <div class="row mt-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">NIM</label>
+                        <label class="form-label">NIM</label>
                         <input type="text" class="form-control bg-light" value="{{ $user->mahasiswa->nim ?? $user->staf->nim ?? '-' }}" readonly>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Nama</label>
+                        <label class="form-label">Nama</label>
                         <input type="text" class="form-control" name="nama" value="{{ $user->nama }}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Email</label>
+                        <label class="form-label">Email</label>
                         <input type="email" class="form-control" name="email" value="{{ $user->mahasiswa->email ?? $user->staf->email ?? '-' }}">
                     </div>
                     
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">No HP</label>
+                        <label class="form-label">No HP</label>
                         <input type="text" class="form-control" name="no_hp" value="{{ $user->mahasiswa->no_hp ?? $user->staf->no_hp ?? '-' }}">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Program Studi</label>
+                        <label class="form-label">Program Studi</label>
                         <input type="text" class="form-control bg-light" value="{{ $user->mahasiswa->prodi ?? $user->staf->prodi ?? '-' }}" readonly>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Jenis Kelamin</label>
+                        <label class="form-label">Jenis Kelamin</label>
                         <select class="form-select" name="jenis_kelamin">
                             <option value="" {{ empty($user->mahasiswa->jenis_kelamin) && empty($user->staf->jenis_kelamin) ? 'selected' : '' }}>-</option>
                             <option value="Laki-laki" 
@@ -155,9 +176,48 @@
                     <button type="submit" class="btn btn-primary px-4">Simpan</button>
                 </div>
             </form>
-
         </div>
     </div>
+    <div class="row">
+            <!-- Form Ubah Password -->
+            <div class="card shadow-sm p-4 mx-auto mt-5" style="max-width: 90%;">
+                <h4 class="fw-bold mb-3">Ubah Kata Sandi</h4>
+                <form method="POST" action="{{ route('password.update') }}">
+                    @csrf
+    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Password Lama</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="current_password" name="current_password" required>
+                                <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('current_password')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Password Baru</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="new_password" name="new_password" required>
+                                <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('new_password')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Konfirmasi Password Baru</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
+                                <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('new_password_confirmation')" style="position: absolute; right: 10px; top: 8px; cursor: pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary px-4">Ubah Kata Sandi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </div>
 <script>
     function previewImage(event) {
@@ -187,5 +247,20 @@
             reader.readAsDataURL(file);
         }
     }
+    function togglePassword(id) {
+    const field = document.getElementById(id);
+    const icon = field.nextElementSibling;
+
+    if (field.type === "password") {
+        field.type = "text";
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+    } else {
+        field.type = "password";
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+    }
+}
+
     </script>
 @endsection

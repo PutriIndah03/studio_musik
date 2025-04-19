@@ -86,39 +86,47 @@ class AuthController extends Controller
         // Jika ada lebih dari satu akun dengan username yang sama, wajib memilih role
         if ($users->count() > 1) {
             $request->validate([
-                'role' => 'required|string|in:staf,mahasiswa,admin,pembina',
+                'role' => 'required|string|in:staf,mahasiswa,pembina',
             ]);
     
-            // Ambil user yang sesuai dengan role yang dipilih
-            $user = $users->where('role', $request->role)->first();
+            // Coba autentikasi dengan username, password, dan role
+            if (Auth::attempt([
+                'username' => $request->username,
+                'password' => $request->password,
+                'role' => $request->role
+            ], $request->filled('remember'))) {
+                $user = Auth::user(); // sudah login, tinggal ambil user-nya
     
-            if (!$user) {
-                return back()->withErrors(['role' => 'Role tidak sesuai dengan akun yang dipilih.'])->withInput();
+                return match ($user->role) {
+                    'mahasiswa' => redirect()->route('dashboard.mahasiswa'),
+                    'staf', 'pembina' => redirect()->route('dashboard.staf'),
+                    default => $this->logoutInvalidRole(),
+                };
             }
+    
+            return back()->withErrors(['password' => 'Password atau role salah.'])->withInput();
         } else {
-            // Jika hanya ada satu akun, langsung gunakan akun tersebut
+            // Jika hanya satu akun, langsung autentikasi
             $user = $users->first();
+    
+            if (Auth::attempt([
+                'username' => $user->username,
+                'password' => $request->password,
+            ], $request->filled('remember'))) {
+                Auth::login($user);
+    
+                return match ($user->role) {
+                    'mahasiswa' => redirect()->route('dashboard.mahasiswa'),
+                    'staf', 'pembina' => redirect()->route('dashboard.staf'),
+                    default => $this->logoutInvalidRole(),
+                };
+            }
+    
+            return back()->withErrors(['password' => 'Password salah.'])->withInput();
         }
-    
-        // Coba autentikasi user dengan kredensial yang benar
-        if (Auth::attempt(['username' => $user->username, 'password' => $request->password], $request->filled('remember'))) {
-            // Pastikan user yang terautentikasi adalah user yang dipilih sebelumnya
-            Auth::login($user);
-    
-            // Redirect berdasarkan role
-            return match ($user->role) {
-                'mahasiswa' => redirect()->route('dashboard.mahasiswa'),
-                'staf'      => redirect()->route('dashboard.staf'),
-                'pembina'   => redirect()->route('dashboard.staf'),
-                default     => $this->logoutInvalidRole(),
-            };
-        }
-    
-        return back()->withErrors(['password' => 'Password salah.'])->withInput();
     }
     
-    
-    
+
     // Fungsi untuk menangani role tidak valid
     private function logoutInvalidRole()
     {

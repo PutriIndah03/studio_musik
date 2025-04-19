@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('profile', [ProfileController::class,'index'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/ubah-password', [ProfileController::class, 'ubahPassword'])->name('password.update');
+
 
 
 });

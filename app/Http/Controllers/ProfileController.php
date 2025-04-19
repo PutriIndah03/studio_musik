@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -62,4 +63,38 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
+    
+    public function ubahPassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'min:8', 'confirmed'],
+        ], [
+            'current_password.required' => 'Password lama wajib diisi.',
+            'new_password.required' => 'Password baru wajib diisi.',
+            'new_password.min' => 'Password baru minimal harus 8 karakter.',
+            'new_password.confirmed' => 'Konfirmasi password baru tidak sesuai.',
+        ]);
+    
+        // Ambil user yang sedang login
+        $user = Auth::user();
+    
+        // Periksa apakah password lama sesuai
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+        }
+    
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
+        }
+        // Update atau buat data baru jika perlu
+        $user = User::updateOrCreate(
+            ['id' => $user->id], // kondisi pencarian data
+            ['password' => Hash::make($request->new_password)] // data yang diupdate
+        );
+    
+        return back()->with('success', 'Password berhasil diubah.');
+    }
+    
 }
