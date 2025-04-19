@@ -2,6 +2,23 @@
 
 @section('content')
 <div class="container mt-4">
+    @if (session('success'))
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            let alert = document.getElementById('success-alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 5000);
+    </script>
+    @endif
     <style>
         /* .table-sm th, .table-sm td {
             padding: 0.3rem 0.4rem;

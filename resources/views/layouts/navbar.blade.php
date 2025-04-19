@@ -8,7 +8,7 @@
                 <form class="d-flex mx-auto" action="{{ route('search') }}" method="GET">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input class="form-control" type="search" name="query" placeholder="Search studio atau alat musik..." aria-label="Search">
+                        <input class="form-control" type="search" name="query" placeholder="Cari" aria-label="Search">
                     </div>
                 </form>
                 @endif

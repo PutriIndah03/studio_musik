@@ -97,11 +97,11 @@
                             <i class="bi bi-music-player me-2"></i> Alat Musik
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="/prodi" class="nav-link text-white" data-page="prodi">
                             <i class="bi bi-journal-bookmark-fill me-2"></i> Prodi
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>
@@ -209,7 +209,6 @@
         });
     });
 </script>
-
 
 
 

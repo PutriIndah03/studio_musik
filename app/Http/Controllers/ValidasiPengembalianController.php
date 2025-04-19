@@ -61,7 +61,7 @@ class ValidasiPengembalianController extends Controller
             $pengembalian->peminjaman->update(['status' => 'Dikembalikan']);
         }
     
-        return redirect()->back()->with('success', 'Pengembalian telah disetujui dan status peminjaman diperbarui.');
+        return redirect()->back()->with('success', 'Pengembalian telah disetujui.');
     }
     
 

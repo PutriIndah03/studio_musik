@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('jumlah')->nullable();
             $table->enum('kondisi', ['Baik', 'Rusak Ringan', 'Rusak']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia'); // Status
+            $table->enum('kategori', ['Tradisional', 'Modern'])->nullable();
             $table->timestamps();
         });
     }
