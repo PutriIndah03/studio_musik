@@ -42,6 +42,7 @@
                     <th style="background-color: #0d6efd; color: white;">Catatan Peminjaman</th>
                     <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                     <th style="background-color: #0d6efd; color: white;">Jaminan</th>
+                    <th style="background-color: #0d6efd; color: white;">Detail</th>
                     <th style="background-color: #0d6efd; color: white;">Status</th>
                 </tr>
             </thead>
@@ -141,6 +142,19 @@
                     <td>{{ $data->alasan ?? '-' }}</td>
                     <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>
                     <td>{{ $data->jaminan ?? '-' }}</td>
+                    <td>
+                        @if($data->status == 'Ditolak')
+                            <!-- Jika status ditolak, tampilkan detail peminjaman -->
+                            {{ $data->detail ?? '-' }}
+                        @elseif($data->status == 'Dikembalikan')
+                            <!-- Jika status dikembalikan, tampilkan detail pengembalian -->
+                            {{ optional($data->pengembalian)->detail ?? '-' }}
+                        @else
+                            <!-- Jika tidak ada status yang sesuai, tampilkan '-'. -->
+                            -
+                        @endif
+                    </td>
+                    
                     <td>
                         @php
                             $statusColors = [

@@ -49,19 +49,51 @@ class ValidasiPengembalianController extends Controller
     }
     
     
-    public function approve($id)
+    // public function approve($id)
+    // {
+    //     $pengembalian = Pengembalian::findOrFail($id);
+    
+    //     // Ubah status pengembalian menjadi 'diterima'
+    //     $pengembalian->update(['status' => 'Diterima']);
+    
+    //     // Ubah status peminjaman menjadi 'dikembalikan'
+    //     if ($pengembalian->peminjaman) {
+    //         $pengembalian->peminjaman->update(['status' => 'Dikembalikan']);
+    //     }
+    
+    //     return redirect()->back()->with('success', 'Pengembalian telah disetujui.');
+    // }
+    
+
+    public function approve($id, Request $request)
     {
+        // Menemukan data pengembalian berdasarkan ID
         $pengembalian = Pengembalian::findOrFail($id);
     
-        // Ubah status pengembalian menjadi 'diterima'
-        $pengembalian->update(['status' => 'Diterima']);
+        // Validasi input kondisi dan alasan
+        $validated = $request->validate([
+            'kondisi' => 'required|array', // Memastikan kondisi untuk setiap alat musik
+            'kondisi.*' => 'in:Baik,Rusak Ringan,Rusak', // Kondisi yang valid
+            'detail' => 'nullable|string|max:1000', 
+        ]);
     
-        // Ubah status peminjaman menjadi 'dikembalikan'
+        // Menyimpan kondisi untuk setiap alat musik
+        $kondisi = json_encode($validated['kondisi']); // Menyimpan kondisi dalam format JSON
+    
+        // Menyimpan alasan pengembalian
+        $pengembalian->update([
+            'status' => 'Diterima',
+            'kondisi' => $kondisi, // Menyimpan kondisi dalam kolom 'kondisi'
+            'detail' => $validated['detail'], // Menyimpan alasan dalam kolom 'detail'
+        ]);
+    
+        // Mengubah status peminjaman menjadi 'Dikembalikan'
         if ($pengembalian->peminjaman) {
             $pengembalian->peminjaman->update(['status' => 'Dikembalikan']);
         }
     
-        return redirect()->back()->with('success', 'Pengembalian telah disetujui.');
+        // Redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Pengembalian telah disetujui dan kondisi telah dicatat.');
     }
     
 

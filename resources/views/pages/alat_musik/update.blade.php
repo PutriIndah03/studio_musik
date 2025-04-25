@@ -25,11 +25,15 @@
                 <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $alat->nama) }}" required>
             </div>
 
-            {{-- <!-- Tipe -->
+            <!-- Kategori -->
             <div class="mb-3">
-                <label for="tipe" class="form-label fw-bold">Tipe</label>
-                <input type="text" class="form-control" id="tipe" name="tipe" value="{{ old('tipe', $alat->tipe) }}" required>
-            </div> --}}
+                <label for="kategori" class="form-label fw-bold">Kategori</label>
+                <select class="form-select" id="kategori" name="kategori" required>
+                    <option value="Tradisional" {{ $alat->kategori == 'Tradisional' ? 'selected' : '' }}>Tradisional</option>
+                    <option value="Modern" {{ $alat->kategori == 'Modern' ? 'selected' : '' }}>Modern</option>
+                </select>
+            </div>
+
 
             <!-- Gambar -->
             <div class="mb-3">

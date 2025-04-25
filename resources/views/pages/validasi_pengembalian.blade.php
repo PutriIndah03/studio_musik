@@ -144,12 +144,61 @@
                     @endif
                 </td>
                 <td>
-                    <form action="{{ route('pengembalian.approve', $data->id) }}" method="POST" style="display: inline;">
+                    <!-- Tombol untuk membuka modal -->
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#approveModal{{ $data->id }}">
+                    <i class="bi bi-check-circle"></i>
+                </button>
+
+                <!-- Modal Approve -->
+                <div class="modal fade" id="approveModal{{ $data->id }}" tabindex="-1" aria-labelledby="approveModalLabel{{ $data->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form action="{{ route('pengembalian.approve', $data->id) }}" method="POST">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="approveModalLabel{{ $data->id }}">Validasi Pengembalian</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @php
+                                        $kondisiLama = json_decode($data->kondisi, true);
+                                    @endphp
+
+                                    @if($data->alat_musik instanceof Illuminate\Support\Collection)
+                                        @foreach($data->alat_musik as $alat)
+                                            <div class="mb-3">
+                                                <label for="kondisi_{{ $alat->id }}" class="form-label">Kondisi untuk {{ $alat->nama }}</label>
+                                                <select name="kondisi[{{ $alat->id }}]" class="form-select" id="kondisi_{{ $alat->id }}" required>
+                                                    <option value="Baik" {{ isset($kondisiLama[$alat->id]) && $kondisiLama[$alat->id] == 'Baik' ? 'selected' : '' }}>Baik</option>
+                                                    <option value="Rusak Ringan" {{ isset($kondisiLama[$alat->id]) && $kondisiLama[$alat->id] == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
+                                                    <option value="Rusak" {{ isset($kondisiLama[$alat->id]) && $kondisiLama[$alat->id] == 'Rusak' ? 'selected' : '' }}>Rusak</option>
+                                                </select>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    
+                                    <!-- Alasan -->
+                                    <div class="mb-3">
+                                        <label for="detail" class="form-label">Detail Alasan</label>
+                                        <textarea name="detail" class="form-control" id="detail" rows="3">{{ old('detail') }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-success">Setujui & Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                   
+                    {{-- <form action="{{ route('pengembalian.approve', $data->id) }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Terima pengembalian ini?');">
                             <i class="bi bi-check-circle"></i>
                         </button>
-                    </form>
+                    </form> --}}
 
                     {{-- <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $data->id }}">
                         <i class="bi bi-x-circle"></i>

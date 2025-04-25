@@ -24,11 +24,15 @@
                 <input type="text" class="form-control" id="nama" name="nama" required>
             </div>
 
-            <!-- Tipe -->
-            {{-- <div class="mb-3">
-                <label for="tipe" class="form-label fw-bold">Tipe</label>
-                <input type="text" class="form-control" id="tipe" name="tipe" required>
-            </div> --}}
+            <!-- Kategori -->
+            <div class="mb-3">
+                <label for="kategori" class="form-label fw-bold">Kategori</label>
+                <select class="form-select" id="kategori" name="kategori" required>
+                    <option value="Tradisional">Tradisional</option>
+                    <option value="Modern">Modern</option>
+                </select>
+            </div>
+
 
             <!-- Gambar -->
             <div class="mb-3">

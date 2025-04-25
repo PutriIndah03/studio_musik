@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('status', ['Menunggu', 'Disetujui', 'Ditolak', 'Dikembalikan'])->default('Menunggu');
             $table->text('alasan')->nullable();
             $table->enum('jaminan', ['KTP', 'KTM']);
+            $table->text('detail')->nullable();
             $table->timestamps();
         });
         

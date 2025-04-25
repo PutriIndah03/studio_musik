@@ -23,7 +23,7 @@ class AlatMusikController extends Controller
         $request->validate([
             'kode' => 'required|string|max:255|unique:alat_musik,kode',
             'nama' => 'required|string|max:255',
-            // 'tipe' => 'required|string|max:255',
+            'kategori' => 'required|in:Tradisional,Modern',
             'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
             // 'jumlah' => 'required|integer|min:1',
             'kondisi' => 'required|in:Baik,Rusak Ringan,Rusak', // Validasi kondisi
@@ -41,7 +41,7 @@ class AlatMusikController extends Controller
         alat_musik::create([
             'kode' => $request->kode,
             'nama' => $request->nama,
-            // 'tipe' => $request->tipe,
+            'kategori' => $request->kategori,
             'foto' => $gambarPath,
             // 'jumlah' => $request->jumlah,
             'kondisi' => $request->kondisi,
@@ -63,7 +63,7 @@ class AlatMusikController extends Controller
         $request->validate([
             'kode' => 'required|string|max:255|unique:alat_musik,kode,' . $id,
             'nama' => 'required|string|max:255',
-            // 'tipe' => 'required|string|max:255',
+            'kategori' => 'required|in:Tradisional,Modern',
             'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
             // 'jumlah' => 'required|integer|min:1',
             'kondisi' => 'required|in:Baik,Rusak Ringan,Rusak',
@@ -75,7 +75,7 @@ class AlatMusikController extends Controller
         $alat = alat_musik::findOrFail($id);
         $alat->kode = $request->kode;
         $alat->nama = $request->nama;
-        // $alat->tipe = $request->tipe;
+        $alat->kategori = $request->kategori;
         // $alat->jumlah = $request->jumlah;
         $alat->kondisi = $request->kondisi;
         $alat->status = $request->status;

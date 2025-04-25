@@ -43,7 +43,7 @@ class ValidasiPeminjamanController extends Controller
         $peminjaman = Peminjaman::findOrFail($id);
         $peminjaman->update([
             'status' => 'Ditolak',
-            'alasan' => $request->input('alasan'),
+            'detail' => $request->input('detail'),
         ]);
 
         return redirect()->back()->with('success', 'Peminjaman telah ditolak.');

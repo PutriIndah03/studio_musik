@@ -9,7 +9,7 @@ class alat_musik extends Model
 {
     use HasFactory;
     protected $table = 'alat_musik';
-    protected $fillable = ['kode', 'nama', 'foto', 'jumlah', 'kondisi', 'status'];
+    protected $fillable = ['kode', 'nama', 'foto', 'kategori', 'jumlah', 'kondisi', 'status'];
 
     public function peminjaman()
     {

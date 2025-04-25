@@ -110,21 +110,21 @@
                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $data->id }}">
                         <i class="bi bi-x-circle"></i>
                     </button>
-                
-                    <!-- Modal Edit Alasan Penolakan -->
-                    <div class="modal fade" id="rejectModal{{ $data->id }}" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+
+                    <!-- Modal Alasan Penolakan -->
+                    <div class="modal fade" id="rejectModal{{ $data->id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ $data->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="rejectModalLabel">Alasan Penolakan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title" id="rejectModalLabel{{ $data->id }}">Alasan Penolakan</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="{{ route('peminjaman.reject', $data->id) }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="alasan-{{ $data->id }}" class="form-label">Alasan Penolakan</label>
-                                            <textarea name="alasan" id="alasan-{{ $data->id }}" class="form-control" required>{{ $data->alasan }}</textarea>
+                                            <label for="detail-{{ $data->id }}" class="form-label">Alasan Penolakan</label>
+                                            <textarea name="detail" id="detail-{{ $data->id }}" class="form-control" rows="4" required></textarea>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -135,6 +135,7 @@
                             </div>
                         </div>
                     </div>
+
                 </td>
                                   
             </tr>

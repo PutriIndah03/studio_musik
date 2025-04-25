@@ -42,6 +42,7 @@
                 <th style="background-color: #0d6efd; color: white;">Catatan Peminjaman</th>
                 <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Jaminan</th>
+                <th style="background-color: #0d6efd; color: white;">Detail</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
             </tr>
         </thead>
@@ -144,6 +145,7 @@
                 <td>{{ $data->alasan ?? '-' }}</td>
                 <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>
                 <td>{{ $data->jaminan ?? '-' }}</td>
+                <td>{{ optional($data->pengembalian)->detail ?? '-' }}</td>
                 <td><span class="badge bg-secondary">Dikembalikan</span></td>
             </tr>
             @empty

@@ -109,17 +109,41 @@
                     @endif
                 </td>
 
-                <!-- Aksi -->
-                <td>
-                    @if($data->status == 'Disetujui')
-                        <a href="{{ route('peminjaman.formPengembalian', $data->id) }}" class="btn btn-secondary btn-sm text-white"
-                           onclick="return confirm('Ajukan pengembalian peminjaman ini?');">
-                            </i> Ajukan pengembalian
-                        </a>
-                    @else
-                        <span class="text-muted">-</span>
-                    @endif
-                </td>
+<!-- Aksi -->
+<td>
+    @if($data->status == 'Disetujui')
+        <a href="{{ route('peminjaman.formPengembalian', $data->id) }}" class="btn btn-secondary btn-sm text-white"
+           onclick="return confirm('Ajukan pengembalian peminjaman ini?');">
+            Ajukan pengembalian
+        </a>
+    @elseif($data->status == 'Ditolak')
+        <!-- Tombol untuk membuka modal -->
+        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#alasanModal{{ $data->id }}">
+            Lihat Alasan
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="alasanModal{{ $data->id }}" tabindex="-1" aria-labelledby="alasanModalLabel{{ $data->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="alasanModalLabel{{ $data->id }}">Alasan Penolakan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ $data->detail ?? 'Tidak ada alasan tersedia.' }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        <span class="text-muted">-</span>
+    @endif
+</td>
+
                 
             </tr>
             @empty

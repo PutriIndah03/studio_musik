@@ -21,6 +21,7 @@ class peminjaman extends Model
         'status',
         'alasan',
         'jaminan',
+        'detail',
     ];
 
     public function user()

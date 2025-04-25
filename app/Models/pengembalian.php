@@ -18,6 +18,7 @@ class pengembalian extends Model
         'status',
         'alasan',
         'keterangan_pengembalian',
+        'detail',
     ];
     public function peminjaman()
     {

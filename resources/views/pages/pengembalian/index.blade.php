@@ -49,14 +49,14 @@
                     @if($data->alat_musik instanceof Illuminate\Support\Collection)
                         @if($data->alat_musik->count() > 1)
                             @foreach($data->alat_musik as $loopIndex => $alat)
-                                {{ $loop->iteration }}. {{ $alat->kode }} - {{ $alat->nama }} <br>
+                                {{ $loop->iteration }}. {{ $alat->nama }} <br>
                             @endforeach
                         @elseif($data->alat_musik->count() == 1)
                             @php $alat = $data->alat_musik->first(); @endphp
-                            {{ $alat->kode }} - {{ $alat->nama }}
+                            {{ $alat->nama }}
                         @endif
                     @elseif($data->alat_musik)
-                        {{ $data->alat_musik->kode }} - {{ $data->alat_musik->nama }}
+                        {{ $data->alat_musik->nama }}
                     @else
                         -
                     @endif
@@ -85,7 +85,9 @@
                 <td style="text-align: left">
                     @if($data->pengembalian && $data->pengembalian->kondisi)
                         @php
+                            // Mendekode kondisi pengembalian
                             $kondisiAlat = json_decode($data->pengembalian->kondisi, true);
+                            $detailExist = !empty($data->pengembalian->detail);  // Mengecek apakah detail pengembalian ada
                         @endphp
                 
                         @if(is_array($kondisiAlat) && count($kondisiAlat) > 1)
@@ -93,22 +95,110 @@
                             @foreach($kondisiAlat as $alat_id => $kondisi)
                                 @php
                                     $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
+                                    $namaAlat = $alat ? $alat->nama : 'Alat tidak ditemukan';
+                                    // Mengecek apakah kondisi alat sudah diubah berdasarkan detail
+                                    $isChanged = $detailExist && strtolower($kondisi) !== 'baik';
+                                    
+                                    // Menentukan warna berdasarkan kondisi hanya jika diubah
+                                    $warnaKondisi = '';
+                                    if ($isChanged) {
+                                        switch(strtolower($kondisi)) {
+                                            case 'baik':
+                                                $warnaKondisi = 'text-success';  // Hijau
+                                                break;
+                                            case 'rusak ringan':
+                                                $warnaKondisi = 'text-warning';  // Kuning
+                                                break;
+                                            case 'rusak':
+                                                $warnaKondisi = 'text-danger';   // Merah
+                                                break;
+                                            default:
+                                                $warnaKondisi = 'text-dark';     // Hitam untuk kondisi lainnya
+                                        }
+                                    } else {
+                                        $warnaKondisi = 'text-dark';  // Tetap hitam jika tidak ada perubahan
+                                    }
                                 @endphp
-                                {{ $nomor++ }}. {{ $kondisi ?? '-' }}<br>
+                                {{ $nomor++ }}. 
+                                <span 
+                                    class="{{ $warnaKondisi }}{{ $isChanged ? ' fw-semibold' : '' }}" 
+                                    @if($isChanged) title="Kondisi dikembalikan berbeda" @endif
+                                >
+                                    {{ $kondisi ?? '-' }}
+                                </span><br>
                             @endforeach
                         @elseif(is_array($kondisiAlat) && count($kondisiAlat) == 1)
                             @php
                                 $alat_id = array_key_first($kondisiAlat);
                                 $alat = $data->alat_musik->firstWhere('id', $alat_id) ?? null;
+                                $kondisi = reset($kondisiAlat);
+                                $namaAlat = $alat ? $alat->nama : 'Alat tidak ditemukan';
+                                // Mengecek apakah kondisi alat sudah diubah berdasarkan detail
+                                $isChanged = $detailExist && strtolower($kondisi) !== 'baik';
+                                
+                                // Menentukan warna berdasarkan kondisi hanya jika diubah
+                                $warnaKondisi = '';
+                                if ($isChanged) {
+                                    switch(strtolower($kondisi)) {
+                                        case 'baik':
+                                            $warnaKondisi = 'text-success';  // Hijau
+                                            break;
+                                        case 'rusak ringan':
+                                            $warnaKondisi = 'text-warning';  // Kuning
+                                            break;
+                                        case 'rusak':
+                                            $warnaKondisi = 'text-danger';   // Merah
+                                            break;
+                                        default:
+                                            $warnaKondisi = 'text-dark';     // Hitam untuk kondisi lainnya
+                                    }
+                                } else {
+                                    $warnaKondisi = 'text-dark';  // Tetap hitam jika tidak ada perubahan
+                                }
                             @endphp
-                            {{ reset($kondisiAlat) ?? '-' }}
+                            
+                            <span 
+                                class="{{ $warnaKondisi }}{{ $isChanged ? ' fw-semibold' : '' }}" 
+                                @if($isChanged) title="Kondisi dikembalikan berbeda" @endif
+                            >
+                                {{ $kondisi ?? '-' }}
+                            </span>
                         @else
                             {{ $data->pengembalian->kondisi ?? '-' }}
+                        @endif
+                
+                        {{-- Tombol Detail hanya muncul jika kolom detail tidak kosong --}}
+                        @if($detailExist)
+                            <div class="mt-1">
+                                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#alasanModal{{ $data->id }}">
+                                    Detail
+                                </button>
+                
+                                <!-- Modal -->
+                                <div class="modal fade" id="alasanModal{{ $data->id }}" tabindex="-1" aria-labelledby="alasanModalLabel{{ $data->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="alasanModalLabel{{ $data->id }}">Detail Pengembalian</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ $data->pengembalian->detail }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     @else
                         -
                     @endif
                 </td>
+                
+                
                 
                 <!-- Alasan -->
                 <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>

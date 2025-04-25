@@ -49,12 +49,36 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.create', compact('alats'));
     }
 
-    public function createStudio()
+    public function createStudio(Request $request)
     {
-        $alats = alat_musik::all();
+        // Ambil semua studio
         $studios = studio_musik::all();
-        return view('pages.peminjaman.createStudio', compact('studios', 'alats'));
+    
+        // Ambil tanggal yang sedang diminta
+        $tanggalPinjam = $request->input('tanggal_pinjam');
+        $tanggalKembali = $request->input('tanggal_kembali');
+    
+        // Jika tanggal pinjam dan kembali disertakan dalam request
+        if ($tanggalPinjam && $tanggalKembali) {
+            // Ambil alat yang tidak dipinjam pada tanggal yang sama
+            $alatDipinjamTanggalYangSama = Peminjaman::whereDate('tanggal_pinjam', '=', $tanggalPinjam)
+                ->orWhereDate('tanggal_kembali', '=', $tanggalKembali)
+                ->pluck('alat_id')
+                ->flatten()
+                ->unique();
+    
+            // Ambil semua alat musik yang tidak dipinjam pada tanggal yang sama
+            $alats = alat_musik::whereNotIn('id', $alatDipinjamTanggalYangSama)->get();
+        } else {
+            // Jika tidak ada tanggal yang diberikan, ambil semua alat
+            $alats = alat_musik::all();
+            $alatDipinjamTanggalYangSama = collect(); // Jika tidak ada filter tanggal, set ke koleksi kosong
+        }
+    
+        // Kirim data ke view
+        return view('pages.peminjaman.createStudio', compact('studios', 'alats', 'alatDipinjamTanggalYangSama'));
     }
+       
 
     public function store(Request $request)
     {

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status', ['Menunggu', 'Diterima', 'Ditolak'])->default('Menunggu');
             $table->text('alasan')->nullable();
             $table->string('keterangan_pengembalian')->nullable();
+            $table->text('detail')->nullable();
             $table->timestamps();
         });
     }
