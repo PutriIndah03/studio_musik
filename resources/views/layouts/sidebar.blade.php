@@ -44,11 +44,23 @@
     </div>
     
     <ul class="nav flex-column">
+        @if(auth()->user()->role === 'pembina' || auth()->user()->role === 'staf')
         <li class="nav-item">
             <a href="/dashboard" class="nav-link text-white" data-page="dashboard">
                 <i class="bi bi-house-door-fill me-2"></i> Dashboard
             </a>
         </li>
+        @endif
+
+        @if(auth()->user()->role === 'pembina')
+        <li class="nav-item">
+            <a href="/akun_staf" class="nav-link text-white" data-page="akun_staf">
+                <i class="bi bi-people me-2"></i> Akun Staf
+            </a>
+        </li>
+        @endif
+
+        @if(auth()->user()->role === 'mahasiswa')
         <li class="nav-item">
             <a href="/dashboard/mahasiswa" class="nav-link text-white" data-page="dashboard">
                 <i class="bi bi-house-door-fill me-2"></i> Dashboard
@@ -64,29 +76,10 @@
                 <i class="bi bi-box-arrow-right me-2"></i> Pengembalian
             </a>
         </li>
-        <li class="nav-item">
-            <a href="/jadwalPeminjaman" class="nav-link text-white" data-page="jadwal">
-                <i class="bi bi-calendar-check me-2"></i> Jadwal Peminjaman
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/riwayatPeminjamanMhs" class="nav-link text-white" data-page="riwayat">
-                <i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/riwayatPeminjaman" class="nav-link text-white" data-page="riwayat">
-                <i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman
-            </a>
-        </li>
-    
+        @endif
+
+        @if(auth()->user()->role === 'staf')
         <!-- Dropdown Menu for Data -->
-        <li class="nav-item">
-            <a class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse" href="#dataSubmenu" role="button" aria-expanded="false" aria-controls="dataSubmenu">
-                <i class="bi bi-collection me-2"></i> Data
-            </a>
-            <div class="collapse ps-4" id="dataSubmenu">
-                <ul class="nav flex-column">
                     <li class="nav-item">
                         <a href="/studio_musik" class="nav-link text-white" data-page="studio">
                             <i class="bi bi-music-note-beamed me-2"></i> Studio Musik
@@ -97,16 +90,7 @@
                             <i class="bi bi-music-player me-2"></i> Alat Musik
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a href="/prodi" class="nav-link text-white" data-page="prodi">
-                            <i class="bi bi-journal-bookmark-fill me-2"></i> Prodi
-                        </a>
-                    </li> --}}
-                </ul>
-            </div>
-        </li>
-        
-    
+
         <li class="nav-item">
             <a href="/validasipeminjaman" class="nav-link text-white" data-page="validasi_peminjaman">
                 <i class="bi bi-check-circle me-2"></i> Validasi Peminjaman
@@ -117,16 +101,37 @@
                 <i class="bi bi-x-circle me-2"></i> Validasi Pengembalian
             </a>
         </li>
+        @endif
+
         <li class="nav-item">
-            <a href="/akun_staf" class="nav-link text-white" data-page="akun_staf">
-                <i class="bi bi-people me-2"></i> Akun Staf
+            <a href="/jadwalPeminjaman" class="nav-link text-white" data-page="jadwal">
+                <i class="bi bi-calendar-check me-2"></i> Jadwal Peminjaman
             </a>
         </li>
+
+        @if(auth()->user()->role === 'mahasiswa')
+        <li class="nav-item">
+            <a href="/riwayatPeminjamanMhs" class="nav-link text-white" data-page="riwayat">
+                <i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman
+            </a>
+        </li>
+        @endif
+
+        @if(auth()->user()->role === 'pembina' || auth()->user()->role === 'staf')
+        <li class="nav-item">
+            <a href="/riwayatPeminjaman" class="nav-link text-white" data-page="riwayat">
+                <i class="bi bi-clock-history me-2"></i> Riwayat Peminjaman
+            </a>
+        </li>
+        @endif
+
+        @if(auth()->user()->role === 'pembina')
         <li class="nav-item">
             <a href="/laporan" class="nav-link text-white" data-page="laporan">
                 <i class="bi bi-clipboard-data me-2"></i> Laporan
             </a>
         </li>
+        @endif
     </ul>
     
 </div>

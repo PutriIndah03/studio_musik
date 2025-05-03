@@ -80,86 +80,140 @@ class PeminjamanController extends Controller
     }
        
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'alat_id' => 'required|array|min:1',
-            'alat_id.*' => 'exists:alat_musik,id',
-            'tanggal_pinjam' => 'required|date_format:Y-m-d\TH:i',
-            'tanggal_kembali' => [
-                'required',
-                'date_format:Y-m-d\TH:i',
-                function ($attribute, $value, $fail) use ($request) {
-                    $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
-                    $tanggalKembali = Carbon::parse($value);
-                    if ($tanggalKembali->gt($tanggalPinjam->copy()->addDays(2))) {
-                        $fail("Tanggal kembali maksimal hanya boleh 2 hari setelah tanggal pinjam.");
-                    }
-                },
-            ],
-            'alasan' => 'required|string|max:255',
-        ], [
-            'alat_id.required' => 'Anda harus memilih setidaknya satu alat untuk dipinjam.',
-            'alat_id.min' => 'Pilih minimal satu alat.',
-        ]);
+    // store alat musik
+    public function store(Request $request){
+    $request->validate([
+        'alat_id' => 'required|array|min:1',
+        'alat_id.*' => 'exists:alat_musik,id',
+        'tanggal_pinjam' => 'required|date_format:Y-m-d\TH:i',
+        'tanggal_kembali' => [
+            'required',
+            'date_format:Y-m-d\TH:i',
+            function ($attribute, $value, $fail) use ($request) {
+                $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
+                $tanggalKembali = Carbon::parse($value);
+                if ($tanggalKembali->gt($tanggalPinjam->copy()->addDays(2))) {
+                    $fail("Tanggal kembali maksimal hanya boleh 2 hari setelah tanggal pinjam.");
+                }
+            },
+        ],
+        'alasan' => 'required|string|max:255',
+    ], [
+        'alat_id.required' => 'Anda harus memilih setidaknya satu alat untuk dipinjam.',
+        'alat_id.min' => 'Pilih minimal satu alat.',
+    ]);
 
-        Peminjaman::create([
-            'user_id' => Auth::id(),
-            'alat_id' => json_encode($request->alat_id), // Simpan dalam format JSON
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'alasan' => $request->alasan,
-            'jaminan' => 'KTP',
-            'status' => 'Menunggu',
+    // Cek apakah ada alat yang sudah dipinjam pada tanggal tersebut
+    $alatBentrok = [];
+    foreach ($request->alat_id as $alatId) {
+        $adaPeminjaman = Peminjaman::where('status', 'Disetujui')
+            ->whereJsonContains('alat_id', (string) $alatId)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('tanggal_pinjam', [$request->tanggal_pinjam, $request->tanggal_kembali])
+                      ->orWhereBetween('tanggal_kembali', [$request->tanggal_pinjam, $request->tanggal_kembali])
+                      ->orWhere(function ($q) use ($request) {
+                          $q->where('tanggal_pinjam', '<', $request->tanggal_pinjam)
+                            ->where('tanggal_kembali', '>', $request->tanggal_kembali);
+                      });
+            })
+            ->exists();
+
+        if ($adaPeminjaman) {
+            $namaAlat = alat_musik::find($alatId)->nama ?? 'Alat Tidak Dikenal';
+            $alatBentrok[] = $namaAlat;
+        }
+    }
+
+    if (!empty($alatBentrok)) {
+        return back()->withInput()->withErrors([
+            'alat_id' => 'Alat musik ' . implode(', ', $alatBentrok) . ' sudah dipinjam pada tanggal tersebut',
         ]);
-        return redirect()->route('peminjaman.index')
+    }
+
+    // Simpan data peminjaman
+    Peminjaman::create([
+        'user_id' => Auth::id(),
+        'alat_id' => json_encode($request->alat_id),
+        'tanggal_pinjam' => $request->tanggal_pinjam,
+        'tanggal_kembali' => $request->tanggal_kembali,
+        'alasan' => $request->alasan,
+        'jaminan' => 'KTP',
+        'status' => 'Menunggu',
+    ]);
+
+    return redirect()->route('peminjaman.index')
         ->with('setActiveMenu', '/peminjaman')
         ->with('success', 'Peminjaman berhasil diajukan.');
+}
 
-
-        // return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
-    }
-
-    public function store2(Request $request)
-    {
-        $request->validate([
-            'studio_id' => 'required|exists:studio_musik,id',
-            'tanggal_pinjam' => 'required|date_format:Y-m-d\TH:i',
-            'tanggal_kembali' => [
-                'required',
-                'date_format:Y-m-d\TH:i',
-                function ($attribute, $value, $fail) use ($request) {
-                    $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
-                    $tanggalKembali = Carbon::parse($value);
-                    if ($tanggalKembali->gt($tanggalPinjam->copy()->addDays())) {
-                        $fail("Tanggal kembali maksimal hanya boleh 1 (24 jam) hari setelah tanggal pinjam.");
-                    }
+// store studio musik
+    public function store2(Request $request){
+    $request->validate([
+        'studio_id' => 'required|exists:studio_musik,id',
+        'tanggal_pinjam' => 'required|date_format:Y-m-d\TH:i',
+        'tanggal_kembali' => [
+            'required',
+            'date_format:Y-m-d\TH:i',
+            function ($attribute, $value, $fail) use ($request) {
+                $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
+                $tanggalKembali = Carbon::parse($value);
+                if ($tanggalKembali->gt($tanggalPinjam->copy()->addDay())) {
+                    $fail("Tanggal kembali maksimal hanya boleh 1 (24 jam) hari setelah tanggal pinjam.");
                 }
-            ],
-            'alasan' => 'required|string|max:255',
-            'alat_id' => 'required|array|min:1',
-            'alat_id.*' => 'exists:alat_musik,id',
-        ], [
-            'alat_id.required' => 'Anda harus memilih setidaknya satu alat untuk dipinjam.',
-            'alat_id.min' => 'Pilih minimal satu alat.',
-        ]);
+            }
+        ],
+        'alasan' => 'required|string|max:255',
+        'alat_id' => 'required|array|min:1',
+        'alat_id.*' => 'exists:alat_musik,id',
+    ], [
+        'alat_id.required' => 'Anda harus memilih setidaknya satu alat untuk dipinjam.',
+        'alat_id.min' => 'Pilih minimal satu alat.',
+    ]);
 
-        Peminjaman::create([
-            'user_id' => Auth::id(),
-            'studio_id' => $request->studio_id,
-            'alat_id' => json_encode($request->alat_id),
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'alasan' => $request->alasan,
-            'jaminan' => 'KTM',
-            'status' => 'Menunggu',
-        ]);
-        return redirect()->route('peminjaman.index')
-    ->with('setActiveMenu', '/peminjaman')
-    ->with('success', 'Peminjaman berhasil diajukan.');
+    // Validasi alat yang sedang dipinjam pada waktu yang sama dan sudah disetujui
+    $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
+    $tanggalKembali = Carbon::parse($request->tanggal_kembali);
 
+    $alatTerpakai = Peminjaman::where('status', 'Disetujui')
+        ->where(function ($query) use ($tanggalPinjam, $tanggalKembali) {
+            $query->whereBetween('tanggal_pinjam', [$tanggalPinjam, $tanggalKembali])
+                  ->orWhereBetween('tanggal_kembali', [$tanggalPinjam, $tanggalKembali])
+                  ->orWhere(function ($query2) use ($tanggalPinjam, $tanggalKembali) {
+                      $query2->where('tanggal_pinjam', '<=', $tanggalPinjam)
+                             ->where('tanggal_kembali', '>=', $tanggalKembali);
+                  });
+        })
+        ->get();
 
-
-        // return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diajukan.');
+    $alatTerpakaiIds = [];
+    foreach ($alatTerpakai as $p) {
+        $alatDalamPeminjaman = json_decode($p->alat_id, true);
+        $alatTerpakaiIds = array_merge($alatTerpakaiIds, $alatDalamPeminjaman);
     }
+
+    $alatConflict = array_intersect($alatTerpakaiIds, $request->alat_id);
+    if (!empty($alatConflict)) {
+        $alatConflictNames = alat_musik::whereIn('id', $alatConflict)->pluck('nama')->implode(', ');
+        return redirect()->back()->withInput()->withErrors([
+            'alat_id' => "Alat musik $alatConflictNames sudah dipinjam pada tanggal tersebut"
+        ]);
+    }
+
+    // Simpan data peminjaman
+    Peminjaman::create([
+        'user_id' => Auth::id(),
+        'studio_id' => $request->studio_id,
+        'alat_id' => json_encode($request->alat_id),
+        'tanggal_pinjam' => $tanggalPinjam,
+        'tanggal_kembali' => $tanggalKembali,
+        'alasan' => $request->alasan,
+        'jaminan' => 'KTM',
+        'status' => 'Menunggu',
+    ]);
+
+    return redirect()->route('peminjaman.index')
+        ->with('setActiveMenu', '/peminjaman')
+        ->with('success', 'Peminjaman berhasil diajukan.');
+}
+
 }
