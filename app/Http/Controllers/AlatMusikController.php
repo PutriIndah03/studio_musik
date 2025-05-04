@@ -96,8 +96,6 @@ class AlatMusikController extends Controller
         return redirect()->route('alat_musik.index')->with('success', 'Data alat musik berhasil diperbarui.');
     }
     
-    
-
     public function destroy($id)
 {
     $studio = alat_musik::findOrFail($id);

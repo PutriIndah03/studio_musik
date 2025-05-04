@@ -16,14 +16,15 @@ class StudioMusikController extends Controller
         return view('pages.studio_musik.index', compact('studios'));
     }
 
+    // Dashboard mahasiswa
     public function dMhs()
     {
         $studios = studio_musik::all();
         $alats = alat_musik::paginate(4); // Mengambil semua data dari database
         return view('pages.dashboard_mahasiswa', compact('studios','alats'));
     }
-    // Menampilkan form tambah studio musik
 
+    // dashboard staf dan pembina
     public function dStaf()
 {
     $totalAlat = alat_musik::count();
@@ -109,12 +110,13 @@ class StudioMusikController extends Controller
     return redirect()->route('studio_musik.index')->with('success', 'Studio Musik berhasil dihapus.');
 }
 
+// search untuk dashboard mahasiswa
 public function search(Request $request)
 {
     $query = $request->input('query');
 
     // Cari berdasarkan nama studio dan alat musik
-    $studios = studio_musik::where('nama', 'like', "%{$query}%")->get();
+    $studios = studio_musik::where('nama', 'like', "%{$query}%")->paginate(8);
     $alats = alat_musik::where('nama', 'like', "%{$query}%")->paginate(8);
 
     return view('pages.search', compact('query', 'studios', 'alats'));

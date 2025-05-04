@@ -59,7 +59,10 @@ class ProfileController extends Controller
         $profile->save();
 
         // Perbarui nama di tabel user
-        User::where('id', $user->id)->update(['nama' => $request->nama]);
+        User::where('id', $user->id)->update( [
+            'nama' => $request->nama,
+            'email' => $request->email,
+    ]);
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
@@ -71,10 +74,10 @@ class ProfileController extends Controller
             'current_password' => ['required'],
             'new_password' => ['required', 'min:8', 'confirmed'],
         ], [
-            'current_password.required' => 'Password lama wajib diisi.',
-            'new_password.required' => 'Password baru wajib diisi.',
-            'new_password.min' => 'Password baru minimal harus 8 karakter.',
-            'new_password.confirmed' => 'Konfirmasi password baru tidak sesuai.',
+            'current_password.required' => 'Kata sandi lama wajib diisi.',
+            'new_password.required' => 'Kata sandi baru wajib diisi.',
+            'new_password.min' => 'Kata sandi baru minimal harus 8 karakter.',
+            'new_password.confirmed' => 'Konfirmasi Kata sandi baru tidak sesuai.',
         ]);
     
         // Ambil user yang sedang login
@@ -82,11 +85,11 @@ class ProfileController extends Controller
     
         // Periksa apakah password lama sesuai
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+            return back()->withErrors(['current_password' => 'Kata sandi lama tidak sesuai.']);
         }
     
         if (Hash::check($request->new_password, $user->password)) {
-            return back()->withErrors(['new_password' => 'Password baru tidak boleh sama dengan password lama.']);
+            return back()->withErrors(['new_password' => 'Kata sandi baru tidak boleh sama dengan Kata sandi lama.']);
         }
         // Update atau buat data baru jika perlu
         $user = User::updateOrCreate(
@@ -94,7 +97,7 @@ class ProfileController extends Controller
             ['password' => Hash::make($request->new_password)] // data yang diupdate
         );
     
-        return back()->with('success', 'Password berhasil diubah.');
+        return back()->with('success', 'Kata Sandi berhasil diubah.');
     }
     
 }

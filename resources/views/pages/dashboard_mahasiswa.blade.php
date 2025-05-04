@@ -118,6 +118,9 @@
         </div>
         @endforeach
     </div>
+    <div class="d-flex justify-content-center">
+        {{ $alats->appends(request()->except('page'))->links() }}
+    </div>
     @endif
 
 </div>

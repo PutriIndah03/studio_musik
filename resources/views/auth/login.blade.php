@@ -14,16 +14,16 @@
         <p class="subtext">Politeknik Negeri Banyuwangi</p>
         <img src="{{ asset('img/logo.png') }}" alt="Logo">
 
+        @if (session('status'))
+        <div class="custom-alert success-alert">
+            {{ session('status') }}
+            <span class="close-alert" onclick="this.parentElement.style.display='none';">&times;</span>
+        </div>
+    @endif     
+
         <!-- Form Login -->
         <form action="{{ route('login') }}" method="POST">
             @csrf
-
-            @if (session('status'))
-            <div class="alert alert-success" style="color: green">
-                <p>{{ session('status') }}</p>
-            </div>
-        @endif
-
             <div class="input-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="NIM" required onblur="checkMultipleAccounts()">

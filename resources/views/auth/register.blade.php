@@ -37,13 +37,23 @@
                                 <select name="prodi" class="form-select" required>
                                     <option value="" disabled selected>Pilih Program Studi</option>
                                     <option value="Teknologi Rekayasa Perangkat Lunak">Teknologi Rekayasa Perangkat Lunak</option>
-                                    <option value="Manajemen Bisnis Pariwisata">Manajemen Bisnis Pariwisata</option>
-                                    <option value="Teknik Mesin">Teknik Mesin</option>
+                                    <option value="Bisnis Digital">Bisnis Digital</option>
                                     <option value="Teknologi Rekayasa Komputer">Teknologi Rekayasa Komputer</option>
                                     <option value="Teknik Sipil">Teknik Sipil</option>
+                                    <option value="Teknologi Rekayasa Kontruksi Jalan & Jembatan">Teknologi Rekayasa Kontruksi Jalan & Jembatan</option>
+                                    <option value="Teknologi Rekayasa Kontruksi Bangunan Gedung">Teknologi Rekayasa Kontruksi Bangunan Gedung</option>
+                                    <option value="Manajemen Kontruksi">Manajemen Kontruksi</option>
+                                    <option value="Teknologi Rekayasa Manufaktur">Teknologi Rekayasa Manufaktur</option>
+                                    <option value="Teknik Menufaktur Kapal">Teknik Menufaktur Kapal</option>
                                     <option value="Agribisnis">Agribisnis</option>
-                                    <option value="Bisnis Digital">Bisnis Digital</option>
                                     <option value="Teknologi Pengolahan Hasil Ternak">Teknologi Pengolahan Hasil Ternak</option>
+                                    <option value="Pengembangan Produk Agroindustri">Pengembangan Produk Agroindustri</option>
+                                    <option value="Teknologi Budi Daya Perikanan / Teknologi Akuakultur">Teknologi Budi Daya Perikanan / Teknologi Akuakultur</option>
+                                    <option value="Teknologi Produksi Tanaman Pangan">Teknologi Produksi Tanaman Pangan</option>
+                                    <option value="Teknologi Produksi Ternak">Teknologi Produksi Ternak</option>
+                                    <option value="Manajemen Bisnis Pariwisata">Manajemen Bisnis Pariwisata</option>
+                                    <option value="Destinasi Pariwisata">Destinasi Pariwisata</option>
+                                    <option value="Pengelolaan Perhotelan">Pengelolaan Perhotelan</option>
                                 </select>
                             </div>
 

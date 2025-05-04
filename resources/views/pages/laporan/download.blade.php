@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Riwayat Peminjaman</title>
+    <title>Laporan</title>
     <style>
         body { font-family: sans-serif; font-size: 10px; }
         table { border-collapse: collapse; width: 100%; }
@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h3 style="text-align: center;">Riwayat Peminjaman</h3>
+    <h3 style="text-align: center;">Laporan</h3>
     @if($date)
         <p>Filter Tanggal: {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</p>
     @endif

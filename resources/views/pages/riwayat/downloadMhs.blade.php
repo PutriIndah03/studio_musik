@@ -19,10 +19,6 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Nama</th>
-                <th>NIM</th>
-                <th>Program Studi</th>
-                <th>No HP</th>
                 <th>Studio Musik</th>
                 <th>Alat Musik</th>
                 <th>Kondisi Dipinjam</th>
@@ -41,10 +37,6 @@
             @forelse($peminjaman as $index => $data)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ optional($data->user)->mahasiswa->nama ?? '-' }}</td>
-                <td>{{ optional($data->user)->mahasiswa->nim ?? '-' }}</td>
-                <td>{{ optional($data->user)->mahasiswa->prodi ?? '-' }}</td>
-                <td>{{ optional($data->user)->mahasiswa->no_hp ?? '-' }}</td>
                 <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>
                 <td>
                     @if(isset($data->alat_musik) && count($data->alat_musik))

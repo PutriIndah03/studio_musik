@@ -43,16 +43,16 @@
                 </tr>
             </thead>
             <tbody>
-                @php
+                {{-- @php
                     $filteredPeminjaman = $peminjaman->where('status', 'Dikembalikan');
                     if (request('date')) {
                         $filteredPeminjaman = $filteredPeminjaman->filter(function ($item) {
                             return \Carbon\Carbon::parse($item->tanggal_pinjam)->toDateString() == request('date');
                         });
                     }
-                @endphp
+                @endphp --}}
 
-                @forelse ($filteredPeminjaman as $index => $data)
+                @forelse ($peminjaman as $data)
                 <tr>
                     <td>{{ $loop->iteration + ($peminjaman->currentPage() - 1) * $peminjaman->perPage() }}</td>
                     <td>{{ optional($data->studio_musik)->nama ?? '-' }}</td>

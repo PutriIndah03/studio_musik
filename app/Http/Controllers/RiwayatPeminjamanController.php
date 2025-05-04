@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class RiwayatPeminjamanController extends Controller
 {
-    public function index()
+
+    //riwayat peminjaman mahasiswa
+    public function index(Request $request)
 {
     // Cek apakah user sudah login
     if (!Auth::check()) {
@@ -23,10 +25,21 @@ class RiwayatPeminjamanController extends Controller
     $userId = Auth::id();
 
     // Ambil hanya data peminjaman milik user yang login dengan status "Dikembalikan"
-    $peminjaman = peminjaman::with('studio_musik', 'pengembalian')
+    $query = peminjaman::with('studio_musik', 'pengembalian')
         ->where('user_id', $userId)
         ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->paginate(5);
+        ;
+
+        if ($request->filled('date')) {
+            try {
+                $date = Carbon::parse($request->date)->toDateString();
+                $query->whereDate('tanggal_pinjam', $date);
+            } catch (\Exception $e) {
+                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+            }
+        }
+    
+        $peminjaman = $query->paginate(5);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -39,12 +52,24 @@ class RiwayatPeminjamanController extends Controller
     return view('pages.riwayat.riwayat_peminjaman_mhs', compact('peminjaman'));
 }
 
-public function index2()
+
+// riwayat peminjaman staf dan pembina
+public function index2(Request $request)
 {
-    $peminjaman = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
+    $query = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
       
-        ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->paginate(5);
+        ->where('status', 'Dikembalikan');
+
+        if ($request->filled('date')) {
+            try {
+                $date = Carbon::parse($request->date)->toDateString();
+                $query->whereDate('tanggal_pinjam', $date);
+            } catch (\Exception $e) {
+                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+            }
+        }
+    
+        $peminjaman = $query->paginate(5);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -57,88 +82,68 @@ public function index2()
     return view('pages.riwayat.riwayat_peminjaman', compact('peminjaman'));
 }
 
-public function laporan()
+public function laporan(Request $request)
 {
-    $peminjaman = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian')
-      
-        // ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
-        ->paginate(5);
+    $query = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian');
+
+    if ($request->filled('date')) {
+        try {
+            $date = Carbon::parse($request->date)->toDateString();
+            $query->whereDate('tanggal_pinjam', $date);
+        } catch (\Exception $e) {
+            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+        }
+    }
+
+    $peminjaman = $query->paginate(5);
 
     foreach ($peminjaman as $item) {
-        // Ubah JSON 'alat_id' menjadi array
         $alat_ids = json_decode($item->alat_id, true) ?? [];
-
-        // Ambil data alat musik berdasarkan ID dalam array
         $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
     }
 
-    return view('pages.laporan', compact('peminjaman'));
+    return view('pages.laporan.laporan', compact('peminjaman'));
 }
 
+// download riwayat peminjaman mahasiswa
 public function download(Request $request)
 {
     if (!Auth::check()) {
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    $user = Auth::user();
+    $userId = Auth::id();
 
-    // Ambil data peminjaman milik user yg statusnya 'Dikembalikan'
-    $peminjaman = Peminjaman::with(['studio_musik', 'pengembalian'])
-        ->where('user_id', $user->id)
-        ->where('status', 'Dikembalikan')
-        ->get();
+    $query = peminjaman::with('studio_musik', 'pengembalian')
+        ->where('user_id', $userId)
+        ->where('status', 'Dikembalikan');
 
-    // Tambahkan data alat_musik dari field JSON 'alat_id'
+        if ($request->filled('date')) {
+            try {
+                $date = Carbon::parse($request->date)->toDateString();
+                $query->whereDate('tanggal_pinjam', $date);
+            } catch (\Exception $e) {
+                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+            }
+        }
+
+    $peminjaman = $query->get();
+
     foreach ($peminjaman as $item) {
         $alat_ids = json_decode($item->alat_id, true) ?? [];
         $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
     }
 
-    // Filter tanggal kalau ada
-    if ($request->has('date') && $request->date != null) {
-        $tanggal = $request->date;
-    
-        $peminjaman = $peminjaman->filter(function ($item) use ($tanggal) {
-            return \Carbon\Carbon::parse($item->tanggal_pinjam)->toDateString() === $tanggal;
-        })->values();
-    }
+    $pdf = Pdf::loadView('pages.riwayat.downloadMhs', [
+        'peminjaman' => $peminjaman,
+        'date' => $request->date ?? null
+    ])->setPaper('A4', 'landscape');
 
-    // Render view tabel seperti biasa
-    $html = view('pages.riwayat_peminjaman_mhs', compact('peminjaman'))->render();
-
-    // Ambil bagian <table> saja
-    preg_match('/<table.*<\/table>/s', $html, $match);
-    $tableOnlyHtml = $match[0] ?? '<p>Tidak ada data</p>';
-
-    // Styling untuk PDF
-    $fullHtml = '
-        <h3 style="text-align: center; margin-bottom: 20px;">Riwayat Peminjaman</h3>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 10px;
-            }
-            th, td {
-                border: 1px solid #000;
-                padding: 4px;
-                text-align: left;
-            }
-            th {
-                background-color: #f0f0f0;
-            }
-        </style>
-        ' . $tableOnlyHtml;
-
-    // Generate PDF
-    $pdf = PDF::loadHTML($fullHtml);
-    return $pdf->download('riwayat-peminjaman.pdf');
+    return $pdf->download('riwayat_peminjaman_mahasiswa.pdf');
 }
 
-
-public function downloadRiwayatAdmin(Request $request)
-{
+// download riwayat peminjaman staf dan pembina
+public function downloadRiwayatAdmin(Request $request){
     $query = Peminjaman::with(['user.mahasiswa', 'studio_musik', 'pengembalian'])
         ->where('status', 'Dikembalikan')
         ->orderBy('id');
@@ -181,60 +186,36 @@ public function downloadRiwayatAdmin(Request $request)
     return $pdf->download('riwayat_peminjaman.pdf');
 }
 
-public function downloadlaporan(Request $request)
-{
-    // Ambil data dari DB dulu
-    $peminjaman = Peminjaman::with('user.mahasiswa', 'studio_musik', 'pengembalian')
-        // ->where('status', 'Dikembalikan')
-        ->get();
 
-    // Tambahkan alat_musik ke setiap item
+public function downloadLaporan(Request $request)
+{
+    $query = peminjaman::with('user.mahasiswa', 'studio_musik', 'pengembalian');
+
+    // Opsional: filter hanya yang sudah dikembalikan
+    // $query->where('status', 'Dikembalikan');
+
+    // Filter berdasarkan tanggal jika diberikan
+    if ($request->filled('date')) {
+        try {
+            $date = Carbon::parse($request->date)->toDateString();
+            $query->whereDate('tanggal_pinjam', $date);
+        } catch (\Exception $e) {
+            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+        }
+    }
+
+    $peminjaman = $query->get();
+
     foreach ($peminjaman as $item) {
         $alat_ids = json_decode($item->alat_id, true) ?? [];
         $item->alat_musik = alat_musik::whereIn('id', $alat_ids)->get();
     }
 
-    // Filter berdasarkan tanggal jika ada
-    if ($request->has('date') && $request->date != null) {
-        $tanggal = $request->date;
-    
-        $peminjaman = $peminjaman->filter(function ($item) use ($tanggal) {
-            return \Carbon\Carbon::parse($item->tanggal_pinjam)->toDateString() === $tanggal;
-        })->values();
-    }
-    
+    $pdf = Pdf::loadView('pages.laporan.download', [
+        'peminjaman' => $peminjaman,
+        'date' => $request->date
+    ])->setPaper('a4', 'landscape');
 
-    // Render view ke HTML
-    $html = view('pages.laporan', compact('peminjaman'))->render();
-
-    // Ambil hanya isi <table>
-    preg_match('/<table.*<\/table>/s', $html, $match);
-    $tableOnlyHtml = $match[0] ?? '<p>Tidak ada data</p>';
-
-    // HTML lengkap untuk PDF
-    $fullHtml = '
-        <h3 style="text-align: center; margin-bottom: 20px;">Riwayat Peminjaman</h3>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 10px;
-            }
-            th, td {
-                border: 1px solid #000;
-                padding: 4px;
-                text-align: left;
-            }
-            th {
-                background-color: #f0f0f0;
-            }
-        </style>
-    ' . $tableOnlyHtml;
-
-    // Buat PDF dengan mode landscape
-    $pdf = PDF::loadHTML($fullHtml)->setPaper('a4', 'landscape');
-
-    return $pdf->download('laporan.pdf');
+    return $pdf->download('laporan_peminjaman.pdf');
 }
-
 }

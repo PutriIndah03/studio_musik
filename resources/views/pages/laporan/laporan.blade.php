@@ -47,18 +47,18 @@
                 </tr>
             </thead>
             <tbody>
-                @php
+                {{-- @php
                     $filteredPeminjaman = $peminjaman;
                     if (request('date')) {
                         $filteredPeminjaman = $filteredPeminjaman->filter(function ($item) {
                             return \Carbon\Carbon::parse($item->tanggal_pinjam)->toDateString() == request('date');
                         });
                     }
-                @endphp
+                @endphp --}}
                 
-                @forelse ($filteredPeminjaman as $index => $data)
+                @forelse ($peminjaman as $data)
                 <tr>
-                    <td>{{ $loop->iteration + ($filteredPeminjaman->currentPage() - 1) * $filteredPeminjaman->perPage() }}</td>
+                    <td>{{ $loop->iteration + ($peminjaman->currentPage() - 1) * $peminjaman->perPage() }}</td>
                     <td>{{ optional($data->user)->mahasiswa->nama ?? '-' }}</td>
                     <td>{{ optional($data->user)->mahasiswa->nim ?? '-' }}</td>
                     <td>{{ optional($data->user)->mahasiswa->prodi ?? '-' }}</td>
@@ -169,7 +169,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="16" class="text-center">Tidak ada data peminjaman</td>
+                    <td colspan="17" class="text-center">Tidak ada data peminjaman</td>
                 </tr>
                 @endforelse
             </tbody>
