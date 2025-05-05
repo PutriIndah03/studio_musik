@@ -11,7 +11,7 @@
             <!-- Nama Studio -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Nama Studio</label>
-                <select name="studio_id" class="form-select" required>
+                <select name="studio_id" class="form-control" required>
                     @if (!empty($studios) && $studios->count() > 0)
                         @foreach ($studios as $studio)
                             <option value="{{ $studio->id }}">{{ $studio->nama }}</option>
@@ -82,7 +82,7 @@
             <!-- Alasan -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Catatan Penggunaan</label>
-                <textarea class="form-control" name="alasan" rows="3" required></textarea>
+                <textarea class="form-control" name="alasan" rows="3" placeholder="Tuliskan alasan peminjaman..." required></textarea>
             </div>
 
             <!-- Jaminan -->

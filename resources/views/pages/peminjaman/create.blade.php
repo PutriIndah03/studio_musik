@@ -7,17 +7,30 @@
     <div class="card shadow p-4">
         <form action="{{ route('peminjaman.store') }}" method="POST">
             @csrf
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Kategori</label>
+                <select class="form-select" id="kategori-filter">
+                    <option value="">-- Pilih Kategori --</option>
+                    <option value="Tradisional">Tradisional</option>
+                    <option value="Modern">Modern</option>
+                </select>
+            </div>
+
+            <!-- Alat Musik -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Pilih Alat Musik</label>
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" id="alat-container">
                     @foreach ($alats as $alat)
-                        <div class="form-check">
+                        <div 
+                            class="form-check alat-item" 
+                            data-kategori="{{ $alat->kategori }}">
                             <input 
                                 class="form-check-input" 
                                 type="checkbox" 
                                 name="alat_id[]" 
                                 value="{{ $alat->id }}" 
-                                id="alat{{ $alat->id }}" 
+                                id="alat{{ $alat->id }}"
                                 @if($alat->kondisi === 'Rusak' || $alat->status === 'Tidak Tersedia') disabled @endif
                             >
                             <label class="form-check-label" for="alat{{ $alat->id }}">
@@ -70,4 +83,31 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const kategoriSelect = document.getElementById('kategori-filter');
+        const alatItems = document.querySelectorAll('.alat-item');
+
+        // Sembunyikan semua alat saat halaman pertama kali dimuat
+        alatItems.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        kategoriSelect.addEventListener('change', function () {
+            const selectedKategori = this.value;
+
+            alatItems.forEach(item => {
+                const itemKategori = item.getAttribute('data-kategori');
+
+                if (selectedKategori === "" || itemKategori === selectedKategori) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
 @endsection
