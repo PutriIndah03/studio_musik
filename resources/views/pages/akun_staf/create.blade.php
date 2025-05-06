@@ -23,7 +23,8 @@
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
+            <div class="col-md-6">
             <label class="form-label">Prodi</label>
             <select name="prodi" class="form-select" required>
                 <option value="" disabled selected>Pilih Program Studi</option>
@@ -46,6 +47,14 @@
                 <option value="Destinasi Pariwisata">Destinasi Pariwisata</option>
                 <option value="Pengelolaan Perhotelan">Pengelolaan Perhotelan</option>
             </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
             {{-- <div class="row mb-3">
