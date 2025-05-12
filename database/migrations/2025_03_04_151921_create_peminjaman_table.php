@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('alat_id'); 
             $table->datetime('tanggal_pinjam');
             $table->datetime('tanggal_kembali');
-            $table->integer('jumlah')->nullable();
             $table->enum('status', ['Menunggu', 'Disetujui', 'Ditolak', 'Dikembalikan'])->default('Menunggu');
             $table->text('alasan')->nullable();
             $table->enum('jaminan', ['KTP', 'KTM']);

@@ -55,7 +55,7 @@
                             <form action="{{ route('logout') }}" method="POST" onsubmit="localStorage.removeItem('activeMenu')">
                                 @csrf
                                 <button type="submit" class="dropdown-item text-danger">
-                                    <i class="fa fa-sign-out-alt me-2"></i> Logout
+                                    <i class="bi bi-power me-2"></i> Logout
                                 </button>
                             </form>                            
                         </li>

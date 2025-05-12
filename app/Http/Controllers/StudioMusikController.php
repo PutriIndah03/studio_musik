@@ -117,7 +117,10 @@ public function search(Request $request)
 
     // Cari berdasarkan nama studio dan alat musik
     $studios = studio_musik::where('nama', 'like', "%{$query}%")->paginate(8);
-    $alats = alat_musik::where('nama', 'like', "%{$query}%")->paginate(8);
+    $alats = alat_musik::where(function ($q) use ($query) {
+        $q->where('nama', 'like', "%{$query}%")
+          ->orWhere('kategori', 'like', "%{$query}%");
+    })->paginate(8);
 
     return view('pages.search', compact('query', 'studios', 'alats'));
 }

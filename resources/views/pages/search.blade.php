@@ -46,12 +46,12 @@
                 <img src="{{ asset('storage/' . $alat->foto) }}" class="card-img-top border border-secondary p-1" alt="{{ $alat->nama }}" style="height: 200px; object-fit: cover;">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $alat->nama }}</h5>
+                    <p class="text-start">Kategori: {{ $alat->kategori}}</p>
                     <p class="text-start">Kondisi: 
                         <span class="fw-bold {{ $alat->kondisi === 'Baik' ? 'text-success' : ($alat->kondisi === 'Rusak Ringan' ? 'text-warning' : 'text-danger') }}">
                             {{ $alat->kondisi }}
                         </span>
                     </p>
-                    <p class="text-start">Kode: {{ $alat->kode }}</p>
                     <p class="text-start">Status: 
                         <span class="fw-bold {{ $alat->status === 'Tersedia' ? 'text-success' : 'text-danger' }}">
                             {{ $alat->status }}

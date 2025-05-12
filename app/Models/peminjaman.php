@@ -17,7 +17,6 @@ class peminjaman extends Model
         'alat_id',
         'tanggal_pinjam',
         'tanggal_kembali',
-        'jumlah',
         'status',
         'alasan',
         'jaminan',

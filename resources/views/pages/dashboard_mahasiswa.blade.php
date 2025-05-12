@@ -59,6 +59,7 @@
                     style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column text-center">
                     <h5 class="card-title">{{ $alat->nama }}</h5>
+                    <p class="text-start">Kategori: {{ $alat->kategori }}</p>
                     <p class="card-text text-start">
                         Kondisi:
                         @if ($alat->kondisi === 'Baik')
@@ -69,7 +70,6 @@
                             <span class="text-danger fw-bold">{{ $alat->kondisi }}</span>
                         @endif
                     </p>
-                    <p class="text-start">Kode: {{ $alat->kode }}</p>
                     <p class="card-text text-start">
                         Status: 
                         @if ($alat->status === 'Tersedia')

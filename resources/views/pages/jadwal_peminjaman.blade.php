@@ -41,7 +41,7 @@
             eventRender: function(info) {
                 // Menambahkan gaya CSS langsung
                 $(info.el).css('color', 'black');  // Menyeting warna teks hitam
-                $(info.el).css('font-size', '10px');  // Menurunkan ukuran font
+                $(info.el).css('font-size', '5px');  // Menurunkan ukuran font
             }
         });
         calendar.render();

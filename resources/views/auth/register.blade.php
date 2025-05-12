@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Prodi</label>
+                                <label class="form-label">Program Studi</label>
                                 <select name="prodi" class="form-select" required>
                                     <option value="" disabled selected>Pilih Program Studi</option>
                                     <option value="Teknologi Rekayasa Perangkat Lunak">Teknologi Rekayasa Perangkat Lunak</option>

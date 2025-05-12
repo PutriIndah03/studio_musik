@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->string('nama');
-            $table->string('tipe')->nullable();
             $table->string('foto')->nullable();
-            $table->integer('jumlah')->nullable();
             $table->enum('kondisi', ['Baik', 'Rusak Ringan', 'Rusak']);
             $table->enum('status', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia'); // Status
             $table->enum('kategori', ['Tradisional', 'Modern'])->nullable();
