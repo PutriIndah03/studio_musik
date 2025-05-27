@@ -98,8 +98,8 @@ public function store(Request $request)
         'peminjaman_id' => 'required|exists:peminjaman,id',
         'alat_id' => 'required|array',
         'alat_id.*' => 'exists:alat_musik,id',
-        'kondisi' => 'required|array',
-        'kondisi.*' => 'in:Baik,Rusak Ringan,Rusak',
+        // 'kondisi' => 'required|array',
+        // 'kondisi.*' => 'in:Baik,Rusak Ringan,Rusak',
         'alasan' => 'nullable|string',
     ]);
 
@@ -115,7 +115,11 @@ public function store(Request $request)
     $keterangan_pengembalian = $tanggalPengembalian->greaterThan($tanggalJatuhTempo) ? 'Terlambat' : 'Tepat Waktu';
 
     // Menyimpan kondisi alat dalam format JSON
-    $kondisiAlatJson = json_encode($request->kondisi);
+    // $kondisiAlatJson = json_encode($request->kondisi);
+        $kondisiAlatJson = [];
+    foreach ($request->alat_id as $alat_id) {
+        $kondisiAlatJson[$alat_id] = 'Baik';
+    }
 
     // Simpan data pengembalian
     Pengembalian::create([
@@ -123,7 +127,7 @@ public function store(Request $request)
         'tanggal_pengembalian' => $tanggalPengembalian,
         'keterangan_pengembalian' => $keterangan_pengembalian,
         'alat_id' => json_encode($request->alat_id), // Simpan ID alat sebagai array JSON
-        'kondisi' => $kondisiAlatJson, // Simpan kondisi dalam JSON
+        'kondisi' => json_encode($kondisiAlatJson),    // Simpan kondisi dalam JSON
         'alasan' => $request->alasan,
         'status' => 'Menunggu'
     ]);

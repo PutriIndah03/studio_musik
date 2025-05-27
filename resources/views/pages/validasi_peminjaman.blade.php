@@ -25,7 +25,6 @@
             <tr class="bg-primary text-white">
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
-                <th style="background-color: #0d6efd; color: white;">NIM</th>
                 <th style="background-color: #0d6efd; color: white;">Program Studi</th>
                 <th style="background-color: #0d6efd; color: white;">No HP</th>
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
@@ -44,7 +43,6 @@
             <tr>
                 <td>{{ $loop->iteration + ($peminjaman->currentPage() - 1) * $peminjaman->perPage() }}</td>
                 <td>{{ optional($data->user->mahasiswa)->nama ?? '-' }}</td>
-                <td>{{ optional($data->user->mahasiswa)->nim ?? '-' }}</td>
                 <td>{{ optional($data->user->mahasiswa)->prodi ?? '-' }}</td>
                 <td>{{ optional($data->user->mahasiswa)->no_hp ?? '-' }}</td>
                                                              

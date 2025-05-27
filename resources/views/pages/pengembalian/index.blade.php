@@ -31,7 +31,7 @@
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Kondisi</th>
+                {{-- <th style="background-color: #0d6efd; color: white;">Kondisi</th> --}}
                 <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
             </tr>
@@ -80,9 +80,8 @@
                     @endif
                 </td>
                 
-
                 <!-- Kondisi Alat Musik -->
-                <td style="text-align: left">
+                {{-- <td style="text-align: left">
                     @if($data->pengembalian && $data->pengembalian->kondisi)
                         @php
                             // Mendekode kondisi pengembalian
@@ -168,7 +167,7 @@
                         @endif
                 
                         {{-- Tombol Detail hanya muncul jika kolom detail tidak kosong --}}
-                        @if($detailExist)
+                        {{-- @if($detailExist)
                             <div class="mt-1">
                                 <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#alasanModal{{ $data->id }}">
                                     Detail
@@ -196,9 +195,7 @@
                     @else
                         -
                     @endif
-                </td>
-                
-                
+                </td> --}} 
                 
                 <!-- Alasan -->
                 <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>

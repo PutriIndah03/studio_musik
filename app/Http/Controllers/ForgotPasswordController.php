@@ -22,6 +22,10 @@ class ForgotPasswordController extends Controller
         $request->validate([
             'nim' => 'required|exists:users,username',
             'role' => 'sometimes|nullable|string|in:mahasiswa,staf,pembina',
+        ], [
+            'nim.required' => 'NIM wajib diisi.',
+            'nim.exists' => 'NIM yang dimasukkan tidak ditemukan dalam data pengguna.',
+            'role.in' => 'Role yang dipilih tidak valid.',
         ]);
     
         $query = User::where('username', $request->nim);

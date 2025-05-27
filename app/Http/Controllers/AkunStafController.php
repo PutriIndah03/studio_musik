@@ -35,8 +35,8 @@ class AkunStafController extends Controller
                 Rule::unique('staf', 'email'), // Cek unik hanya di tabel staf
             ],
         ], [
-            'nim.unique' => 'NIM sudah digunakan oleh staf lain.',
-            'email.unique' => 'Email sudah digunakan oleh staf lain.',
+            'nim.unique' => 'NIM sudah terdaftar.',
+            'email.unique' => 'Email sudah terdaftar.',
         ]);
     
         // Simpan data staf
@@ -73,7 +73,7 @@ class AkunStafController extends Controller
     
         $akun->update(['password' => $defaultPassword]);
     
-        return redirect()->route('akun_staf.index')->with('success', 'Password berhasil direset menjadi NIM!');
+        return redirect()->route('akun_staf.index')->with('success', 'Akun staf berhasil direset!');
     }
     
     public function destroy($id)

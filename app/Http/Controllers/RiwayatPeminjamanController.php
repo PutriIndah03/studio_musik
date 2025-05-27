@@ -68,7 +68,7 @@ public function index2(Request $request)
                 return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
             }
         }
-    
+   
         $peminjaman = $query->paginate(5);
 
     foreach ($peminjaman as $item) {

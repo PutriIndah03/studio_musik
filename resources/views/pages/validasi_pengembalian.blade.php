@@ -19,13 +19,6 @@
         }, 5000);
     </script>
     @endif
-    <style>
-        /* .table-sm th, .table-sm td {
-            padding: 0.3rem 0.4rem;
-            font-size: 0.65rem;
-            vertical-align: middle;
-        } */
-    </style>
     <h2 class="mb-4 text-center fw-bold">Validasi Pengembalian</h2>
     <div class="table-responsive"> 
     <table class="table table-bordered table-sm small">
@@ -33,17 +26,13 @@
             <tr class="bg-primary text-white">
                 <th style="background-color: #0d6efd; color: white;">No</th>
                 <th style="background-color: #0d6efd; color: white;">Nama</th>
-                <th style="background-color: #0d6efd; color: white;">NIM</th>
                 <th style="background-color: #0d6efd; color: white;">Program Studi</th>
                 <th style="background-color: #0d6efd; color: white;">No HP</th>
                 <th style="background-color: #0d6efd; color: white;">Studio Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Alat Musik</th>
                 <th style="background-color: #0d6efd; color: white;">Kondisi Dipinjam</th>
-                <th style="background-color: #0d6efd; color: white;">Kondisi Dikembalikan</th>
-                <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
                 <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
-                <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
                 <th style="background-color: #0d6efd; color: white;">Status</th>
                 <th style="background-color: #0d6efd; color: white;">Aksi</th>
             </tr>
@@ -53,7 +42,6 @@
             <tr>
                 <td>{{ $loop->iteration + ($pengembalian->currentPage() - 1) * $pengembalian->perPage() }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->nama ?? '-' }}</td>
-                <td>{{ optional($data->peminjaman->user->mahasiswa)->nim ?? '-' }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->prodi ?? '-' }}</td>
                 <td>{{ optional($data->peminjaman->user->mahasiswa)->no_hp ?? '-' }}</td>
                 <td>{{ optional($data->peminjaman->studio_musik)->nama ?? '-' }}</td>
@@ -93,7 +81,7 @@
                 </td>
 
                 {{-- kondisi dikembalikan --}}
-                <td style="text-align: left">
+                {{-- <td style="text-align: left">
                     @if($data->kondisi)
                         @php
                             $kondisiAlat = json_decode($data->kondisi, true);
@@ -119,10 +107,8 @@
                     @else
                         -
                     @endif
-                </td>
+                </td> --}}
                 
-                
-                <td>{{ \Carbon\Carbon::parse($data->peminjaman->tanggal_kembali)->format('d-m-Y H:i') }}</td>
                 <td>{{ \Carbon\Carbon::parse($data->tanggal_pengembalian)->format('d-m-Y H:i') }}</td>
                 <td>
                     @if($data->keterangan_pengembalian == 'Terlambat')
@@ -133,7 +119,6 @@
                         <bold class="text-muted">{{ $data->keterangan_pengembalian ?? '-' }}</bold>
                     @endif
                 </td>
-                <td>{{ $data->alasan ?? '-' }}</td>
                 <td>
                     @if($data->status == 'Menunggu')
                         <span class="badge bg-warning">Menunggu</span>
@@ -192,41 +177,41 @@
                     </div>
                 </div>
 
-                   
-                    {{-- <form action="{{ route('pengembalian.approve', $data->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Terima pengembalian ini?');">
-                            <i class="bi bi-check-circle"></i>
-                        </button>
-                    </form> --}}
-
-                    {{-- <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $data->id }}">
-                        <i class="bi bi-x-circle"></i>
+                <!-- Tombol Detail -->
+                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $data->id }}">
+                        <i class="bi bi-eye"></i>
                     </button>
-
-                    <div class="modal fade" id="rejectModal{{ $data->id }}" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                    <!-- Modal -->
+                    <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $data->id }}" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="rejectModalLabel">Alasan Penolakan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title" id="detailModalLabel{{ $data->id }}">Detail</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('pengembalian.reject', $data->id) }}" method="POST">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="alasan-{{ $data->id }}" class="form-label">Alasan Penolakan</label>
-                                            <textarea name="alasan" id="alasan-{{ $data->id }}" class="form-control" required>{{ $data->alasan }}</textarea>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-danger">Tolak Pengembalian</button>
-                                        </div>
-                                    </form>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm small">
+                                <tbody>
+                                    <tr>
+                                        <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Kembali</th>
+                                        <td>{{ \Carbon\Carbon::parse($data->peminjaman->tanggal_kembali)->format('d-m-Y H:i') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
+                                        <td>{{ $data->alasan ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </td>
             </tr>
             @empty

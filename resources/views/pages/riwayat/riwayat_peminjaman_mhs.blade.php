@@ -4,24 +4,29 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Riwayat Peminjaman</h2>
 
-    <form method="GET" action="{{ route('riwayatPeminjamanMhs') }}" class="mb-3">
-        <div class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <label for="date" class="form-label">Filter Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="date" name="date"
-                    value="{{ request('date') }}"
-                    onchange="this.form.submit()">
-            </div>
+<form method="GET" action="{{ route('riwayatPeminjamanMhs') }}" class="mb-3">
+    <div class="row g-3 align-items-end">
+        {{-- Filter Tanggal --}}
+        <div class="col-md-4">
+            <label for="date" class="form-label">Filter Tanggal Pinjam</label>
+            <input type="date" class="form-control" id="date" name="date"
+                value="{{ request('date') }}"
+                onchange="this.form.submit()">
+        </div>
             <div class="col-md-4 d-flex align-items-end">
                 <!-- Optional: you can remove this button since it's auto-submit -->
             </div>
-            <div class="col-md-4 text-end">
-                <a href="{{ route('riwayatPeminjamanMhs.download', ['date' => request('date')]) }}" class="btn btn-success">
-                    <i class="bi bi-download"></i> Download
-                </a>
-            </div>
+
+        {{-- Tombol Download --}}
+        <div class="col-md-4 text-end">
+            <a href="{{ route('riwayatPeminjamanMhs.download', ['date' => request('date'), 'bulan' => request('bulan')]) }}"
+                class="btn btn-success">
+                <i class="bi bi-download"></i> Download
+            </a>
         </div>
-    </form>
+    </div>
+</form>
+
       
     <div class="table-responsive"> <!-- Tambahkan class ini -->
         <table class="table table-bordered table-sm small">
@@ -34,23 +39,11 @@
                     <th style="background-color: #0d6efd; color: white;">Kondisi Dikembalikan</th>
                     <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pemakaian</th>
                     <th style="background-color: #0d6efd; color: white;">Tgl & Waktu Pengembalian</th>
-                    <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
-                    <th style="background-color: #0d6efd; color: white;">Catatan Peminjaman</th>
-                    <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
-                    <th style="background-color: #0d6efd; color: white;">Jaminan</th>
-                    <th style="background-color: #0d6efd; color: white;">Detail</th>
                     <th style="background-color: #0d6efd; color: white;">Status</th>
+                    <th style="background-color: #0d6efd; color: white;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @php
-                    $filteredPeminjaman = $peminjaman->where('status', 'Dikembalikan');
-                    if (request('date')) {
-                        $filteredPeminjaman = $filteredPeminjaman->filter(function ($item) {
-                            return \Carbon\Carbon::parse($item->tanggal_pinjam)->toDateString() == request('date');
-                        });
-                    }
-                @endphp --}}
 
                 @forelse ($peminjaman as $data)
                 <tr>
@@ -114,20 +107,64 @@
                     <td>{{ \Carbon\Carbon::parse($data->tanggal_pinjam)->format('d-m-Y H:i') }}</td>
                     <td>{{ optional($data->pengembalian)->tanggal_pengembalian ? \Carbon\Carbon::parse($data->pengembalian->tanggal_pengembalian)->format('d-m-Y H:i') : '-' }}</td>
 
-                    <td>
-                        @if(optional($data->pengembalian)->keterangan_pengembalian == 'Terlambat')
-                            <span class="text-danger fw-bold">{{ optional($data->pengembalian)->keterangan_pengembalian }}</span>
-                        @elseif(optional($data->pengembalian)->keterangan_pengembalian == 'Tepat Waktu')
-                            <span class="text-success fw-bold">{{ optional($data->pengembalian)->keterangan_pengembalian }}</span>
-                        @else
-                            <span class="text-muted">{{ optional($data->pengembalian)->keterangan_pengembalian ?? '-' }}</span>
-                        @endif
-                    </td>
-                    <td>{{ $data->alasan ?? '-' }}</td>
-                    <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>
-                    <td>{{ $data->jaminan ?? '-' }}</td>
-                    <td>{{ optional($data->pengembalian)->detail ?? '-' }}</td>
                     <td><span class="badge bg-secondary">Dikembalikan</span></td>
+                                    <td>
+                <!-- Tombol Detail -->
+                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $data->id }}">
+                        <i class="bi bi-eye"></i>
+                    </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="detailModal{{ $data->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $data->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailModalLabel{{ $data->id }}">Detail</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                            </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm small">
+                            <tbody>
+                                <tr>
+                                    <th style="background-color: #0d6efd; color: white;">Ket. Pengembalian</th>
+                                    <td>
+                                        @if(optional($data->pengembalian)->keterangan_pengembalian == 'Terlambat')
+                                            <bold class="text-danger">{{ optional($data->pengembalian)->keterangan_pengembalian }}</bold>
+                                        @elseif(optional($data->pengembalian)->keterangan_pengembalian == 'Tepat Waktu')
+                                            <bold class="text-success">{{ optional($data->pengembalian)->keterangan_pengembalian }}</bold>
+                                        @else
+                                            <span class="text-muted">{{ optional($data->pengembalian)->keterangan_pengembalian ?? '-' }}</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #0d6efd; color: white;">Catatan Peminjaman</th>
+                                    <td>{{ $data->alasan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #0d6efd; color: white;">Catatan Pengembalian</th>
+                                    <td>{{ optional($data->pengembalian)->alasan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #0d6efd; color: white;">Jaminan</th>
+                                    <td>{{ $data->jaminan ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #0d6efd; color: white;">Detail</th>
+                                    <td>{{ $data->pengembalian->detail ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+                </td>
                 </tr>
                 @empty
                 <tr>

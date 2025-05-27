@@ -58,18 +58,8 @@
                     value="{{ $terlambat ? 'Terlambat' : 'Tepat Waktu' }}" readonly>
             </div>
 
-            <!-- Kondisi Saat Dikembalikan -->
-            {{-- <div class="mb-3">
-                <label class="form-label">Kondisi Saat Dikembalikan</label>
-                <select class="form-select" name="kondisi" required>
-                    <option value="baik">Baik</option>
-                    <option value="rusak ringan">Rusak ringan</option>
-                    <option value="rusak">Rusak</option>
-                </select>
-            </div> --}}
-
 <!-- Menampilkan Alat Musik dan Kondisi Saat Dikembalikan -->
-<div class="mb-3">
+{{-- <div class="mb-3">
     <label class="form-label fw-bold">Alat Musik & Kondisi Saat Dikembalikan</label>
     @if ($alat_musik && $alat_musik->count() > 0)
         @foreach ($alat_musik as $alat)
@@ -91,9 +81,7 @@
     @else
         <p class="text-danger">Tidak ada alat musik yang dipinjam.</p>
     @endif
-</div>
-
-
+</div> --}}
             <!-- Catatan Tambahan -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Catatan Pengembalian</label>
