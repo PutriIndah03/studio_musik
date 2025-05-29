@@ -1,4 +1,4 @@
-// controllernya ada di riwayat peminjaman controller
+{{-- controllernya ada di riwayat peminjaman controller --}}
 
 @extends('layouts.app')
 
@@ -25,7 +25,7 @@
         </div>
     </form>
 
-    <div class="table-responsive"> <!-- Tambahkan class ini -->
+    <div class="table-responsive">
         <table class="table table-bordered table-sm small">
         <thead>
             <tr class="bg-primary text-white">

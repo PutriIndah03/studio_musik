@@ -12,6 +12,7 @@ use App\Http\Controllers\ValidasiPeminjamanController;
 use App\Http\Controllers\ValidasiPengembalianController;
 use App\Http\Controllers\StudioMusikController;
 use App\Http\Controllers\ForgotPasswordController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/peminjaman/store2', [PeminjamanController::class, 'store2'])->name('peminjaman.store2');
     Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
     Route::get('/peminjaman/createStudio/{studio_musik}', [PeminjamanController::class, 'createStudio'])->name('peminjaman.createStudio');
+    Route::post('/cek-alat-terpakai', [PeminjamanController::class, 'cekAlatTerpakai']);
 
     Route::get('validasipeminjaman', [ValidasiPeminjamanController::class,'index']);
     Route::post('/peminjaman/{id}/approve', [ValidasiPeminjamanController::class, 'approve'])->name('peminjaman.approve');
@@ -85,3 +87,7 @@ Route::get('/check-accounts', function (Request $request) {
     return response()->json($roles);
 })->name('check.accounts');
 
+Route::get('/auto-logout', function () {
+    Auth::logout();
+    return redirect('/login')->with('message', 'Anda telah logout karena tidak aktif selama 30 menit.');
+})->name('logout.auto');

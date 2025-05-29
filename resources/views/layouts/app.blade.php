@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Studio Musik Poliwangi</title>
 
     <!-- Bootstrap CSS -->
@@ -45,7 +46,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script defer>
-    window.userRole = "{{ Auth::user()->role }}";
     document.addEventListener("DOMContentLoaded", function () {
         let sidebar = document.getElementById("sidebar");
         let mainContent = document.getElementById("main-content");
@@ -63,6 +63,33 @@
         });
     });
 </script>
+
+@auth
+<script>
+    let logoutTimer;
+    const timeoutDuration = 30 * 60 * 1000; // 30 menit dalam milidetik
+
+    function resetLogoutTimer() {
+        clearTimeout(logoutTimer);
+        logoutTimer = setTimeout(() => {
+            // Hapus item dari localStorage
+            localStorage.removeItem('activeMenu');
+
+            // Redirect ke route logout otomatis
+            window.location.href = @json(route('logout.auto'));
+        }, timeoutDuration);
+    }
+
+    // Event yang dianggap sebagai aktivitas pengguna
+    ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(eventType => {
+        document.addEventListener(eventType, resetLogoutTimer, false);
+    });
+
+    // Mulai timer saat halaman dimuat
+    resetLogoutTimer();
+</script>
+@endauth
+
 
 </body>
 </html>

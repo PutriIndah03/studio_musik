@@ -42,7 +42,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.index', compact('peminjaman'));
     }
     
-    
     public function create()
     {
         $alats = alat_musik::all();
@@ -79,7 +78,6 @@ class PeminjamanController extends Controller
         return view('pages.peminjaman.createStudio', compact('studios', 'alats', 'alatDipinjamTanggalYangSama'));
     }
        
-
     // store alat musik
     public function store(Request $request){
     $request->validate([
@@ -215,5 +213,47 @@ class PeminjamanController extends Controller
         ->with('setActiveMenu', '/peminjaman')
         ->with('success', 'Peminjaman berhasil diajukan.');
 }
+
+    public function cekAlatTerpakai(Request $request)
+{
+    $request->validate([
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_kembali' => 'required|date',
+        'alat_id' => 'required|array|min:1',
+    ]);
+
+    $tanggalPinjam = Carbon::parse($request->tanggal_pinjam);
+    $tanggalKembali = Carbon::parse($request->tanggal_kembali);
+
+    $alatTerpakai = Peminjaman::where('status', 'Disetujui')
+        ->where(function ($query) use ($tanggalPinjam, $tanggalKembali) {
+            $query->whereBetween('tanggal_pinjam', [$tanggalPinjam, $tanggalKembali])
+                  ->orWhereBetween('tanggal_kembali', [$tanggalPinjam, $tanggalKembali])
+                  ->orWhere(function ($query2) use ($tanggalPinjam, $tanggalKembali) {
+                      $query2->where('tanggal_pinjam', '<=', $tanggalPinjam)
+                             ->where('tanggal_kembali', '>=', $tanggalKembali);
+                  });
+        })
+        ->get();
+
+    $alatTerpakaiIds = [];
+    foreach ($alatTerpakai as $p) {
+        $alatDalamPeminjaman = json_decode($p->alat_id, true);
+        $alatTerpakaiIds = array_merge($alatTerpakaiIds, $alatDalamPeminjaman);
+    }
+
+    $alatConflict = array_intersect($alatTerpakaiIds, $request->alat_id);
+
+    if (!empty($alatConflict)) {
+        $alatConflictNames = alat_musik::whereIn('id', $alatConflict)->pluck('nama')->implode(', ');
+        return response()->json([
+            'status' => 'error',
+            'message' => "Alat musik $alatConflictNames sudah dipinjam pada tanggal dan waktu tersebut"
+        ]);
+    }
+
+    return response()->json(['status' => 'ok']);
+}
+
 
 }

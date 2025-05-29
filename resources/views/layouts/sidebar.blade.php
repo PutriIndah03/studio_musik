@@ -137,82 +137,101 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let role = window.userRole || "mahasiswa"; // default fallback
-        let defaultPath = "/dashboard";
+document.addEventListener("DOMContentLoaded", function () {
+    // Ambil role dari blade (pastikan di blade ada definisi window.userRole)
+    let role = window.userRole || "{{ auth()->user()->role ?? 'mahasiswa' }}";
 
-        // Tentukan default path berdasarkan role
-        if (role === "mahasiswa") {
-            defaultPath = "/dashboard/mahasiswa";
+    // Tentukan default path berdasarkan role
+    let defaultPath = "/";
+    if (role === "mahasiswa") {
+        defaultPath = "/dashboard/mahasiswa";
+    } else if (role === "staf" || role === "pembina") {
+        defaultPath = "/dashboard/staf";
+    }
+
+    // Ambil role dan activeMenu dari localStorage
+    let savedRole = localStorage.getItem("activeRole");
+    let savedMenu = localStorage.getItem("activeMenu");
+
+    // Jika role berubah, reset activeMenu ke defaultPath
+    if (savedRole !== role) {
+        localStorage.setItem("activeRole", role);
+        localStorage.setItem("activeMenu", defaultPath);
+        savedMenu = defaultPath;
+    }
+
+    let currentPath = window.location.pathname;
+    let activeMenu = savedMenu || currentPath || defaultPath;
+
+    let menuItems = document.querySelectorAll(".nav-link");
+
+    // Fungsi untuk hapus semua aktif
+    function clearActive() {
+        menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
+    }
+
+    // Set aktif sesuai href yang cocok dengan activeMenu atau currentPath
+    let found = false;
+    menuItems.forEach(item => {
+        let href = item.getAttribute("href");
+
+        // Cocokkan dengan activeMenu
+        if (href === activeMenu) {
+            clearActive();
+            item.classList.add("active", "bg-primary");
+            found = true;
         }
+    });
 
-        // Simpan role ke localStorage untuk deteksi perubahan role
-        let savedRole = localStorage.getItem("activeRole");
-
-        if (savedRole !== role) {
-            // Reset jika role berubah
-            localStorage.setItem("activeRole", role);
-            localStorage.setItem("activeMenu", defaultPath);
-        }
-
-        // Jika belum ada menu yang disimpan sebelumnya, set default
-        if (!localStorage.getItem("activeMenu")) {
-            localStorage.setItem("activeMenu", defaultPath);
-        }
-
-        let menuItems = document.querySelectorAll(".nav-link");
-        let currentPath = window.location.pathname;
-
-        let savedPath = localStorage.getItem("activeMenu");
-        let activePath = savedPath ? savedPath : currentPath;
-
+    // Jika tidak ada yang cocok, coba cocokkan dengan currentPath langsung
+    if (!found) {
         menuItems.forEach(item => {
             let href = item.getAttribute("href");
-
-            if (href === activePath) {
+            if (href === currentPath) {
+                clearActive();
                 item.classList.add("active", "bg-primary");
-
-                let submenu = item.closest(".collapse");
-                if (submenu) {
-                    submenu.classList.add("show");
-                    let parentToggle = submenu.previousElementSibling;
-                    if (parentToggle && parentToggle.classList.contains("nav-link")) {
-                        parentToggle.setAttribute("aria-expanded", "true");
-                    }
-                }
+                found = true;
             }
-
-            item.addEventListener("click", function () {
-                menuItems.forEach(i => i.classList.remove("active", "bg-primary"));
-                document.querySelectorAll(".collapse").forEach(c => c.classList.remove("show"));
-
-                this.classList.add("active", "bg-primary");
-
-                let submenu = this.closest(".collapse");
-                if (submenu) {
-                    submenu.classList.add("show");
-                    let parentToggle = submenu.previousElementSibling;
-                    if (parentToggle && parentToggle.classList.contains("nav-link")) {
-                        parentToggle.setAttribute("aria-expanded", "true");
-                    }
-                }
-
-                localStorage.setItem("activeMenu", this.getAttribute("href"));
-            });
         });
+    }
 
-        window.addEventListener("popstate", function () {
-            let updatedPath = window.location.pathname;
-            localStorage.setItem("activeMenu", updatedPath);
+    // Jika masih tidak ada yang cocok, aktifkan defaultPath (biasanya dashboard)
+    if (!found) {
+        menuItems.forEach(item => {
+            let href = item.getAttribute("href");
+            if (href === defaultPath) {
+                clearActive();
+                item.classList.add("active", "bg-primary");
+            }
+        });
+    }
 
-            menuItems.forEach(item => {
-                item.classList.remove("active", "bg-primary");
-                if (item.getAttribute("href") === updatedPath) {
-                    item.classList.add("active", "bg-primary");
-                }
-            });
+    // Pasang event listener klik
+    menuItems.forEach(item => {
+        item.addEventListener("click", function () {
+            clearActive();
+            this.classList.add("active", "bg-primary");
+
+            // Simpan ke localStorage
+            localStorage.setItem("activeMenu", this.getAttribute("href"));
+            localStorage.setItem("activeRole", role);
         });
     });
+
+    // Kalau ingin update highlight saat navigasi browser (back/forward)
+    window.addEventListener("popstate", function () {
+        let path = window.location.pathname;
+        localStorage.setItem("activeMenu", path);
+
+        clearActive();
+        menuItems.forEach(item => {
+            if (item.getAttribute("href") === path) {
+                item.classList.add("active", "bg-primary");
+            }
+        });
+    });
+});
+
 </script>
 
 

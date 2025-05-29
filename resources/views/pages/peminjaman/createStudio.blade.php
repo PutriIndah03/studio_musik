@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Formulir Ajukan Peminjaman Studio Musik</h2>
     <div class="card p-4">
-        <form action="{{ route('peminjaman.store2') }}" method="POST">
+        <form id="formPeminjaman" action="{{ route('peminjaman.store2') }}" method="POST">
             @csrf
 
             <!-- Nama Studio -->
@@ -57,9 +57,11 @@
                         </div>
                     @endforeach
                 </div>
+
                 @error('alat_id')
                     <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
+                    <div id="errorAlat" class="text-danger mt-1" style="display:none;"></div>
             </div>
 
             <!-- Tanggal & Waktu -->
@@ -101,6 +103,7 @@
 </div>
 
 {{-- Script untuk filter kategori --}}
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const kategoriSelect = document.getElementById('kategori-filter');
@@ -125,6 +128,78 @@
             });
         });
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formPeminjaman');
+    const alatCheckboxes = document.querySelectorAll('input[name="alat_id[]"]');
+    const errorAlat = document.getElementById('errorAlat');
+    const tanggalPinjam = document.querySelector('input[name="tanggal_pinjam"]');
+    const tanggalKembali = document.querySelector('input[name="tanggal_kembali"]');
+    const alasan = document.querySelector('textarea[name="alasan"]');
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        
+            // Validasi tanggal kembali maksimal 1 hari setelah tanggal pinjam
+    const tglPinjam = new Date(tanggalPinjam.value);
+    const tglKembali = new Date(tanggalKembali.value);
+
+    if (tglKembali - tglPinjam > 24 * 60 * 60 * 1000) {
+        alert("Tanggal kembali maksimal hanya boleh 1 (24 jam) hari setelah tanggal pinjam.");
+        return;
+    }
+
+        // Cek minimal satu alat dipilih
+        let isSelected = false;
+        let alatIds = [];
+        alatCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                isSelected = true;
+                alatIds.push(checkbox.value);
+            }
+        });
+
+        if (!isSelected) {
+            errorAlat.textContent = "Anda harus memilih setidaknya satu alat untuk dipinjam.";
+            errorAlat.style.display = 'block';
+            return;
+        } else {
+            errorAlat.style.display = 'none';
+        }
+
+        // Kirim request AJAX cek konflik
+        try {
+            const response = await fetch('/cek-alat-terpakai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    tanggal_pinjam: tanggalPinjam.value,
+                    tanggal_kembali: tanggalKembali.value,
+                    alasan: alasan.value,
+                    alat_id: alatIds
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'error') {
+                alert(data.message);
+            } else {
+                form.submit(); // jika tidak konflik, submit form
+            }
+        } catch (err) {
+            alert("Terjadi kesalahan saat memeriksa alat.");
+            console.error(err);
+        }
+    });
+});
+
 </script>
 
 @endsection
