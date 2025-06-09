@@ -12,7 +12,7 @@ class AkunStafController extends Controller
 {
     public function index()
     {
-        $akuns = Staf::paginate(5); // Mengambil semua data dari database
+        $akuns = Staf::paginate(10); // Mengambil semua data dari database
         return view('pages.akun_staf.index', compact('akuns'));
     }
     public function create()

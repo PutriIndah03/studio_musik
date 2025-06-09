@@ -39,7 +39,7 @@ class RiwayatPeminjamanController extends Controller
             }
         }
     
-        $peminjaman = $query->paginate(5);
+        $peminjaman = $query->paginate(10);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -69,7 +69,7 @@ public function index2(Request $request)
             }
         }
    
-        $peminjaman = $query->paginate(5);
+        $peminjaman = $query->paginate(10);
 
     foreach ($peminjaman as $item) {
         // Ubah JSON 'alat_id' menjadi array
@@ -95,7 +95,7 @@ public function laporan(Request $request)
         }
     }
 
-    $peminjaman = $query->paginate(5);
+    $peminjaman = $query->paginate(10);
 
     foreach ($peminjaman as $item) {
         $alat_ids = json_decode($item->alat_id, true) ?? [];

@@ -29,7 +29,7 @@ class PeminjamanController extends Controller
             ->whereDoesntHave('pengembalian', function ($query) {
                 $query->where('status', 'Menunggu');
             })
-            ->paginate(5);
+            ->paginate(10);
     
         foreach ($peminjaman as $item) {
             // Ubah JSON 'alat_id' menjadi array

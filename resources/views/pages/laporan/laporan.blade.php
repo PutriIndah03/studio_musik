@@ -64,7 +64,7 @@
                         @else
                             -
                         @endif
-                    </td
+                    </td>
     
     {{-- kondisi dikembalikan --}}
                     <td style="text-align: left">

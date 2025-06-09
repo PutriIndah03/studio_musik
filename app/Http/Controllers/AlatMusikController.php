@@ -9,7 +9,7 @@ class AlatMusikController extends Controller
 {
     public function index()
     {
-        $alats = alat_musik::paginate(5); // Mengambil semua data dari database
+        $alats = alat_musik::paginate(10); // Mengambil semua data dari database
         return view('pages.alat_musik.index', compact('alats'));
     }
     public function create()

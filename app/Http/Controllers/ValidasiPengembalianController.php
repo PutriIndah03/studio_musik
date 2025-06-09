@@ -21,7 +21,7 @@ class ValidasiPengembalianController extends Controller
                       ->orWhereRaw("TIMESTAMPDIFF(HOUR, updated_at, NOW()) <= 24");
                     //   ->orWhereRaw("TIMESTAMPDIFF(MINUTE, updated_at, NOW()) <= 1");
             })
-            ->paginate(5);
+            ->paginate(10);
     
         // Proses alat musik untuk setiap peminjaman
         foreach ($peminjaman as $item) {

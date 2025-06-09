@@ -17,12 +17,12 @@ class StudioMusikController extends Controller
     }
 
     // Dashboard mahasiswa
-    public function dMhs()
-    {
-        $studios = studio_musik::all();
-        $alats = alat_musik::paginate(4); // Mengambil semua data dari database
-        return view('pages.dashboard_mahasiswa', compact('studios','alats'));
-    }
+public function dMhs()
+{
+    $studios = studio_musik::inRandomOrder()->get();
+    $alats = alat_musik::inRandomOrder()->paginate(12); // Urutkan secara acak dan paginasi
+    return view('pages.dashboard_mahasiswa', compact('studios','alats'));
+}
 
     // dashboard staf dan pembina
     public function dStaf()
@@ -116,11 +116,11 @@ public function search(Request $request)
     $query = $request->input('query');
 
     // Cari berdasarkan nama studio dan alat musik
-    $studios = studio_musik::where('nama', 'like', "%{$query}%")->paginate(8);
+    $studios = studio_musik::where('nama', 'like', "%{$query}%")->paginate(12);
     $alats = alat_musik::where(function ($q) use ($query) {
         $q->where('nama', 'like', "%{$query}%")
           ->orWhere('kategori', 'like', "%{$query}%");
-    })->paginate(8);
+    })->paginate(12);
 
     return view('pages.search', compact('query', 'studios', 'alats'));
 }
