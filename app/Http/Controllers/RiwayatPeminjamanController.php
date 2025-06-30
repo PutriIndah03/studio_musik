@@ -30,14 +30,12 @@ class RiwayatPeminjamanController extends Controller
         ->where('status', 'Dikembalikan') // Filter hanya yang sudah dikembalikan
         ;
 
-        if ($request->filled('date')) {
-            try {
-                $date = Carbon::parse($request->date)->toDateString();
-                $query->whereDate('tanggal_pinjam', $date);
-            } catch (\Exception $e) {
-                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
-            }
-        }
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end = Carbon::parse($request->end_date)->endOfDay();
+
+        $query->whereBetween('tanggal_pinjam', [$start, $end]);
+    }
     
         $peminjaman = $query->paginate(10);
 
@@ -60,14 +58,12 @@ public function index2(Request $request)
       
         ->where('status', 'Dikembalikan');
 
-        if ($request->filled('date')) {
-            try {
-                $date = Carbon::parse($request->date)->toDateString();
-                $query->whereDate('tanggal_pinjam', $date);
-            } catch (\Exception $e) {
-                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
-            }
-        }
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end = Carbon::parse($request->end_date)->endOfDay();
+
+        $query->whereBetween('tanggal_pinjam', [$start, $end]);
+    }
    
         $peminjaman = $query->paginate(10);
 
@@ -86,13 +82,11 @@ public function laporan(Request $request)
 {
     $query = peminjaman::with('user.mahasiswa','studio_musik', 'pengembalian');
 
-    if ($request->filled('date')) {
-        try {
-            $date = Carbon::parse($request->date)->toDateString();
-            $query->whereDate('tanggal_pinjam', $date);
-        } catch (\Exception $e) {
-            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
-        }
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end = Carbon::parse($request->end_date)->endOfDay();
+
+        $query->whereBetween('tanggal_pinjam', [$start, $end]);
     }
 
     $peminjaman = $query->paginate(10);
@@ -118,14 +112,15 @@ public function download(Request $request)
         ->where('user_id', $userId)
         ->where('status', 'Dikembalikan');
 
-        if ($request->filled('date')) {
-            try {
-                $date = Carbon::parse($request->date)->toDateString();
-                $query->whereDate('tanggal_pinjam', $date);
-            } catch (\Exception $e) {
-                return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
-            }
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        try {
+            $start = Carbon::parse($request->start_date)->startOfDay();
+            $end = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('tanggal_pinjam', [$start, $end]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['start_date' => 'Format tanggal tidak valid.']);
         }
+    }
 
     $peminjaman = $query->get();
 
@@ -149,12 +144,13 @@ public function downloadRiwayatAdmin(Request $request){
         ->orderBy('id');
 
     // Filter berdasarkan tanggal jika disediakan
-    if ($request->filled('date')) {
+    if ($request->filled('start_date') && $request->filled('end_date')) {
         try {
-            $date = Carbon::parse($request->date)->toDateString();
-            $query->whereDate('tanggal_pinjam', $date);
+            $start = Carbon::parse($request->start_date)->startOfDay();
+            $end = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('tanggal_pinjam', [$start, $end]);
         } catch (\Exception $e) {
-            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+            return back()->withErrors(['start_date' => 'Format tanggal tidak valid.']);
         }
     }
 
@@ -181,7 +177,7 @@ public function downloadRiwayatAdmin(Request $request){
     $pdf = Pdf::loadView('pages.riwayat.download', [
         'peminjaman' => $peminjaman,
         'date' => $request->date
-    ])->setPaper('a4', 'landscape');
+    ])->setPaper('a3', 'landscape');
 
     return $pdf->download('riwayat_peminjaman.pdf');
 }
@@ -195,12 +191,13 @@ public function downloadLaporan(Request $request)
     // $query->where('status', 'Dikembalikan');
 
     // Filter berdasarkan tanggal jika diberikan
-    if ($request->filled('date')) {
+    if ($request->filled('start_date') && $request->filled('end_date')) {
         try {
-            $date = Carbon::parse($request->date)->toDateString();
-            $query->whereDate('tanggal_pinjam', $date);
+            $start = Carbon::parse($request->start_date)->startOfDay();
+            $end = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('tanggal_pinjam', [$start, $end]);
         } catch (\Exception $e) {
-            return back()->withErrors(['date' => 'Format tanggal tidak valid.']);
+            return back()->withErrors(['start_date' => 'Format tanggal tidak valid.']);
         }
     }
 
@@ -214,7 +211,7 @@ public function downloadLaporan(Request $request)
     $pdf = Pdf::loadView('pages.laporan.download', [
         'peminjaman' => $peminjaman,
         'date' => $request->date
-    ])->setPaper('a4', 'landscape');
+    ])->setPaper('a3', 'landscape');
 
     return $pdf->download('laporan_peminjaman.pdf');
 }

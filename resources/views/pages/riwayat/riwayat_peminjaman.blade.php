@@ -6,24 +6,31 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center fw-bold">Riwayat Peminjaman</h2>
 
-    <form method="GET" action="{{ route('riwayatPeminjaman') }}" class="mb-3">
-        <div class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <label for="date" class="form-label">Filter Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="date" name="date"
-                    value="{{ request('date') }}"
-                    onchange="this.form.submit()">
-            </div>
-            <div class="col-md-4 d-flex align-items-end">
-                <!-- Optional: you can remove this button since it's auto-submit -->
-            </div>
-            <div class="col-md-4 text-end">
-                <a href="{{ route('riwayatPeminjaman.download', ['date' => request('date')]) }}" class="btn btn-success">
-                    <i class="bi bi-download"></i> Download
-                </a>
+<form method="GET" action="{{ route('riwayatPeminjaman') }}" class="mb-3">
+    <div class="row g-2 align-items-end">
+        {{-- Filter Tanggal --}}
+        <div class="col-md-6 col-lg-4">
+            <label class="form-label mb-1">Filter Tanggal Pinjam</label>
+            <div class="d-flex align-items-center">
+                <input type="date" class="form-control form-control-sm" name="start_date" value="{{ request('start_date') }}">
+                <span class="mx-2">s/d</span>
+                <input type="date" class="form-control form-control-sm" name="end_date" value="{{ request('end_date') }}">
+                <button type="submit" class="btn btn-primary btn-sm ms-2">Filter</button>
             </div>
         </div>
-    </form>
+
+        {{-- Kolom Kosong Tengah --}}
+        <div class="col-md-3 col-lg-4"></div>
+
+        {{-- Tombol Download --}}
+        <div class="col-md-3 col-lg-4 text-end">
+            <a href="{{ route('riwayatPeminjaman.download', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
+                class="btn btn-success btn-sm">
+                <i class="bi bi-download"></i> Download
+            </a>
+        </div>
+    </div>
+</form>
 
     <div class="table-responsive">
         <table class="table table-bordered table-sm small">

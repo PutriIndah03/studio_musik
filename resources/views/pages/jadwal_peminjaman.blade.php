@@ -27,7 +27,8 @@
             events: [
                 @foreach($calendarEvents as $event)
                 {
-                    title: `{!! collect(explode('<br>', $event['title']))->map(function($item, $index) {
+                    title: `{!! collect(explode('<br>', $event['title']))
+                    ->map(function($item, $index) {
                         return ($index + 1) . '. ' . trim($item);
                     })->implode("\n") !!}`,
                     start: '{{ $event['start'] }}',
